@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>Pythagorean Theorem Interactive Guide</title>
+
+  <!-- Fonts & Icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.28.0/themes/prism.min.css">
+
+  <!-- MathJax -->
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
+
+  <style>
+    :root {
+      --bg: #ffffff;
+      --fg: #333333;
+      --accent: #008080;
+      --muted: #666666;
+      --surface: #f9f9f9;
+      --error: #d9534f;
+      --success: #5cb85c;
+    }
+    [data-theme="dark"] {
+      --bg: #1e1e1e;
+      --fg: #dddddd;
+      --surface: #2a2a2a;
+      --muted: #999999;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; padding: 0;
+      font-family: 'Inter', sans-serif;
+      color: var(--fg);
+      background: var(--bg);
+      line-height: 1.6;
+    }
+    header, nav, main, footer { max-width: 900px; margin: auto; }
+    header {
+      padding: 1rem; text-align: center;
+      background: var(--accent); color: #fff;
+    }
+    nav {
+      display: flex; justify-content: center;
+      gap: 1rem; padding: .75rem;
+      background: var(--surface);
+      position: sticky; top: 0; z-index: 10;
+    }
+    nav a {
+      text-decoration: none; font-weight: 600;
+      color: var(--accent);
+    }
+    nav a:hover { text-decoration: underline; }
+
+    .theme-toggle {
+      position: fixed; top: 1rem; right: 1rem;
+      background: var(--surface);
+      border: none; padding: .5rem; border-radius: 50%;
+      cursor: pointer;
+    }
+    section { padding: 2rem 1rem; margin-bottom: 2rem; background: var(--surface); border-radius: 8px; }
+    h2 { color: var(--accent); margin-top: 0; }
+    figure { text-align: center; margin: 1.5rem 0; }
+    figcaption { font-size: .9rem; color: var(--muted); }
+
+    /* Interactive SVG triangle */
+    #triangle-demo { width: 100%; max-width: 400px; margin: auto; }
+
+    label { display: block; margin-bottom: .5rem; font-weight: 600; }
+    input[type="number"], input[type="range"] {
+      width: 100%; padding: .5rem; margin-bottom: 1rem;
+      border: 1px solid #ccc; border-radius: 4px;
+    }
+    .formula-box {
+      background: #eef; padding: 1rem; border-radius: 6px;
+      text-align: center; font-size: 1.25rem;
+      margin-bottom: 1rem;
+    }
+
+    /* Code blocks */
+    pre { background: #272822; color: #f8f8f2; padding: 1rem; border-radius: 6px; overflow-x: auto; }
+    
+    /* Quiz */
+    .quiz-question { margin-bottom: 1.5rem; }
+    .quiz-options label { display: block; cursor: pointer; margin-bottom: .5rem; }
+    .feedback { padding: 1rem; border-radius: 6px; margin-top: 1rem; }
+    .feedback.correct { background: #dff0d8; color: #3c763d; }
+    .feedback.incorrect { background: #f2dede; color: #a94442; }
+
+    footer { text-align: center; padding: 1rem; font-size: .85rem; color: var(--muted); }
+  </style>
+</head>
+<body data-theme="light">
+
+  <button class="theme-toggle" aria-label="Toggle dark/light mode">🌓</button>
+
+  <header>
+    <h1>Pythagorean Theorem Interactive Guide</h1>
+    <button onclick="document.getElementById('audio-intro').play()" aria-label="Play introduction">🔊 Read Aloud</button>
+    <audio id="audio-intro" src="audio/pythagoras_intro.mp3"></audio>
+  </header>
+
+  <nav aria-label="Main navigation">
+    <a href="#theory">Theory</a>
+    <a href="#demo">Demo</a>
+    <a href="#examples">Examples</a>
+    <a href="#calculator">Calculator</a>
+    <a href="#quiz">Quiz</a>
+  </nav>
+
+  <main>
+    <!-- THEORY -->
+    <section id="theory">
+      <h2>Theory &amp; Formula</h2>
+      <p>
+        The Pythagorean Theorem applies to <strong>right‐angled triangles</strong>. It states:
+      </p>
+      <div class="formula-box">
+        \(a^2 + b^2 = c^2\)
+      </div>
+      <ul>
+        <li><strong>a</strong> and <strong>b</strong>: the legs (perpendicular sides)</li>
+        <li><strong>c</strong>: the hypotenuse (side opposite the right angle)</li>
+      </ul>
+      <figure>
+        <img src="images/right_triangle.png" alt="Right triangle labeled with sides a, b, c">
+        <figcaption>Right‐angled triangle: legs a, b; hypotenuse c.</figcaption>
+      </figure>
+    </section>
+
+    <!-- INTERACTIVE DEMO -->
+    <section id="demo">
+      <h2>Interactive Demo</h2>
+      <p>Adjust the sliders to change <em>a</em> and <em>b</em>, and watch <em>c</em> update.</p>
+      <label for="range-a">Leg a:</label>
+      <input type="range" id="range-a" min="1" max="20" value="3" aria-valuetext="a = 3">
+      <label for="range-b">Leg b:</label>
+      <input type="range" id="range-b" min="1" max="20" value="4" aria-valuetext="b = 4">
+
+      <div class="formula-box">
+        \( \underbrace{\text{a}^2}_{<span id="a2">9</span>} + \underbrace{\text{b}^2}_{<span id="b2">16</span>} = \underbrace{\text{c}^2}_{<span id="c2">25</span>} \quad\Rightarrow\quad c = <span id="cval">5</span>\)
+      </div>
+
+      <figure id="triangle-demo" role="img" aria-label="SVG triangle demo">
+        <svg viewBox="0 0 200 200" preserveAspectRatio="xMinYMin meet">
+          <polygon id="tri" points="0,200 0,200 200,200" fill="none" stroke="var(--accent)" stroke-width="3"/>
+        </svg>
+        <figcaption>Drag the green handles to change sides.</figcaption>
+      </figure>
+    </section>
+
+    <!-- EXAMPLES -->
+    <section id="examples">
+      <h2>Step‑by‑Step Examples</h2>
+
+      <details>
+        <summary><strong>Example 1: Find c when a=3, b=4</strong></summary>
+        <pre><code class="language-js">
+// a² + b² = c²
+let a = 3, b = 4;
+let c = Math.sqrt(a*a + b*b);
+console.log(`c = ${c.toFixed(0)}`); // c = 5
+        </code></pre>
+      </details>
+
+      <details>
+        <summary><strong>Example 2: Find b when a=6, c=10</strong></summary>
+        <pre><code class="language-js">
+// a² + b² = c²
+let a = 6, c = 10;
+let b = Math.sqrt(c*c - a*a);
+console.log(`b = ${b.toFixed(0)}`); // b = 8
+        </code></pre>
+      </details>
+    </section>
+
+    <!-- CALCULATOR -->
+    <section id="calculator">
+      <h2>Quick Calculator</h2>
+      <div class="formula-box">
+        \(a^2 + b^2 = c^2\)
+      </div>
+      <form id="calc" aria-labelledby="calculator">
+        <label for="in-a">a:</label>
+        <input type="number" id="in-a" placeholder="Enter a or leave blank">
+
+        <label for="in-b">b:</label>
+        <input type="number" id="in-b" placeholder="Enter b or leave blank">
+
+        <label for="in-c">c (hyp):</label>
+        <input type="number" id="in-c" placeholder="Enter c or leave blank">
+
+        <p><small>Fill exactly two fields; the third will compute automatically.</small></p>
+        <p id="calc-error" style="color: var(--error);"></p>
+      </form>
+    </section>
+
+    <!-- QUIZ -->
+    <section id="quiz">
+      <h2>Test Your Knowledge</h2>
+      <form id="quiz-form">
+        <div class="quiz-question">
+          <p><strong>1. Pythagorean Theorem applies to:</strong></p>
+          <div class="quiz-options">
+            <label><input type="radio" name="q1" value="right"> Right‑angled</label>
+            <label><input type="radio" name="q1" value="iso"> Isosceles</label>
+            <label><input type="radio" name="q1" value="equi"> Equilateral</label>
+          </div>
+        </div>
+        <div class="quiz-question">
+          <p><strong>2. The hypotenuse is:</strong></p>
+          <div class="quiz-options">
+            <label><input type="radio" name="q2" value="opp"> Opposite the right angle</label>
+            <label><input type="radio" name="q2" value="adj"> Adjacent side</label>
+          </div>
+        </div>
+        <!-- more questions... -->
+        <button type="button" id="check-quiz">Submit Answers</button>
+      </form>
+      <div id="quiz-feedback" class="feedback" aria-live="polite"></div>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 MathAcademy • Built for clarity, interaction &amp; fun!</p>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.28.0/prism.min.js"></script>
+  <script>
+    // Dark mode toggle
+    const btn = document.querySelector('.theme-toggle');
+    btn.addEventListener('click', () => {
+      document.body.dataset.theme = document.body.dataset.theme === 'light' ? 'dark' : 'light';
+    });
+
+    // Interactive Demo Logic
+    const rangeA = document.getElementById('range-a'), rangeB = document.getElementById('range-b');
+    const a2 = document.getElementById('a2'), b2 = document.getElementById('b2'), c2 = document.getElementById('c2'), cval = document.getElementById('cval');
+    const svgTri = document.getElementById('tri');
+    function updateDemo() {
+      const a = +rangeA.value, b = +rangeB.value;
+      const sqA = a*a, sqB = b*b, sqC = sqA + sqB, c = Math.sqrt(sqC);
+      a2.textContent = sqA;
+      b2.textContent = sqB;
+      c2.textContent = sqC;
+      cval.textContent = c.toFixed(2);
+
+      // Update SVG points: right angle at bottom-left
+      const scale = 8; // scale factor
+      svgTri.setAttribute('points',
+        `0,${200} ${0},${200 - b*scale} ${a*scale},${200}`
+      );
+    }
+    rangeA.addEventListener('input', updateDemo);
+    rangeB.addEventListener('input', updateDemo);
+    updateDemo();
+
+    // Calculator Logic (auto-calc)
+    const inA = document.getElementById('in-a'), inB = document.getElementById('in-b'), inC = document.getElementById('in-c'), err = document.getElementById('calc-error');
+    [inA,inB,inC].forEach(el => el.addEventListener('input', () => {
+      err.textContent = '';
+      const a = parseFloat(inA.value), b = parseFloat(inB.value), c = parseFloat(inC.value);
+      const filled = [!isNaN(a),!isNaN(b),!isNaN(c)].filter(Boolean).length;
+      if (filled !== 2) return;
+      try {
+        if (isNaN(c)) inC.value = Math.sqrt(a*a + b*b).toFixed(3);
+        else if (isNaN(b)) {
+          if (c <= a) throw 'c must exceed a';
+          inB.value = Math.sqrt(c*c - a*a).toFixed(3);
+        } else {
+          if (c <= b) throw 'c must exceed b';
+          inA.value = Math.sqrt(c*c - b*b).toFixed(3);
+        }
+      } catch(e) {
+        err.textContent = `Error: ${e}`;
+      }
+    }));
+
+    // Quiz Logic
+    const quizForm = document.getElementById('quiz-form'), feedback = document.getElementById('quiz-feedback');
+    document.getElementById('check-quiz').addEventListener('click', () => {
+      const a1 = quizForm.q1.value === 'right';
+      const a2c = quizForm.q2.value === 'opp';
+      let score = (a1?1:0)+(a2c?1:0);
+      feedback.className = 'feedback ' + (score === 2 ? 'correct' : 'incorrect');
+      feedback.textContent = `You scored ${score}/2. ${score===2 ? 'Perfect!' : 'Review the theory and try again.'}`;
+    });
+  </script>
+</body>
+</html>

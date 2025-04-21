@@ -132,6 +132,57 @@
         .quiz-options input[type="radio"] {
             margin-right: 8px;
         }
+
+        /* Diagram Styles */
+        .diagram-container {
+            margin: 20px 0;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+        }
+
+        .diagram-controls {
+            margin-top: 15px;
+            text-align: center;
+            padding: 10px;
+        }
+
+        .diagram-controls button {
+            background-color: #005a9c;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 0 5px;
+        }
+
+        .diagram-controls button:hover {
+            background-color: #004170;
+        }
+
+        .diagram-controls label {
+            margin-left: 15px;
+            font-size: 0.9em;
+        }
+
+        .calculation-results {
+            margin-top: 15px;
+            padding: 15px;
+            background-color: #eef;
+            border-radius: 6px;
+            font-family: monospace;
+            line-height: 1.4;
+        }
+
+        #triangle-svg {
+            display: block;
+            margin: 0 auto;
+            background: #fff;
+            border-radius: 8px;
+            padding: 10px;
+        }
         #quiz-feedback {
             margin-top: 20px;
             padding: 15px;
@@ -187,17 +238,28 @@
                 <p>
                     <strong>Important:</strong> This theorem *only* works for right-angled triangles!
                 </p>
-                 <!-- Simple diagram placeholder -->
-                 <pre style="text-align: center; font-size: 0.9em; line-height: 1.2;">
-        /|
-       / |
-      /  |
-   c /   | b
-    /    |
-   /_____|
-      a
-      (Right angle at the corner between a and b)
-                 </pre>
+                 <!-- Interactive SVG Diagram -->
+                 <div class="diagram-container">
+                    <svg id="triangle-svg" width="400" height="300" viewBox="0 0 400 300">
+                        <path id="triangle-path" d="M100 250 L100 50 L300 250 Z" 
+                              stroke="#005a9c" stroke-width="2" fill="rgba(0,90,156,0.1)"/>
+                        <circle id="vertexA" cx="100" cy="250" r="6" fill="#005a9c"/>
+                        <circle id="vertexB" cx="100" cy="50" r="6" fill="#005a9c"/>
+                        <circle id="vertexC" cx="300" cy="250" r="6" fill="#005a9c"/>
+                        <text id="labelA" x="70" y="265" font-size="14">a</text>
+                        <text id="labelB" x="70" y="40" font-size="14">b</text>
+                        <text id="labelC" x="310" y="265" font-size="14">c</text>
+                        <path id="right-angle" d="M80 230 L80 220 L90 220" 
+                              stroke="#005a9c" stroke-width="2"/>
+                    </svg>
+                    <div class="diagram-controls">
+                        <button onclick="resetTriangle()">Reset</button>
+                        <label>Show Measurements: 
+                            <input type="checkbox" id="show-measurements" checked>
+                        </label>
+                    </div>
+                    <div id="triangle-calculations" class="calculation-results"></div>
+                 </div>
             </section>
 
             <section id="examples">
@@ -317,6 +379,101 @@
     </div>
 
     <script>
+        // --- Interactive Triangle Logic ---
+        let isDragging = false;
+        let currentVertex = null;
+        const svg = document.getElementById('triangle-svg');
+        const vertices = {
+            a: {x: 100, y: 250},
+            b: {x: 100, y: 50},
+            c: {x: 300, y: 250}
+        };
+
+        function updateTriangle() {
+            // Update SVG path
+            document.getElementById('triangle-path').setAttribute('d', 
+                `M${vertices.a.x} ${vertices.a.y} L${vertices.b.x} ${vertices.b.y} L${vertices.c.x} ${vertices.c.y} Z`);
+            
+            // Update vertex positions
+            document.getElementById('vertexA').setAttribute('cx', vertices.a.x);
+            document.getElementById('vertexA').setAttribute('cy', vertices.a.y);
+            document.getElementById('vertexB').setAttribute('cx', vertices.b.x);
+            document.getElementById('vertexB').setAttribute('cy', vertices.b.y);
+            document.getElementById('vertexC').setAttribute('cx', vertices.c.x);
+            document.getElementById('vertexC').setAttribute('cy', vertices.c.y);
+            
+            // Update labels
+            const showMeasurements = document.getElementById('show-measurements').checked;
+            document.getElementById('labelA').textContent = showMeasurements ? 
+                `a (${calculateLength(vertices.b, vertices.a).toFixed(1)}u)` : 'a';
+            document.getElementById('labelB').textContent = showMeasurements ? 
+                `b (${calculateLength(vertices.b, vertices.c).toFixed(1)}u)` : 'b';
+            document.getElementById('labelC').textContent = showMeasurements ? 
+                `c (${calculateLength(vertices.a, vertices.c).toFixed(1)}u)` : 'c';
+
+            // Update calculations display
+            const a = calculateLength(vertices.b, vertices.a);
+            const b = calculateLength(vertices.b, vertices.c);
+            const c = calculateLength(vertices.a, vertices.c);
+            document.getElementById('triangle-calculations').innerHTML = `
+                <strong>Calculations:</strong><br>
+                a² + b² = ${(a**2).toFixed(1)} + ${(b**2).toFixed(1)} = ${(a**2 + b**2).toFixed(1)}<br>
+                c² = ${(c**2).toFixed(1)}<br>
+                ${Math.abs((a**2 + b**2) - c**2) < 0.1 ? '✅ Valid' : '❌ Invalid'} Pythagorean relationship
+            `;
+        }
+
+        function calculateLength(point1, point2) {
+            return Math.sqrt((point2.x - point1.x)**2 + (point2.y - point1.y)**2);
+        }
+
+        function resetTriangle() {
+            vertices.a = {x: 100, y: 250};
+            vertices.b = {x: 100, y: 50};
+            vertices.c = {x: 300, y: 250};
+            updateTriangle();
+        }
+
+        // Event Listeners
+        svg.addEventListener('mousedown', (e) => {
+            const rect = svg.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            
+            // Check which vertex is clicked
+            ['a', 'b', 'c'].forEach(vertex => {
+                const cx = vertices[vertex].x;
+                const cy = vertices[vertex].y;
+                if (Math.abs(x - cx) < 10 && Math.abs(y - cy) < 10) {
+                    currentVertex = vertex;
+                    isDragging = true;
+                }
+            });
+        });
+
+        svg.addEventListener('mousemove', (e) => {
+            if (!isDragging) return;
+            const rect = svg.getBoundingClientRect();
+            vertices[currentVertex].x = e.clientX - rect.left;
+            vertices[currentVertex].y = e.clientY - rect.top;
+            updateTriangle();
+        });
+
+        svg.addEventListener('mouseup', () => {
+            isDragging = false;
+            currentVertex = null;
+        });
+
+        svg.addEventListener('mouseleave', () => {
+            isDragging = false;
+            currentVertex = null;
+        });
+
+        document.getElementById('show-measurements').addEventListener('change', updateTriangle);
+
+        // Initialize triangle
+        updateTriangle();
+
         // --- Calculator Logic ---
         const calculatorForm = document.getElementById('calculator-form');
         const sideAInput = document.getElementById('sideA');
