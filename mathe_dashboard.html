@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mathe Dashboard - Klasse 7</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+            background-color: #f4f4f4;
+        }
+        .container {
+            max-width: 1000px;
+            margin: auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1, h2, h3 {
+            color: #333;
+        }
+        .section {
+            margin-bottom: 30px;
+            padding: 20px;
+            background-color: #eef;
+            border-radius: 5px;
+        }
+        .sub-section {
+            margin-left: 20px;
+            margin-bottom: 15px;
+            padding: 15px;
+            background-color: #f9f9ff;
+            border-left: 3px solid #aac;
+        }
+        .quiz-section {
+            margin-top: 40px;
+            padding: 20px;
+            background-color: #ffe;
+            border: 1px solid #ddc;
+            border-radius: 5px;
+        }
+        .question {
+            margin-bottom: 15px;
+            padding: 10px;
+            border: 1px solid #eee;
+            background-color: #fff;
+        }
+        .feedback {
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 4px;
+        }
+        .feedback.correct {
+            background-color: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+        }
+        .feedback.incorrect {
+            background-color: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+        }
+        .explanation {
+            margin-top: 5px;
+            font-size: 0.9em;
+            border-left: 3px solid #ccc;
+            padding-left: 10px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        input[type="radio"], input[type="checkbox"] {
+            margin-right: 5px;
+        }
+        button {
+            padding: 10px 15px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        #topic-selection label {
+            display: inline-block;
+            margin-right: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Interaktives Mathe Dashboard (Klasse 7)</h1>
+
+        <!-- Section: Funktionen -->
+        <div class="section" id="funktionen">
+            <h2>Funktionen</h2>
+
+            <div class="sub-section" id="definition-funktion">
+                <h3>Definition einer Funktion</h3>
+                <p>
+                    Eine Funktion ist eine eindeutige Zuordnung. Das bedeutet, jedem Wert aus einer Ausgangsmenge (Definitionsbereich) wird genau ein Wert aus einer Zielmenge (Wertebereich) zugeordnet.
+                    Stell dir eine Maschine vor: Du gibst eine Zahl (x-Wert) hinein, die Maschine verarbeitet sie nach einer bestimmten Regel (Funktionsvorschrift), und es kommt genau eine Zahl (y-Wert oder f(x)) heraus.
+                </p>
+                <p>Beispiel: f(x) = 2x + 1. Wenn du x=3 eingibst, kommt f(3) = 2*3 + 1 = 7 heraus. Es gibt keine andere Möglichkeit.</p>
+            </div>
+
+            <div class="sub-section" id="graph-funktion-beurteilen">
+                <h3>Graph einer Funktion erkennen</h3>
+                <p>
+                    Ein Graph stellt eine Funktion dar, wenn jede senkrechte Linie (parallel zur y-Achse) den Graphen höchstens einmal schneidet. Wenn eine senkrechte Linie den Graphen zweimal oder öfter schneidet, gehört zu einem x-Wert mehr als ein y-Wert, und es ist keine Funktion.
+                </p>
+                <p>Beispiel: Ein Kreis ist keine Funktion, weil eine senkrechte Linie ihn (meistens) zweimal schneidet. Eine Parabel, die nach oben oder unten geöffnet ist, ist eine Funktion.</p>
+                <!-- Hier könnte eine SVG-Grafik zur Veranschaulichung hin -->
+            </div>
+
+            <div class="sub-section" id="elemente-funktionsgleichung">
+                <h3>Elemente einer Funktionsgleichung</h3>
+                <p>Eine Funktionsgleichung beschreibt die Zuordnungsvorschrift. Wichtige Elemente sind:</p>
+                <ul>
+                    <li><strong>f(x)</strong>: Der Funktionswert. Das ist der Wert, der herauskommt, wenn man 'x' in die Funktion einsetzt. Man schreibt auch oft 'y' statt 'f(x)'. Also: y = f(x).</li>
+                    <li><strong>x</strong>: Die Variable. Das ist der Wert, den man in die Funktion einsetzt (aus dem Definitionsbereich).</li>
+                    <li><strong>Funktionsterm</strong>: Der Rechenausdruck auf der rechten Seite der Gleichung, der beschreibt, was mit 'x' gemacht wird (z.B. '2x + 1' im Beispiel f(x) = 2x + 1).</li>
+                </ul>
+                <p>Beispiel: In f(x) = 3x² - 5 ist 'f(x)' der Funktionswert, 'x' die Variable und '3x² - 5' der Funktionsterm.</p>
+            </div>
+
+            <div class="sub-section" id="funktionsgleichung-lesen-interpretieren">
+                <h3>Funktionsgleichungen lesen und interpretieren</h3>
+                <p>
+                    Funktionsgleichungen geben uns Informationen über die Beziehung zwischen x und y (oder f(x)).
+                </p>
+                <ul>
+                    <li><strong>f(a) berechnen</strong>: Wenn du einen Ausdruck wie f(3) siehst, bedeutet das, du sollst den Wert der Funktion an der Stelle x=3 berechnen. Setze dazu 3 für jedes x im Funktionsterm ein.
+                        <br>Beispiel: Für f(x) = x² + 2 ist f(3) = 3² + 2 = 9 + 2 = 11. Der Punkt (3 | 11) liegt auf dem Graphen der Funktion.</li>
+                    <li><strong>f(x) = b lösen</strong>: Wenn du einen Ausdruck wie f(x) = 7 siehst, bedeutet das, du sollst den x-Wert (oder die x-Werte) finden, für den der Funktionswert 7 ist. Setze dazu den Funktionsterm gleich 7 und löse die Gleichung nach x auf.
+                        <br>Beispiel: Für f(x) = 2x + 1 soll f(x) = 7 sein. Also: 2x + 1 = 7. Subtrahiere 1: 2x = 6. Dividiere durch 2: x = 3. An der Stelle x=3 hat die Funktion den Wert 7.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Section: Lineare Funktionen (Placeholder) -->
+        <div class="section" id="lineare-funktionen">
+            <h2>Lineare Funktionen</h2>
+            <p>Erklärungen zu linearen Funktionen folgen hier...</p>
+            <!-- Sub-sections for slope, intercept, etc. will go here -->
+             <div class="sub-section" id="steigung">
+                <h3>Steigung (m)</h3>
+                <p>Die Steigung 'm' gibt an, wie stark der Graph einer linearen Funktion ansteigt oder fällt.</p>
+                <ul>
+                    <li><strong>In der Funktionsgleichung (f(x) = mx + b):</strong> Die Steigung 'm' ist der Faktor vor dem 'x'.</li>
+                    <li><strong>Im Graphen:</strong> Man zeichnet ein Steigungsdreieck. Geht man eine Einheit nach rechts (Δx=1), gibt die Veränderung nach oben oder unten (Δy) die Steigung an (m = Δy / Δx).</li>
+                    <li><strong>In der Wertetabelle:</strong> Wenn die x-Werte um 1 zunehmen, ist die Zunahme der y-Werte die Steigung 'm'.</li>
+                    <li><strong>Berechnung aus zwei Punkten P1(x1|y1) und P2(x2|y2):</strong> m = (y2 - y1) / (x2 - x1)</li>
+                </ul>
+                <p>Beispiel: f(x) = 2x + 3. Die Steigung ist m = 2. Für jeden Schritt nach rechts geht der Graph 2 Schritte nach oben.</p>
+            </div>
+             <div class="sub-section" id="y-achsenabschnitt">
+                <h3>y-Achsenabschnitt (b)</h3>
+                <p>Der y-Achsenabschnitt 'b' gibt an, wo der Graph die y-Achse schneidet. Dies ist der Punkt (0 | b).</p>
+                 <ul>
+                    <li><strong>In der Funktionsgleichung (f(x) = mx + b):</strong> Der y-Achsenabschnitt 'b' ist die Konstante, die addiert oder subtrahiert wird.</li>
+                    <li><strong>Im Graphen:</strong> Der Punkt, an dem der Graph die y-Achse kreuzt.</li>
+                    <li><strong>In der Wertetabelle:</strong> Der y-Wert, der zum x-Wert 0 gehört.</li>
+                </ul>
+                 <p>Beispiel: f(x) = 2x + 3. Der y-Achsenabschnitt ist b = 3. Der Graph schneidet die y-Achse bei y=3 (Punkt (0 | 3)).</p>
+            </div>
+            <div class="sub-section" id="gleichung-aufstellen">
+                <h3>Funktionsgleichung aufstellen (f(x) = mx + b)</h3>
+                <p>Man kann die Gleichung einer linearen Funktion aufstellen, wenn man bestimmte Informationen hat:</p>
+                <ul>
+                    <li><strong>Steigung m und y-Achsenabschnitt b gegeben:</strong> Direkt in f(x) = mx + b einsetzen.</li>
+                    <li><strong>Steigung m und ein Punkt P(xp|yp) gegeben:</strong> Setze m, xp und yp in y = mx + b ein (yp = m*xp + b) und löse nach b auf. Dann setze m und b in die allgemeine Form ein.</li>
+                    <li><strong>Zwei Punkte P1(x1|y1) und P2(x2|y2) gegeben:</strong>
+                        <ol>
+                            <li>Berechne die Steigung m = (y2 - y1) / (x2 - x1).</li>
+                            <li>Setze m und die Koordinaten eines der Punkte (z.B. P1) in y = mx + b ein (y1 = m*x1 + b) und löse nach b auf.</li>
+                            <li>Setze m und b in die allgemeine Form f(x) = mx + b ein.</li>
+                        </ol>
+                    </li>
+                     <li><strong>Aus einer Wertetabelle:</strong> Finde die Steigung 'm' (Änderung von y bei Änderung von x um 1) und den y-Achsenabschnitt 'b' (y-Wert bei x=0).</li>
+                     <li><strong>Aus einem Graphen:</strong> Lies den y-Achsenabschnitt 'b' ab und bestimme die Steigung 'm' mit einem Steigungsdreieck.</li>
+                     <li><strong>Aus einer Situation (Textaufgabe):</strong> Identifiziere den Startwert (oft 'b') und die Änderungsrate (oft 'm').</li>
+                </ul>
+            </div>
+             <div class="sub-section" id="graph-zeichnen">
+                <h3>Graph zeichnen</h3>
+                <p>Um den Graphen einer linearen Funktion f(x) = mx + b zu zeichnen:</p>
+                <ol>
+                    <li>Markiere den y-Achsenabschnitt (0 | b) im Koordinatensystem.</li>
+                    <li>Zeichne von diesem Punkt aus ein Steigungsdreieck entsprechend der Steigung m = Δy / Δx: Gehe Δx Einheiten nach rechts und Δy Einheiten nach oben (wenn m positiv) oder unten (wenn m negativ). Markiere den neuen Punkt. (Wenn m eine ganze Zahl ist, z.B. m=2, dann ist Δx=1 und Δy=2).</li>
+                    <li>Zeichne eine Gerade durch die beiden Punkte.</li>
+                </ol>
+            </div>
+             <div class="sub-section" id="punktprobe">
+                <h3>Punktprobe</h3>
+                <p>Um zu prüfen, ob ein Punkt P(xp | yp) auf dem Graphen der Funktion f(x) = mx + b liegt:</p>
+                <ol>
+                    <li>Setze die x-Koordinate des Punktes (xp) in die Funktionsgleichung ein: f(xp) = m*xp + b.</li>
+                    <li>Berechne den Funktionswert f(xp).</li>
+                    <li>Vergleiche das Ergebnis mit der y-Koordinate des Punktes (yp).</li>
+                    <li>Wenn f(xp) = yp, dann liegt der Punkt auf dem Graphen. Wenn f(xp) ≠ yp, liegt der Punkt nicht auf dem Graphen.</li>
+                </ol>
+                <p>Beispiel: Liegt P(2 | 7) auf dem Graphen von f(x) = 3x + 1?</p>
+                <p>f(2) = 3*2 + 1 = 6 + 1 = 7. Da f(2) = 7 und die y-Koordinate des Punktes auch 7 ist, liegt der Punkt auf dem Graphen.</p>
+            </div>
+        </div>
+
+        <!-- Section: Quiz (Placeholder) -->
+        <div class="quiz-section" id="quiz">
+            <h2>Übungsaufgaben / Quiz</h2>
+            <div id="topic-selection">
+                <h3>Wähle die Themen für das Quiz:</h3>
+                <label>
+                    <input type="checkbox" name="topic" value="funktionen" checked> Funktionen
+                </label>
+                <label>
+                    <input type="checkbox" name="topic" value="lineare_funktionen" checked> Lineare Funktionen
+                </label>
+                 </div>
+            <button id="start-quiz-btn">Quiz starten / Neu mischen</button>
+            <div id="quiz-content">
+                <!-- Quiz questions will be loaded here -->
+            </div>
+            <!-- Removed global check button and results div -->
+        </div>
+
+    </div>
+
+    <script>
+        // JavaScript for interactivity will go here
+        console.log("Dashboard geladen. JavaScript bereit.");
+
+        // --- Quiz Data ---
+        const allQuestions = [
+            // == Funktionen ==
+            {
+                topic: "funktionen",
+                id: "f1",
+                question_de: "Was ist die Definition einer Funktion?",
+                type: "mc", // Multiple Choice
+                options_de: [
+                    "Eine beliebige Zuordnung von Zahlen.",
+                    "Eine eindeutige Zuordnung, bei der jedem x-Wert genau ein y-Wert zugeordnet wird.",
+                    "Eine Zuordnung, bei der jedem y-Wert genau ein x-Wert zugeordnet wird.",
+                    "Eine grafische Darstellung mit Linien."
+                ],
+                correct_answer: 1, // Index of correct option
+                explanation_de: "Eine Funktion ist eine *eindeutige* Zuordnung. Jedem Element aus der Definitionsmenge (x-Werte) wird *genau ein* Element aus der Wertemenge (y-Werte) zugeordnet.",
+                explanation_en: "A function is a *unique* mapping. Each element from the domain (x-values) is assigned *exactly one* element from the codomain (y-values)."
+            },
+            {
+                topic: "funktionen",
+                id: "f2",
+                question_de: "Welches Kriterium muss ein Graph erfüllen, um eine Funktion darzustellen?",
+                type: "mc",
+                options_de: [
+                    "Er muss durch den Ursprung gehen.",
+                    "Er darf keine Lücken haben.",
+                    "Jede senkrechte Linie darf den Graphen höchstens einmal schneiden.",
+                    "Jede waagerechte Linie darf den Graphen höchstens einmal schneiden."
+                ],
+                correct_answer: 2,
+                explanation_de: "Der Vertikalentest: Wenn eine beliebige senkrechte Linie (parallel zur y-Achse) den Graphen mehr als einmal schneidet, werden einem x-Wert mehrere y-Werte zugeordnet, was der Definition einer Funktion widerspricht.",
+                explanation_en: "The Vertical Line Test: If any vertical line (parallel to the y-axis) intersects the graph more than once, then one x-value is mapped to multiple y-values, which contradicts the definition of a function."
+            },
+             {
+                topic: "funktionen",
+                id: "f3",
+                question_de: "Was ist der Funktionsterm in der Gleichung f(x) = 5x - 7?",
+                type: "text", // Text input
+                correct_answer: "5x - 7", // Case-insensitive comparison might be needed, allow spaces variations
+                explanation_de: "Der Funktionsterm ist der Rechenausdruck, der angibt, wie der Funktionswert f(x) aus der Variablen x berechnet wird. Hier ist es '5x - 7'.",
+                explanation_en: "The function term is the mathematical expression that specifies how the function value f(x) is calculated from the variable x. Here it is '5x - 7'."
+            },
+             {
+                topic: "funktionen",
+                id: "f4",
+                question_de: "Berechne f(4) für die Funktion f(x) = x² - 3.",
+                type: "number", // Number input
+                correct_answer: 13,
+                explanation_de: "Um f(4) zu berechnen, setzen wir x=4 in den Funktionsterm ein: f(4) = 4² - 3 = 16 - 3 = 13.",
+                explanation_en: "To calculate f(4), we substitute x=4 into the function term: f(4) = 4² - 3 = 16 - 3 = 13."
+            },
+            {
+                topic: "funktionen",
+                id: "f5",
+                question_de: "Für welchen Wert von x ist f(x) = 10, wenn f(x) = 3x + 1?",
+                type: "number",
+                correct_answer: 3,
+                explanation_de: "Wir setzen den Funktionsterm gleich 10: 3x + 1 = 10. Subtrahiere 1: 3x = 9. Dividiere durch 3: x = 3.",
+                explanation_en: "We set the function term equal to 10: 3x + 1 = 10. Subtract 1: 3x = 9. Divide by 3: x = 3."
+            },
+            // Add more questions for 'Funktionen' to reach 20...
+             {
+                topic: "funktionen",
+                id: "f6",
+                question_de: "Ist ein Kreisgraph eine Funktion?",
+                type: "mc",
+                options_de: ["Ja", "Nein"],
+                correct_answer: 1,
+                explanation_de: "Nein, ein Kreis erfüllt den Vertikalentest nicht. Die meisten senkrechten Linien schneiden den Kreis an zwei Stellen.",
+                explanation_en: "No, a circle graph does not pass the vertical line test. Most vertical lines intersect the circle at two points."
+            },
+             {
+                topic: "funktionen",
+                id: "f7",
+                question_de: "Was bedeutet 'y' in Bezug auf f(x)?",
+                type: "mc",
+                options_de: [
+                    "y ist immer größer als f(x)",
+                    "y ist eine andere Schreibweise für den Funktionswert f(x)",
+                    "y ist die Variable, f(x) der Wert",
+                    "y hat nichts mit f(x) zu tun"
+                ],
+                correct_answer: 1,
+                explanation_de: "In der Funktionsnotation ist y = f(x). Beide repräsentieren den Wert, der dem eingegebenen x-Wert zugeordnet wird (den Funktionswert oder y-Wert).",
+                explanation_en: "In function notation, y = f(x). Both represent the value assigned to the input x-value (the function value or y-value)."
+            },
+            // Additional Fragen für Funktionen
+            {
+                topic: "funktionen",
+                id: "f8",
+                question_de: "Gegeben ist f(x) = -x + 5. Berechne f(-2).",
+                type: "number",
+                correct_answer: 7,
+                explanation_de: "f(-2) = -(-2) + 5 = 2 + 5 = 7.",
+                explanation_en: "f(-2) = -(-2) + 5 = 2 + 5 = 7."
+            },
+            {
+                topic: "funktionen",
+                id: "f9",
+                question_de: "Für welches x gilt f(x) = 0, wenn f(x) = 4x - 8?",
+                type: "number",
+                correct_answer: 2,
+                explanation_de: "Setze f(x) = 0: 4x - 8 = 0. Addiere 8: 4x = 8. Dividiere durch 4: x = 2. Dies ist die Nullstelle der Funktion.",
+                explanation_en: "Set f(x) = 0: 4x - 8 = 0. Add 8: 4x = 8. Divide by 4: x = 2. This is the root (zero) of the function."
+            },
+            {
+                topic: "funktionen",
+                id: "f10",
+                question_de: "Kann ein x-Wert bei einer Funktion mehrere y-Werte haben?",
+                type: "mc",
+                options_de: ["Ja, immer", "Ja, manchmal", "Nein, niemals"],
+                correct_answer: 2,
+                explanation_de: "Nein, die Definition einer Funktion besagt, dass jedem x-Wert *genau ein* y-Wert zugeordnet wird.",
+                explanation_en: "No, the definition of a function states that each x-value is assigned *exactly one* y-value."
+            },
+            {
+                topic: "funktionen",
+                id: "f11",
+                question_de: "Kann ein y-Wert bei einer Funktion durch mehrere x-Werte erreicht werden?",
+                type: "mc",
+                options_de: ["Ja, das ist möglich", "Nein, das ist unmöglich"],
+                correct_answer: 0,
+                explanation_de: "Ja, das ist möglich. Beispiel: Bei f(x) = x² ist f(2) = 4 und f(-2) = 4. Der y-Wert 4 wird durch x=2 und x=-2 erreicht.",
+                explanation_en: "Yes, this is possible. Example: For f(x) = x², f(2) = 4 and f(-2) = 4. The y-value 4 is reached by both x=2 and x=-2."
+            },
+             {
+                topic: "funktionen",
+                id: "f12",
+                question_de: "Was ist der Definitionsbereich einer Funktion?",
+                type: "mc",
+                options_de: [
+                    "Alle möglichen y-Werte.",
+                    "Alle erlaubten x-Werte, die man in die Funktion einsetzen darf.",
+                    "Die Menge der Punkte auf dem Graphen.",
+                    "Der Funktionsterm."
+                ],
+                correct_answer: 1,
+                explanation_de: "Der Definitionsbereich (oder die Definitionsmenge) ist die Menge aller x-Werte, für die die Funktion definiert ist (d.h., die man einsetzen darf).",
+                explanation_en: "The domain is the set of all x-values for which the function is defined (i.e., that are allowed as input)."
+            },
+            {
+                topic: "funktionen",
+                id: "f13",
+                question_de: "Was ist der Wertebereich einer Funktion?",
+                type: "mc",
+                options_de: [
+                    "Alle möglichen y-Werte (Funktionswerte), die herauskommen können.",
+                    "Alle erlaubten x-Werte.",
+                    "Die Steigung der Funktion.",
+                    "Der Schnittpunkt mit der y-Achse."
+                ],
+                correct_answer: 0,
+                explanation_de: "Der Wertebereich (oder die Wertemenge) ist die Menge aller y-Werte, die die Funktion als Ergebnis annehmen kann, wenn man alle erlaubten x-Werte einsetzt.",
+                explanation_en: "The range (or codomain/image) is the set of all possible y-values (function values) that the function can produce as output."
+            },
+            {
+                topic: "funktionen",
+                id: "f14",
+                question_de: "Gegeben ist die Wertetabelle: x={1, 2, 3}, y={5, 7, 9}. Ist dies eine Funktion?",
+                type: "mc",
+                options_de: ["Ja", "Nein", "Nicht bestimmbar"],
+                correct_answer: 0,
+                explanation_de: "Ja, da jedem x-Wert (1, 2, 3) genau ein y-Wert (5, 7, 9) zugeordnet wird.",
+                explanation_en: "Yes, because each x-value (1, 2, 3) is assigned exactly one y-value (5, 7, 9)."
+            },
+            {
+                topic: "funktionen",
+                id: "f15",
+                question_de: "Gegeben ist die Zuordnung: x=1 -> y=2, x=2 -> y=4, x=1 -> y=3. Ist dies eine Funktion?",
+                type: "mc",
+                options_de: ["Ja", "Nein"],
+                correct_answer: 1,
+                explanation_de: "Nein, da dem x-Wert 1 zwei verschiedene y-Werte (2 und 3) zugeordnet werden. Dies verletzt die Eindeutigkeit.",
+                explanation_en: "No, because the x-value 1 is assigned two different y-values (2 and 3). This violates the uniqueness requirement."
+            },
+            {
+                topic: "funktionen",
+                id: "f16",
+                question_de: "f(x) = 10. Was für eine Art Funktion ist das?",
+                type: "mc",
+                options_de: ["Lineare Funktion", "Konstante Funktion", "Quadratische Funktion", "Keine Funktion"],
+                correct_answer: 1,
+                explanation_de: "Dies ist eine konstante Funktion. Für jeden beliebigen x-Wert ist der Funktionswert immer 10. Der Graph ist eine horizontale Linie.",
+                explanation_en: "This is a constant function. For any x-value, the function value is always 10. The graph is a horizontal line."
+            },
+            {
+                topic: "funktionen",
+                id: "f17",
+                question_de: "Was beschreibt der Funktionsterm?",
+                type: "mc",
+                options_de: ["Den Definitionsbereich", "Den Wertebereich", "Die Rechenvorschrift", "Den Graphen"],
+                correct_answer: 2,
+                explanation_de: "Der Funktionsterm ist der Teil der Funktionsgleichung, der die Rechenvorschrift angibt, also wie y aus x berechnet wird.",
+                explanation_en: "The function term is the part of the function equation that specifies the calculation rule, i.e., how y is calculated from x."
+            },
+             {
+                topic: "funktionen",
+                id: "f18",
+                question_de: "f(x) = x/2 + 1. Berechne f(6).",
+                type: "number",
+                correct_answer: 4,
+                explanation_de: "f(6) = 6/2 + 1 = 3 + 1 = 4.",
+                explanation_en: "f(6) = 6/2 + 1 = 3 + 1 = 4."
+            },
+            {
+                topic: "funktionen",
+                id: "f19",
+                question_de: "Für welches x gilt f(x) = 5, wenn f(x) = x² + 1 (für x ≥ 0)?",
+                type: "number",
+                correct_answer: 2,
+                explanation_de: "Setze f(x) = 5: x² + 1 = 5. Subtrahiere 1: x² = 4. Ziehe die Wurzel: x = 2 (da x ≥ 0 gefordert ist, ist x = -2 keine Lösung hier).",
+                explanation_en: "Set f(x) = 5: x² + 1 = 5. Subtract 1: x² = 4. Take the square root: x = 2 (since x ≥ 0 is required, x = -2 is not a solution here)."
+            },
+            {
+                topic: "funktionen",
+                id: "f20",
+                question_de: "Welche Darstellung ist KEINE Funktion?",
+                type: "mc",
+                options_de: ["Eine nach oben geöffnete Parabel", "Eine Gerade mit positiver Steigung", "Ein vertikaler Strich bei x=3", "Eine horizontale Linie bei y=5"],
+                correct_answer: 2,
+                explanation_de: "Ein vertikaler Strich bei x=3 verletzt den Vertikalentest. Dem x-Wert 3 werden unendlich viele y-Werte zugeordnet.",
+                explanation_en: "A vertical line at x=3 violates the vertical line test. The x-value 3 is assigned infinitely many y-values."
+            },
+
+
+            // == Lineare Funktionen ==
+            {
+                topic: "lineare_funktionen",
+                id: "lf1",
+                question_de: "Was gibt die Steigung 'm' einer linearen Funktion an?",
+                type: "mc",
+                options_de: [
+                    "Wo der Graph die y-Achse schneidet.",
+                    "Wie steil der Graph ansteigt oder fällt.",
+                    "Den höchsten Punkt des Graphen.",
+                    "Die Definitionsmenge der Funktion."
+                ],
+                correct_answer: 1,
+                explanation_de: "Die Steigung 'm' beschreibt die Änderungsrate der Funktion. Ein positiver Wert bedeutet Anstieg, ein negativer Wert bedeutet Abfall, m=0 bedeutet eine horizontale Linie.",
+                explanation_en: "The slope 'm' describes the rate of change of the function. A positive value means an increase, a negative value means a decrease, m=0 means a horizontal line."
+            },
+            {
+                topic: "lineare_funktionen",
+                id: "lf2",
+                question_de: "Bestimme die Steigung der Funktion f(x) = -3x + 5.",
+                type: "number",
+                correct_answer: -3,
+                explanation_de: "In der Form f(x) = mx + b ist der Koeffizient von x die Steigung. Hier ist m = -3.",
+                explanation_en: "In the form f(x) = mx + b, the coefficient of x is the slope. Here, m = -3."
+            },
+            {
+                topic: "lineare_funktionen",
+                id: "lf3",
+                question_de: "Was gibt der y-Achsenabschnitt 'b' an?",
+                type: "mc",
+                options_de: [
+                    "Den Schnittpunkt mit der x-Achse.",
+                    "Die Steigung des Graphen.",
+                    "Den Schnittpunkt mit der y-Achse.",
+                    "Den niedrigsten Wert der Funktion."
+                ],
+                correct_answer: 2,
+                explanation_de: "Der y-Achsenabschnitt 'b' ist der y-Wert des Punktes, an dem der Graph die y-Achse schneidet. Dieser Punkt hat die Koordinaten (0 | b).",
+                explanation_en: "The y-intercept 'b' is the y-value of the point where the graph intersects the y-axis. This point has the coordinates (0 | b)."
+            },
+             {
+                topic: "lineare_funktionen",
+                id: "lf4",
+                question_de: "Bestimme den y-Achsenabschnitt der Funktion f(x) = 4x - 2.",
+                type: "number",
+                correct_answer: -2,
+                explanation_de: "In der Form f(x) = mx + b ist die Konstante 'b' der y-Achsenabschnitt. Hier ist b = -2.",
+                explanation_en: "In the form f(x) = mx + b, the constant 'b' is the y-intercept. Here, b = -2."
+            },
+            {
+                topic: "lineare_funktionen",
+                id: "lf5",
+                question_de: "Berechne die Steigung der Geraden durch die Punkte P1(1 | 3) und P2(3 | 7).",
+                type: "number",
+                correct_answer: 2,
+                explanation_de: "Die Steigung m berechnet sich als m = (y2 - y1) / (x2 - x1). Hier: m = (7 - 3) / (3 - 1) = 4 / 2 = 2.",
+                explanation_en: "The slope m is calculated as m = (y2 - y1) / (x2 - x1). Here: m = (7 - 3) / (3 - 1) = 4 / 2 = 2."
+            },
+             {
+                topic: "lineare_funktionen",
+                id: "lf6",
+                question_de: "Wie lautet die Funktionsgleichung einer Geraden mit Steigung m=3 und y-Achsenabschnitt b=-1?",
+                type: "text",
+                correct_answer: "f(x) = 3x - 1", // Allow variations like y = 3x - 1
+                explanation_de: "Man setzt m=3 und b=-1 direkt in die allgemeine Form f(x) = mx + b ein: f(x) = 3x + (-1) oder f(x) = 3x - 1.",
+                explanation_en: "Substitute m=3 and b=-1 directly into the general form f(x) = mx + b: f(x) = 3x + (-1) or f(x) = 3x - 1."
+            },
+             {
+                topic: "lineare_funktionen",
+                id: "lf7",
+                question_de: "Liegt der Punkt P(2 | 5) auf dem Graphen der Funktion f(x) = 2x + 1?",
+                type: "mc",
+                options_de: ["Ja", "Nein"],
+                correct_answer: 0,
+                explanation_de: "Punktprobe: Setze x=2 in die Funktion ein: f(2) = 2*2 + 1 = 4 + 1 = 5. Da f(2) = 5 und die y-Koordinate des Punktes 5 ist, liegt der Punkt auf dem Graphen.",
+                explanation_en: "Point test: Substitute x=2 into the function: f(2) = 2*2 + 1 = 4 + 1 = 5. Since f(2) = 5 and the y-coordinate of the point is 5, the point lies on the graph."
+            },
+             {
+                topic: "lineare_funktionen",
+                id: "lf8",
+                question_de: "Liegt der Punkt P(1 | 4) auf dem Graphen der Funktion f(x) = -x + 6?",
+                type: "mc",
+                options_de: ["Ja", "Nein"],
+                correct_answer: 1,
+                explanation_de: "Punktprobe: Setze x=1 in die Funktion ein: f(1) = -1 + 6 = 5. Da f(1) = 5, aber die y-Koordinate des Punktes 4 ist (5 ≠ 4), liegt der Punkt nicht auf dem Graphen.",
+                explanation_en: "Point test: Substitute x=1 into the function: f(1) = -1 + 6 = 5. Since f(1) = 5, but the y-coordinate of the point is 4 (5 ≠ 4), the point does not lie on the graph."
+            },
+             // Additional Fragen für Lineare Funktionen
+            {
+                topic: "lineare_funktionen",
+                id: "lf9",
+                question_de: "Wie lautet die Gleichung der y-Achse?",
+                type: "text",
+                correct_answer: "x = 0",
+                explanation_de: "Alle Punkte auf der y-Achse haben die x-Koordinate 0. Daher ist die Gleichung x = 0.",
+                explanation_en: "All points on the y-axis have an x-coordinate of 0. Therefore, the equation is x = 0."
+            },
+            {
+                topic: "lineare_funktionen",
+                id: "lf10",
+                question_de: "Wie lautet die Gleichung der x-Achse?",
+                type: "text",
+                correct_answer: "y = 0", // Allow f(x)=0
+                explanation_de: "Alle Punkte auf der x-Achse haben die y-Koordinate 0. Daher ist die Gleichung y = 0 (oder f(x) = 0).",
+                explanation_en: "All points on the x-axis have a y-coordinate of 0. Therefore, the equation is y = 0 (or f(x) = 0)."
+            },
+            {
+                topic: "lineare_funktionen",
+                id: "lf11",
+                question_de: "Eine Funktion hat die Gleichung f(x) = 5. Was ist die Steigung?",
+                type: "number",
+                correct_answer: 0,
+                explanation_de: "Dies ist eine konstante Funktion (eine horizontale Linie). Man kann sie als f(x) = 0x + 5 schreiben. Die Steigung m ist 0.",
+                explanation_en: "This is a constant function (a horizontal line). It can be written as f(x) = 0x + 5. The slope m is 0."
+            },
+            {
+                topic: "lineare_funktionen",
+                id: "lf12",
+                question_de: "Zwei Geraden sind parallel. Was gilt für ihre Steigungen?",
+                type: "mc",
+                options_de: ["Sie sind negativ zueinander.", "Ihre Summe ist 0.", "Sie sind gleich.", "Ihr Produkt ist -1."],
+                correct_answer: 2,
+                explanation_de: "Parallele Geraden haben dieselbe Steigung (m1 = m2).",
+                explanation_en: "Parallel lines have the same slope (m1 = m2)."
+            },
+            {
+                topic: "lineare_funktionen",
+                id: "lf13",
+                question_de: "Bestimme die Funktionsgleichung für eine Gerade durch P(0|4) mit Steigung m=-2.",
+                type: "text",
+                correct_answer: "f(x) = -2x + 4", // Allow y = -2x + 4
+                explanation_de: "Der Punkt P(0|4) ist der y-Achsenabschnitt, also b=4. Mit m=-2 ergibt sich f(x) = -2x + 4.",
+                explanation_en: "The point P(0|4) is the y-intercept, so b=4. With m=-2, the equation is f(x) = -2x + 4."
+            },
+            {
+                topic: "lineare_funktionen",
+                id: "lf14",
+                question_de: "Bestimme die Funktionsgleichung für eine Gerade durch P(2|1) mit Steigung m=3.",
+                type: "text",
+                correct_answer: "f(x) = 3x - 5", // Allow y = 3x - 5
+                explanation_de: "Setze m=3 und P(2|1) in y = mx + b ein: 1 = 3*2 + b => 1 = 6 + b => b = -5. Die Gleichung ist f(x) = 3x - 5.",
+                explanation_en: "Substitute m=3 and P(2|1) into y = mx + b: 1 = 3*2 + b => 1 = 6 + b => b = -5. The equation is f(x) = 3x - 5."
+            },
+            {
+                topic: "lineare_funktionen",
+                id: "lf15",
+                question_de: "Bestimme die Funktionsgleichung für eine Gerade durch P1(1|1) und P2(3|5).",
+                type: "text",
+                correct_answer: "f(x) = 2x - 1", // Allow y = 2x - 1
+                explanation_de: "1. Steigung: m = (5-1)/(3-1) = 4/2 = 2. 2. y-Achsenabschnitt: Setze m=2 und P1(1|1) in y = mx + b ein: 1 = 2*1 + b => 1 = 2 + b => b = -1. 3. Gleichung: f(x) = 2x - 1.",
+                explanation_en: "1. Slope: m = (5-1)/(3-1) = 4/2 = 2. 2. y-intercept: Substitute m=2 and P1(1|1) into y = mx + b: 1 = 2*1 + b => 1 = 2 + b => b = -1. 3. Equation: f(x) = 2x - 1."
+            },
+            {
+                topic: "lineare_funktionen",
+                id: "lf16",
+                question_de: "Was ist die Nullstelle der Funktion f(x) = 2x + 6?",
+                type: "number",
+                correct_answer: -3,
+                explanation_de: "Die Nullstelle ist der x-Wert, für den f(x) = 0 ist. Setze 2x + 6 = 0. Subtrahiere 6: 2x = -6. Dividiere durch 2: x = -3.",
+                explanation_en: "The zero (root) is the x-value for which f(x) = 0. Set 2x + 6 = 0. Subtract 6: 2x = -6. Divide by 2: x = -3."
+            },
+            {
+                topic: "lineare_funktionen",
+                id: "lf17",
+                question_de: "Ein Taxitarif hat eine Grundgebühr von 3€ und kostet 2€ pro Kilometer. Wie lautet die Funktionsgleichung für den Preis f(x) in Abhängigkeit der Kilometer x?",
+                type: "text",
+                correct_answer: "f(x) = 2x + 3", // Allow y = 2x + 3
+                explanation_de: "Die Grundgebühr ist der Startwert (y-Achsenabschnitt b=3). Der Preis pro Kilometer ist die Änderungsrate (Steigung m=2). Also f(x) = 2x + 3.",
+                explanation_en: "The base fee is the starting value (y-intercept b=3). The price per kilometer is the rate of change (slope m=2). So f(x) = 2x + 3."
+            },
+            {
+                topic: "lineare_funktionen",
+                id: "lf18",
+                question_de: "Wie zeichnet man den Graphen von f(x) = -x + 2?",
+                type: "mc",
+                options_de: [
+                    "y-Achsenabschnitt bei 2, dann 1 nach rechts, 1 nach oben.",
+                    "y-Achsenabschnitt bei -1, dann 1 nach rechts, 2 nach oben.",
+                    "y-Achsenabschnitt bei 2, dann 1 nach rechts, 1 nach unten.",
+                    "y-Achsenabschnitt bei -1, dann 1 nach rechts, 1 nach unten."
+                ],
+                correct_answer: 2,
+                explanation_de: "Der y-Achsenabschnitt ist b=2. Die Steigung ist m=-1, was bedeutet Δy=-1 für Δx=1 (1 nach rechts, 1 nach unten).",
+                explanation_en: "The y-intercept is b=2. The slope is m=-1, which means Δy=-1 for Δx=1 (1 to the right, 1 down)."
+            },
+            {
+                topic: "lineare_funktionen",
+                id: "lf19",
+                question_de: "Gegeben ist eine Wertetabelle: x={0, 1, 2}, y={5, 3, 1}. Bestimme die Steigung.",
+                type: "number",
+                correct_answer: -2,
+                explanation_de: "Wenn x um 1 zunimmt (von 0 auf 1), nimmt y um -2 ab (von 5 auf 3). Wenn x um 1 zunimmt (von 1 auf 2), nimmt y um -2 ab (von 3 auf 1). Die Steigung ist konstant m = -2.",
+                explanation_en: "When x increases by 1 (from 0 to 1), y decreases by 2 (from 5 to 3). When x increases by 1 (from 1 to 2), y decreases by 2 (from 3 to 1). The slope is constant m = -2."
+            },
+            {
+                topic: "lineare_funktionen",
+                id: "lf20",
+                question_de: "Gegeben ist eine Wertetabelle: x={0, 1, 2}, y={5, 3, 1}. Bestimme den y-Achsenabschnitt.",
+                type: "number",
+                correct_answer: 5,
+                explanation_de: "Der y-Achsenabschnitt ist der y-Wert, wenn x=0 ist. Laut Tabelle ist das y=5.",
+                explanation_en: "The y-intercept is the y-value when x=0. According to the table, this is y=5."
+            }
+        ];
+
+        // --- Quiz Logic ---
+        const quizContentDiv = document.getElementById('quiz-content');
+        const startQuizBtn = document.getElementById('start-quiz-btn');
+        const topicCheckboxes = document.querySelectorAll('#topic-selection input[name="topic"]');
+
+        let currentQuestionsData = {}; // Holds the full data for the currently displayed questions { q_id: questionData }
+
+        startQuizBtn.addEventListener('click', loadQuiz);
+
+        // Helper function to normalize function equation strings for comparison
+        function normalizeEquation(str) {
+            return str.toLowerCase()
+                      .replace(/\s+/g, '') // Remove all whitespace
+                      .replace(/^y=/, 'f(x)=') // Standardize to f(x)=
+                      .replace(/([+-])/g, ' $1 ') // Add space around operators for consistency (optional, but can help)
+                      .trim();
+        }
+
+        // Helper function to compare answers, especially for text/equations
+        function compareAnswers(userAnswer, correctAnswer, type, questionId) {
+            if (userAnswer === null || userAnswer === undefined) return false;
+
+            const userStr = String(userAnswer).trim();
+            const correctStr = String(correctAnswer).trim();
+
+            if (type === 'number') {
+                // Use parseFloat for potential decimals and compare
+                return parseFloat(userStr) === parseFloat(correctStr);
+            } else if (type === 'text') {
+                 // Specific checks for equation questions
+                 const equationIds = ['lf6', 'lf10', 'lf13', 'lf14', 'lf15', 'lf17'];
+                 if (equationIds.includes(questionId)) {
+                     return normalizeEquation(userStr) === normalizeEquation(correctStr);
+                 } else {
+                     // General case-insensitive text comparison
+                     return userStr.toLowerCase() === correctStr.toLowerCase();
+                 }
+            } else if (type === 'mc') {
+                 return parseInt(userStr) === correctAnswer; // MC answer is index
+            }
+            return false; // Default case
+        }
+
+
+        function loadQuiz() {
+            const selectedTopics = Array.from(topicCheckboxes)
+                                      .filter(cb => cb.checked)
+                                      .map(cb => cb.value);
+
+            if (selectedTopics.length === 0) {
+                quizContentDiv.innerHTML = "<p>Bitte wähle mindestens ein Thema aus.</p>";
+                return;
+            }
+
+            // Filter questions based on selected topics
+            let questionsForSelectedTopics = allQuestions.filter(q => selectedTopics.includes(q.topic));
+
+            // Shuffle the filtered questions
+            let shuffledQuestions = shuffleArray(questionsForSelectedTopics);
+            currentQuestionsData = {}; // Reset current questions data
+
+            // Display questions
+            quizContentDiv.innerHTML = ''; // Clear previous questions
+            shuffledQuestions.forEach((q, index) => {
+                currentQuestionsData[q.id] = q; // Store question data by ID
+
+                const questionContainer = document.createElement('div');
+                questionContainer.classList.add('question');
+                questionContainer.setAttribute('data-question-id', q.id);
+
+                let questionHTML = `<p><strong>Frage ${index + 1}:</strong> ${q.question_de}</p>`;
+
+                if (q.type === 'mc') {
+                    questionHTML += q.options_de.map((option, i) => `
+                        <label>
+                            <input type="radio" name="q_${q.id}" value="${i}">
+                            ${option}
+                        </label>
+                    `).join('');
+                } else if (q.type === 'text' || q.type === 'number') {
+                    questionHTML += `
+                        <label>Antwort:
+                           <input type="${q.type === 'number' ? 'number' : 'text'}" name="q_${q.id}" ${q.type === 'number' ? 'step="any"' : ''}>
+                        </label>`;
+                }
+
+                // Add Check Button and Feedback Area for each question
+                questionHTML += `<button class="check-single-btn" data-question-id="${q.id}">Prüfen</button>`;
+                questionHTML += `<div class="feedback-area" id="feedback_${q.id}"></div>`;
+
+                questionContainer.innerHTML = questionHTML;
+                quizContentDiv.appendChild(questionContainer);
+            });
+
+             // Add event listeners to the new buttons
+             document.querySelectorAll('.check-single-btn').forEach(button => {
+                 button.addEventListener('click', () => checkSingleAnswer(button.getAttribute('data-question-id')));
+             });
+        }
+
+        function checkSingleAnswer(questionId) {
+            const questionData = currentQuestionsData[questionId];
+            if (!questionData) return; // Should not happen
+
+            const questionElement = quizContentDiv.querySelector(`.question[data-question-id="${questionId}"]`);
+            const feedbackArea = questionElement.querySelector(`#feedback_${questionId}`);
+            const checkButton = questionElement.querySelector('.check-single-btn');
+
+            feedbackArea.innerHTML = ''; // Clear previous feedback for this question
+            let userAnswer = null;
+            let isCorrect = false;
+
+             if (questionData.type === 'mc') {
+                const selectedOption = questionElement.querySelector(`input[name="q_${questionId}"]:checked`);
+                if (selectedOption) {
+                    userAnswer = selectedOption.value; // Keep as string for comparison function
+                    isCorrect = compareAnswers(userAnswer, questionData.correct_answer, questionData.type, questionId);
+                } else {
+                     feedbackArea.innerHTML = "<p style='color: orange;'>Bitte wähle eine Antwort aus.</p>";
+                     return; // Don't proceed without an answer
+                }
+            } else if (questionData.type === 'text' || questionData.type === 'number') {
+                const inputElement = questionElement.querySelector(`input[name="q_${questionId}"]`);
+                if (inputElement && inputElement.value.trim() !== '') {
+                    userAnswer = inputElement.value;
+                    isCorrect = compareAnswers(userAnswer, questionData.correct_answer, questionData.type, questionId);
+                } else {
+                     feedbackArea.innerHTML = "<p style='color: orange;'>Bitte gib eine Antwort ein.</p>";
+                     return; // Don't proceed without an answer
+                }
+            }
+
+            // --- Display Feedback ---
+            const feedbackElement = document.createElement('div');
+            feedbackElement.classList.add('feedback');
+
+            if (isCorrect) {
+                feedbackElement.classList.add('correct');
+                feedbackElement.innerHTML = `<strong>Richtig!</strong>`;
+            } else {
+                feedbackElement.classList.add('incorrect');
+                 let correctAnswerText = '';
+                 if (questionData.type === 'mc') {
+                     correctAnswerText = questionData.options_de[questionData.correct_answer];
+                 } else {
+                     correctAnswerText = questionData.correct_answer;
+                 }
+                feedbackElement.innerHTML = `<strong>Falsch.</strong> Richtige Antwort: "${correctAnswerText}"`;
+            }
+
+            // Add explanations
+            const explanationDiv = document.createElement('div');
+            explanationDiv.classList.add('explanation');
+            explanationDiv.innerHTML = `<em>Erklärung (DE):</em> ${questionData.explanation_de}<br><em>Explanation (EN):</em> ${questionData.explanation_en}`;
+            feedbackElement.appendChild(explanationDiv);
+
+            feedbackArea.appendChild(feedbackElement);
+
+            // Disable button after checking
+            if (checkButton) {
+                checkButton.disabled = true;
+                checkButton.textContent = 'Geprüft';
+            }
+             // Disable inputs for the question as well
+             questionElement.querySelectorAll('input').forEach(input => input.disabled = true);
+        }
+
+
+        // Helper function to shuffle an array (Fisher-Yates algorithm)
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]]; // Swap elements
+            }
+            return array;
+        }
+
+        // Initial load or message
+        quizContentDiv.innerHTML = "<p>Wähle Themen aus und klicke auf 'Quiz starten / Neu mischen', um die Fragen zu laden.</p>";
+
+    </script>
+
+</body>
+</html>

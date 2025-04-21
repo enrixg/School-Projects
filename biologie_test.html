@@ -1,0 +1,2560 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Biologie Interaktiver Test: Ernährung, Verdauung, Atmung</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+            background-color: #f4f7f6;
+            color: #333;
+        }
+        .container {
+            max-width: 900px;
+            margin: auto;
+            background: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+        }
+        h1, h2 {
+            color: #006400; /* Dark Green */
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        h2 {
+            margin-top: 40px;
+            border-bottom: 2px solid #e0e0e0;
+            padding-bottom: 10px;
+        }
+        .question-area {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .question-text {
+            font-weight: bold;
+            margin-bottom: 15px;
+            font-size: 1.1em;
+        }
+        .answer-options label {
+            display: block;
+            margin-bottom: 10px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            cursor: pointer;
+            background-color: #fff;
+        }
+        .answer-options label:hover {
+            background-color: #f0f0f0;
+        }
+        .answer-options input[type="radio"],
+        .answer-options input[type="checkbox"] {
+            margin-right: 10px;
+        }
+        input[type="text"] {
+            width: calc(100% - 22px);
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 1em;
+        }
+        button {
+            background-color: #007bff; /* Blue */
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            margin-top: 15px;
+            display: inline-block;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        button#next-btn {
+            background-color: #28a745; /* Green */
+            margin-left: 10px;
+        }
+        button#next-btn:hover {
+            background-color: #218838;
+        }
+        .feedback-area {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 5px;
+            border: 1px solid transparent;
+        }
+        .feedback-area.correct {
+            background-color: #d4edda;
+            border-color: #c3e6cb;
+            color: #155724;
+        }
+        .feedback-area.incorrect {
+            background-color: #f8d7da;
+            border-color: #f5c6cb;
+            color: #721c24;
+        }
+        .explanation {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px dashed #ccc;
+        }
+        .explanation h4 {
+            margin-top: 0;
+            margin-bottom: 5px;
+            color: #555;
+        }
+        .explanation p {
+            margin-bottom: 10px;
+            font-size: 0.95em;
+        }
+        .progress-bar {
+            width: 100%;
+            background-color: #e0e0e0;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+        .progress-bar-fill {
+            height: 20px;
+            width: 0%; /* Updated by JS */
+            background-color: #4caf50; /* Green */
+            text-align: center;
+            line-height: 20px;
+            color: white;
+            font-size: 0.8em;
+            transition: width 0.5s ease-in-out;
+        }
+        #navigation-info {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 0.9em;
+            color: #666;
+        }
+        #topic-selection-area {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 20px;
+            background-color: #e9f5e9;
+            border-radius: 8px;
+        }
+        #topic-selection-area label {
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        #topic-select {
+            padding: 8px 12px;
+            font-size: 1em;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+        }
+        #start-test-btn {
+             background-color: #006400; /* Dark Green */
+             margin-left: 10px;
+        }
+         #start-test-btn:hover {
+             background-color: #004d00;
+        }
+        /* Minor adjustments */
+        .container {
+             padding: 20px 30px; /* Adjust padding */
+        }
+         button {
+             padding: 10px 20px; /* Slightly smaller buttons */
+             font-size: 0.95em;
+         }
+         .question-area {
+             margin-top: 20px; /* Reduce top margin */
+         }
+         h2 {
+             margin-top: 30px; /* Reduce top margin */
+             font-size: 1.4em;
+         }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Biologie Interaktiver Test</h1>
+
+        <div id="topic-selection-area">
+             <label for="topic-select">Wähle ein Thema/Unterthema:</label>
+             <select id="topic-select">
+                 <option value="all">Alle Themen</option>
+                 <!-- Options will be populated by JS -->
+             </select>
+             <button id="start-test-btn">Test starten</button>
+        </div>
+
+        <div id="test-area" style="display: none;"> <!-- Hide test area initially -->
+             <div id="navigation-info">
+                 <span id="current-topic"></span> - Frage <span id="current-question-number">1</span> von <span id="total-questions-in-topic">?</span>
+             </div>
+             <div class="progress-bar">
+                 <div class="progress-bar-fill" id="progress-bar-fill">0%</div>
+             </div>
+            <h2 id="topic-title">Thema wird geladen...</h2>
+            <div id="question-area" class="question-area">
+                <div id="question-text" class="question-text">Frage wird geladen...</div>
+                <div id="answer-options" class="answer-options">Antwortoptionen werden geladen...</div>
+                <input type="text" id="text-answer" style="display: none;" placeholder="Deine Antwort hier...">
+            </div>
+            <button id="check-btn">Antwort prüfen</button>
+            <button id="next-btn" style="display: none;">Nächste Frage</button>
+            <div id="feedback-area" class="feedback-area" style="display: none;"></div>
+        </div>
+    </div>
+
+    <script>
+        const questions = [
+            // Subtopic 1: Bestandteile der Nahrung nennen
+            {
+                topic: "Ernährung",
+                subtopic: "Bestandteile der Nahrung",
+                type: "multiple-choice",
+                questionText: "Welche der folgenden Gruppen gehört zu den Hauptbestandteilen der Nahrung?",
+                options: ["Vitamine, Mineralstoffe, Wasser", "Kohlenhydrate, Fette, Eiweiße", "Ballaststoffe, Enzyme, Hormone", "Zucker, Salz, Öle"],
+                correctAnswer: "Kohlenhydrate, Fette, Eiweiße",
+                explanation: {
+                    de: "Kohlenhydrate, Fette und Eiweiße (Proteine) sind die Makronährstoffe. Sie liefern Energie und Baustoffe für den Körper. Vitamine, Mineralstoffe und Wasser sind Mikronährstoffe bzw. essentiell, liefern aber keine Energie.",
+                    en: "Carbohydrates, fats, and proteins are the macronutrients. They provide energy and building materials for the body. Vitamins, minerals, and water are micronutrients or essential, but do not provide energy."
+                }
+            },
+            {
+                topic: "Ernährung",
+                subtopic: "Bestandteile der Nahrung",
+                type: "fill-in-the-blank",
+                questionText: "Nenne die drei Makronährstoffe, die dem Körper Energie liefern: ______, ______ und ______.",
+                correctAnswer: ["kohlenhydrate", "fette", "eiweiße"], // Accept variations like proteine
+                explanation: {
+                    de: "Die drei Makronährstoffe sind Kohlenhydrate, Fette und Eiweiße (Proteine). Sie sind die Hauptenergielieferanten für den menschlichen Körper.",
+                    en: "The three macronutrients are carbohydrates, fats, and proteins. They are the main energy suppliers for the human body."
+                }
+            },
+            {
+                topic: "Ernährung",
+                subtopic: "Bestandteile der Nahrung",
+                type: "multiple-choice",
+                questionText: "Welcher Nährstoff ist der Hauptbaustoff für Muskeln, Haut und Haare?",
+                options: ["Fette", "Kohlenhydrate", "Vitamine", "Eiweiße (Proteine)"],
+                correctAnswer: "Eiweiße (Proteine)",
+                explanation: {
+                    de: "Eiweiße (Proteine) sind die primären Baustoffe für Körpergewebe wie Muskeln, Haut und Haare. Sie bestehen aus Aminosäuren.",
+                    en: "Proteins are the primary building materials for body tissues such as muscles, skin, and hair. They are made up of amino acids."
+                }
+            },
+            {
+                topic: "Ernährung",
+                subtopic: "Bestandteile der Nahrung",
+                type: "true-false",
+                questionText: "Wasser liefert dem Körper viel Energie.",
+                correctAnswer: "false",
+                explanation: {
+                    de: "Falsch. Wasser ist lebensnotwendig für viele Körperfunktionen (Transport, Temperaturregulation), liefert aber keine Kalorien oder Energie.",
+                    en: "False. Water is essential for many body functions (transport, temperature regulation), but it does not provide calories or energy."
+                }
+            },
+             {
+                topic: "Ernährung",
+                subtopic: "Bestandteile der Nahrung",
+                type: "multiple-choice",
+                questionText: "Welche Funktion haben Vitamine hauptsächlich im Körper?",
+                options: ["Energielieferant", "Baustoff für Muskeln", "Regulierung von Stoffwechselprozessen", "Wärmeisolation"],
+                correctAnswer: "Regulierung von Stoffwechselprozessen",
+                explanation: {
+                    de: "Vitamine sind essentielle organische Verbindungen, die der Körper für zahlreiche Stoffwechselprozesse benötigt. Sie wirken oft als Coenzyme.",
+                    en: "Vitamins are essential organic compounds that the body needs for numerous metabolic processes. They often act as coenzymes."
+                }
+            },
+            {
+                topic: "Ernährung",
+                subtopic: "Bestandteile der Nahrung",
+                type: "fill-in-the-blank",
+                questionText: "Mineralstoffe wie Calcium und Eisen sind ______ Stoffe, die der Körper nicht selbst herstellen kann.",
+                correctAnswer: "anorganische",
+                explanation: {
+                    de: "Mineralstoffe sind anorganische Elemente oder Verbindungen, die für den Aufbau von Knochen, Zähnen und Blutzellen sowie für viele weitere Funktionen wichtig sind.",
+                    en: "Minerals are inorganic elements or compounds that are important for building bones, teeth, and blood cells, as well as for many other functions."
+                }
+            },
+            {
+                topic: "Ernährung",
+                subtopic: "Bestandteile der Nahrung",
+                type: "multiple-choice",
+                questionText: "Welche dieser Nahrungsbestandteile sind Ballaststoffe?",
+                options: ["Zucker", "Stärke", "Cellulose", "Fette"],
+                correctAnswer: "Cellulose",
+                explanation: {
+                    de: "Ballaststoffe sind meist unverdauliche Kohlenhydrate, wie z.B. Cellulose aus Pflanzenfasern. Sie fördern die Verdauung.",
+                    en: "Dietary fibers are mostly indigestible carbohydrates, such as cellulose from plant fibers. They promote digestion."
+                }
+            },
+            {
+                topic: "Ernährung",
+                subtopic: "Bestandteile der Nahrung",
+                type: "true-false",
+                questionText: "Fette dienen dem Körper nur als Energiereserve.",
+                correctAnswer: "false",
+                explanation: {
+                    de: "Falsch. Fette sind zwar wichtige Energiereserven, dienen aber auch als Baustoff für Zellmembranen, zur Aufnahme fettlöslicher Vitamine und zur Isolation.",
+                    en: "False. While fats are important energy reserves, they also serve as building material for cell membranes, for the absorption of fat-soluble vitamins, and for insulation."
+                }
+            },
+            {
+                topic: "Ernährung",
+                subtopic: "Bestandteile der Nahrung",
+                type: "multiple-choice",
+                questionText: "Welcher Nährstoff wird im Körper am schnellsten zur Energiegewinnung genutzt?",
+                options: ["Eiweiße", "Fette", "Kohlenhydrate", "Vitamine"],
+                correctAnswer: "Kohlenhydrate",
+                explanation: {
+                    de: "Kohlenhydrate, insbesondere Einfachzucker wie Glucose, sind die bevorzugte und schnellste Energiequelle für die Zellen.",
+                    en: "Carbohydrates, especially simple sugars like glucose, are the preferred and fastest source of energy for cells."
+                }
+            },
+            {
+                topic: "Ernährung",
+                subtopic: "Bestandteile der Nahrung",
+                type: "fill-in-the-blank",
+                questionText: "Vitamine werden in zwei Hauptgruppen eingeteilt: ______ und ______ Vitamine.",
+                correctAnswer: ["fettlösliche", "wasserlösliche"], // Order doesn't matter
+                explanation: {
+                    de: "Vitamine werden danach unterschieden, ob sie in Fett (fettlöslich: A, D, E, K) oder Wasser (wasserlöslich: B-Vitamine, C) löslich sind. Dies beeinflusst ihre Speicherung und Aufnahme.",
+                    en: "Vitamins are distinguished by whether they are soluble in fat (fat-soluble: A, D, E, K) or water (water-soluble: B vitamins, C). This affects their storage and absorption."
+                }
+            },
+            // Add 10 more questions for this subtopic...
+             {
+                topic: "Ernährung",
+                subtopic: "Bestandteile der Nahrung",
+                type: "multiple-choice",
+                questionText: "Welches Vitamin ist wichtig für die Sehkraft?",
+                options: ["Vitamin C", "Vitamin D", "Vitamin A", "Vitamin B12"],
+                correctAnswer: "Vitamin A",
+                explanation: {
+                    de: "Vitamin A (Retinol) ist essentiell für den Sehvorgang, insbesondere für das Sehen bei schlechten Lichtverhältnissen.",
+                    en: "Vitamin A (Retinol) is essential for the process of vision, especially for seeing in low light conditions."
+                }
+            },
+            {
+                topic: "Ernährung",
+                subtopic: "Bestandteile der Nahrung",
+                type: "true-false",
+                questionText: "Alle Fette sind ungesund und sollten vermieden werden.",
+                correctAnswer: "false",
+                explanation: {
+                    de: "Falsch. Ungesättigte Fettsäuren (z.B. in Fisch, Nüssen, Pflanzenölen) sind lebensnotwendig. Gesättigte und Trans-Fette sollten begrenzt werden.",
+                    en: "False. Unsaturated fatty acids (e.g., in fish, nuts, vegetable oils) are essential for life. Saturated and trans fats should be limited."
+                }
+            },
+            {
+                topic: "Ernährung",
+                subtopic: "Bestandteile der Nahrung",
+                type: "fill-in-the-blank",
+                questionText: "Der Mineralstoff ______ ist Hauptbestandteil von Knochen und Zähnen.",
+                correctAnswer: "calcium",
+                explanation: {
+                    de: "Calcium ist der mengenmäßig wichtigste Mineralstoff im menschlichen Körper und entscheidend für die Stabilität von Knochen und Zähnen.",
+                    en: "Calcium is the most abundant mineral in the human body and is crucial for the stability of bones and teeth."
+                }
+            },
+            {
+                topic: "Ernährung",
+                subtopic: "Bestandteile der Nahrung",
+                type: "multiple-choice",
+                questionText: "Was ist eine Hauptfunktion von Wasser im Körper?",
+                options: ["Energiespeicherung", "Transportmittel für Nährstoffe und Abfallprodukte", "Muskelaufbau", "Vitaminproduktion"],
+                correctAnswer: "Transportmittel für Nährstoffe und Abfallprodukte",
+                explanation: {
+                    de: "Wasser dient als Lösungsmittel und Transportmittel im Blut und in den Zellen, transportiert Nährstoffe zu den Zellen und Abfallprodukte weg.",
+                    en: "Water acts as a solvent and transport medium in the blood and cells, transporting nutrients to the cells and waste products away."
+                }
+            },
+             {
+                topic: "Ernährung",
+                subtopic: "Bestandteile der Nahrung",
+                type: "multiple-choice",
+                questionText: "Welche dieser Lebensmittel sind reich an Ballaststoffen?",
+                options: ["Weißbrot", "Zucker", "Vollkornprodukte und Gemüse", "Käse"],
+                correctAnswer: "Vollkornprodukte und Gemüse",
+                explanation: {
+                    de: "Vollkornprodukte, Hülsenfrüchte, Gemüse und Obst sind gute Quellen für Ballaststoffe, die wichtig für eine gesunde Verdauung sind.",
+                    en: "Whole grains, legumes, vegetables, and fruits are good sources of dietary fiber, which is important for healthy digestion."
+                }
+            },
+            {
+                topic: "Ernährung",
+                subtopic: "Bestandteile der Nahrung",
+                type: "true-false",
+                questionText: "Der Körper kann alle benötigten Vitamine selbst herstellen.",
+                correctAnswer: "false",
+                explanation: {
+                    de: "Falsch. Die meisten Vitamine sind essentiell, das heißt, sie müssen mit der Nahrung aufgenommen werden, da der Körper sie nicht oder nicht in ausreichender Menge produzieren kann (Ausnahme z.B. Vitamin D bei Sonnenlicht).",
+                    en: "False. Most vitamins are essential, meaning they must be obtained through diet because the body cannot produce them or not in sufficient amounts (exception e.g., Vitamin D with sunlight)."
+                }
+            },
+            {
+                topic: "Ernährung",
+                subtopic: "Bestandteile der Nahrung",
+                type: "fill-in-the-blank",
+                questionText: "Kohlenhydrate bestehen chemisch gesehen hauptsächlich aus den Elementen Kohlenstoff, Wasserstoff und ______.",
+                correctAnswer: "sauerstoff",
+                explanation: {
+                    de: "Kohlenhydrate sind organische Verbindungen, die aus Kohlenstoff (C), Wasserstoff (H) und Sauerstoff (O) aufgebaut sind, oft im Verhältnis C_n(H_2O)_n.",
+                    en: "Carbohydrates are organic compounds made up of carbon (C), hydrogen (H), and oxygen (O), often in the ratio C_n(H_2O)_n."
+                }
+            },
+             {
+                topic: "Ernährung",
+                subtopic: "Bestandteile der Nahrung",
+                type: "multiple-choice",
+                questionText: "Welcher Mineralstoff ist zentraler Bestandteil des roten Blutfarbstoffs Hämoglobin?",
+                options: ["Calcium", "Eisen", "Zink", "Jod"],
+                correctAnswer: "Eisen",
+                explanation: {
+                    de: "Eisen ist essentiell für die Bildung von Hämoglobin, dem Protein in roten Blutkörperchen, das Sauerstoff transportiert.",
+                    en: "Iron is essential for the formation of hemoglobin, the protein in red blood cells that transports oxygen."
+                }
+            },
+            {
+                topic: "Ernährung",
+                subtopic: "Bestandteile der Nahrung",
+                type: "true-false",
+                questionText: "Proteine können vom Körper als langfristige Energiereserve gespeichert werden.",
+                correctAnswer: "false",
+                explanation: {
+                    de: "Falsch. Der Körper speichert Energie primär als Fett. Proteine dienen hauptsächlich als Baustoffe und für funktionelle Aufgaben (Enzyme, Hormone). Überschüssige Proteine werden eher umgewandelt oder ausgeschieden.",
+                    en: "False. The body primarily stores energy as fat. Proteins mainly serve as building materials and for functional tasks (enzymes, hormones). Excess proteins are more likely converted or excreted."
+                }
+            },
+             {
+                topic: "Ernährung",
+                subtopic: "Bestandteile der Nahrung",
+                type: "multiple-choice",
+                questionText: "Welche Aussage über Fette trifft zu?",
+                options: ["Sie sind alle wasserlöslich.", "Sie liefern weniger Energie pro Gramm als Kohlenhydrate.", "Sie sind wichtig für die Aufnahme der Vitamine A, D, E, K.", "Sie bestehen aus Aminosäuren."],
+                correctAnswer: "Sie sind wichtig für die Aufnahme der Vitamine A, D, E, K.",
+                explanation: {
+                    de: "Fette sind notwendig, damit der Körper die fettlöslichen Vitamine A, D, E und K aus der Nahrung aufnehmen kann. Sie liefern mehr Energie pro Gramm als Kohlenhydrate oder Proteine und sind nicht wasserlöslich.",
+                    en: "Fats are necessary for the body to absorb the fat-soluble vitamins A, D, E, and K from food. They provide more energy per gram than carbohydrates or proteins and are not water-soluble."
+                }
+            },
+            // Subtopic 2: Aufbau der Grundbausteine erklären
+            {
+                topic: "Ernährung",
+                subtopic: "Aufbau der Grundbausteine",
+                type: "multiple-choice",
+                questionText: "Woraus bestehen Kohlenhydrate hauptsächlich auf molekularer Ebene?",
+                options: ["Aminosäuren", "Fettsäuren und Glycerin", "Einfachzuckern (Monosacchariden)", "Nukleotiden"],
+                correctAnswer: "Einfachzuckern (Monosacchariden)",
+                explanation: {
+                    de: "Kohlenhydrate sind Polymere, die aus Monosaccharid-Einheiten (Einfachzuckern) wie Glucose oder Fructose aufgebaut sind.",
+                    en: "Carbohydrates are polymers made up of monosaccharide units (simple sugars) such as glucose or fructose."
+                }
+            },
+            {
+                topic: "Ernährung",
+                subtopic: "Aufbau der Grundbausteine",
+                type: "fill-in-the-blank",
+                questionText: "Proteine sind lange Ketten aus ______.",
+                correctAnswer: "aminosäuren",
+                explanation: {
+                    de: "Proteine (Eiweiße) sind Makromoleküle, die aus miteinander verknüpften Aminosäuren bestehen. Die Reihenfolge der Aminosäuren bestimmt die Struktur und Funktion des Proteins.",
+                    en: "Proteins are macromolecules composed of interconnected amino acids. The sequence of amino acids determines the structure and function of the protein."
+                }
+            },
+            {
+                topic: "Ernährung",
+                subtopic: "Aufbau der Grundbausteine",
+                type: "true-false",
+                questionText: "Fette (Lipide) sind gut wasserlöslich.",
+                correctAnswer: "false",
+                explanation: {
+                    de: "Falsch. Fette sind hydrophob, das bedeutet, sie sind nicht in Wasser löslich. Sie bestehen typischerweise aus Glycerin und Fettsäuren.",
+                    en: "False. Fats are hydrophobic, meaning they are not soluble in water. They typically consist of glycerol and fatty acids."
+                }
+            },
+            {
+                topic: "Ernährung",
+                subtopic: "Aufbau der Grundbausteine",
+                type: "multiple-choice",
+                questionText: "Was ist ein Beispiel für ein Monosaccharid?",
+                options: ["Stärke", "Saccharose", "Glucose", "Cellulose"],
+                correctAnswer: "Glucose",
+                explanation: {
+                    de: "Glucose (Traubenzucker) ist ein Einfachzucker (Monosaccharid). Stärke und Cellulose sind Polysaccharide (Vielfachzucker), Saccharose ist ein Disaccharid (Zweifachzucker).",
+                    en: "Glucose (dextrose) is a simple sugar (monosaccharide). Starch and cellulose are polysaccharides (complex carbohydrates), sucrose is a disaccharide (double sugar)."
+                }
+            },
+            {
+                topic: "Ernährung",
+                subtopic: "Aufbau der Grundbausteine",
+                type: "fill-in-the-blank",
+                questionText: "Die Bausteine der Fette sind Glycerin und ______.",
+                correctAnswer: "fettsäuren",
+                explanation: {
+                    de: "Triglyceride, die häufigste Form von Nahrungsfetten, bestehen aus einem Glycerinmolekül, das mit drei Fettsäuremolekülen verbunden ist.",
+                    en: "Triglycerides, the most common form of dietary fats, consist of one glycerol molecule bonded to three fatty acid molecules."
+                }
+            },
+            {
+                topic: "Ernährung",
+                subtopic: "Aufbau der Grundbausteine",
+                type: "multiple-choice",
+                questionText: "Wie viele verschiedene Aminosäuren werden üblicherweise zum Aufbau von Proteinen im menschlichen Körper verwendet?",
+                options: ["Etwa 10", "Genau 20", "Über 50", "Nur 5"],
+                correctAnswer: "Genau 20",
+                explanation: {
+                    de: "Es gibt 20 Standardaminosäuren, die als Bausteine für die Proteinsynthese im menschlichen Körper dienen. Einige davon sind essentiell (müssen mit der Nahrung aufgenommen werden).",
+                    en: "There are 20 standard amino acids that serve as building blocks for protein synthesis in the human body. Some of these are essential (must be obtained from the diet)."
+                }
+            },
+            {
+                topic: "Ernährung",
+                subtopic: "Aufbau der Grundbausteine",
+                type: "true-false",
+                questionText: "Stärke ist ein Beispiel für ein Disaccharid.",
+                correctAnswer: "false",
+                explanation: {
+                    de: "Falsch. Stärke ist ein Polysaccharid, ein langes Polymer aus vielen Glucoseeinheiten. Ein Beispiel für ein Disaccharid ist Saccharose (Haushaltszucker), bestehend aus Glucose und Fructose.",
+                    en: "False. Starch is a polysaccharide, a long polymer of many glucose units. An example of a disaccharide is sucrose (table sugar), consisting of glucose and fructose."
+                }
+            },
+            {
+                topic: "Ernährung",
+                subtopic: "Aufbau der Grundbausteine",
+                type: "multiple-choice",
+                questionText: "Was unterscheidet gesättigte von ungesättigten Fettsäuren?",
+                options: ["Die Länge der Kohlenstoffkette", "Das Vorhandensein von Doppelbindungen zwischen Kohlenstoffatomen", "Die Löslichkeit in Wasser", "Der Energiegehalt"],
+                correctAnswer: "Das Vorhandensein von Doppelbindungen zwischen Kohlenstoffatomen",
+                explanation: {
+                    de: "Ungesättigte Fettsäuren enthalten eine oder mehrere Doppelbindungen in ihrer Kohlenstoffkette, während gesättigte Fettsäuren nur Einfachbindungen haben.",
+                    en: "Unsaturated fatty acids contain one or more double bonds in their carbon chain, whereas saturated fatty acids have only single bonds."
+                }
+            },
+            {
+                topic: "Ernährung",
+                subtopic: "Aufbau der Grundbausteine",
+                type: "fill-in-the-blank",
+                questionText: "Die Bindung zwischen zwei Aminosäuren in einem Protein wird ______ genannt.",
+                correctAnswer: "peptidbindung",
+                explanation: {
+                    de: "Aminosäuren werden durch Peptidbindungen miteinander verknüpft, um Polypeptidketten zu bilden, die die Grundlage von Proteinen sind.",
+                    en: "Amino acids are linked together by peptide bonds to form polypeptide chains, which are the basis of proteins."
+                }
+            },
+            {
+                topic: "Ernährung",
+                subtopic: "Aufbau der Grundbausteine",
+                type: "multiple-choice",
+                questionText: "Welches Kohlenhydrat dient Pflanzen als Hauptstrukturkomponente ihrer Zellwände?",
+                options: ["Glykogen", "Stärke", "Fructose", "Cellulose"],
+                correctAnswer: "Cellulose",
+                explanation: {
+                    de: "Cellulose ist ein Polysaccharid, das Pflanzen Struktur und Festigkeit verleiht und Hauptbestandteil pflanzlicher Zellwände ist. Für Menschen ist es ein Ballaststoff.",
+                    en: "Cellulose is a polysaccharide that provides structure and rigidity to plants and is the main component of plant cell walls. For humans, it is a dietary fiber."
+                }
+            },
+            {
+                topic: "Ernährung",
+                subtopic: "Aufbau der Grundbausteine",
+                type: "true-false",
+                questionText: "Alle Aminosäuren können vom menschlichen Körper selbst hergestellt werden.",
+                correctAnswer: "false",
+                explanation: {
+                    de: "Falsch. Es gibt essentielle Aminosäuren (ca. 9 für Erwachsene), die der Körper nicht selbst synthetisieren kann und die daher mit der Nahrung aufgenommen werden müssen.",
+                    en: "False. There are essential amino acids (about 9 for adults) that the body cannot synthesize itself and must therefore be obtained from the diet."
+                }
+            },
+            {
+                topic: "Ernährung",
+                subtopic: "Aufbau der Grundbausteine",
+                type: "multiple-choice",
+                questionText: "Was ist Glykogen?",
+                options: ["Ein pflanzliches Speicher-Kohlenhydrat", "Ein Einfachzucker", "Die Speicherform von Glucose in tierischen Zellen (Leber, Muskeln)", "Ein Strukturprotein"],
+                correctAnswer: "Die Speicherform von Glucose in tierischen Zellen (Leber, Muskeln)",
+                explanation: {
+                    de: "Glykogen ist ein Polysaccharid, das als kurz- bis mittelfristiger Energiespeicher für Glucose in Leber und Muskeln von Tieren und Menschen dient.",
+                    en: "Glycogen is a polysaccharide that serves as a short- to medium-term energy store for glucose in the liver and muscles of animals and humans."
+                }
+            },
+            {
+                topic: "Ernährung",
+                subtopic: "Aufbau der Grundbausteine",
+                type: "fill-in-the-blank",
+                questionText: "Fettsäuren bestehen aus einer langen Kohlenwasserstoffkette und einer funktionellen Gruppe namens ______.",
+                correctAnswer: "carboxylgruppe",
+                explanation: {
+                    de: "Eine Fettsäure hat eine lange, meist unverzweigte Kohlenwasserstoffkette und an einem Ende eine Carboxylgruppe (-COOH), die ihr saure Eigenschaften verleiht.",
+                    en: "A fatty acid has a long, usually unbranched hydrocarbon chain and, at one end, a carboxyl group (-COOH), which gives it acidic properties."
+                }
+            },
+            {
+                topic: "Ernährung",
+                subtopic: "Aufbau der Grundbausteine",
+                type: "multiple-choice",
+                questionText: "Die spezifische dreidimensionale Faltung eines Proteins bestimmt seine...",
+                options: ["Farbe", "Energiegehalt", "Funktion", "Löslichkeit in Fett"],
+                correctAnswer: "Funktion",
+                explanation: {
+                    de: "Die räumliche Struktur (Tertiär- und Quartärstruktur) eines Proteins ist entscheidend für seine biologische Funktion, z.B. als Enzym oder Antikörper.",
+                    en: "The spatial structure (tertiary and quaternary structure) of a protein is crucial for its biological function, e.g., as an enzyme or antibody."
+                }
+            },
+            {
+                topic: "Ernährung",
+                subtopic: "Aufbau der Grundbausteine",
+                type: "true-false",
+                questionText: "Saccharose (Haushaltszucker) ist ein Monosaccharid.",
+                correctAnswer: "false",
+                explanation: {
+                    de: "Falsch. Saccharose ist ein Disaccharid, das aus den Monosacchariden Glucose und Fructose besteht.",
+                    en: "False. Sucrose is a disaccharide composed of the monosaccharides glucose and fructose."
+                }
+            },
+            {
+                topic: "Ernährung",
+                subtopic: "Aufbau der Grundbausteine",
+                type: "multiple-choice",
+                questionText: "Welcher Grundbaustein liefert pro Gramm die meiste Energie?",
+                options: ["Kohlenhydrate", "Proteine", "Fette", "Alkohol"],
+                correctAnswer: "Fette",
+                explanation: {
+                    de: "Fette haben den höchsten Energiegehalt pro Gramm (ca. 9 kcal/g oder 37 kJ/g), verglichen mit Kohlenhydraten und Proteinen (jeweils ca. 4 kcal/g oder 17 kJ/g).",
+                    en: "Fats have the highest energy content per gram (approx. 9 kcal/g or 37 kJ/g), compared to carbohydrates and proteins (each approx. 4 kcal/g or 17 kJ/g)."
+                }
+            },
+            {
+                topic: "Ernährung",
+                subtopic: "Aufbau der Grundbausteine",
+                type: "fill-in-the-blank",
+                questionText: "Die Grundstruktur einer Aminosäure enthält ein zentrales Kohlenstoffatom, eine Aminogruppe, eine Carboxylgruppe und einen variablen ______.",
+                correctAnswer: ["rest", "seitenkette"], // Accept either
+                explanation: {
+                    de: "Jede Aminosäure hat eine charakteristische Seitenkette (Rest), die ihre spezifischen Eigenschaften bestimmt und sie von anderen Aminosäuren unterscheidet.",
+                    en: "Each amino acid has a characteristic side chain (R group) that determines its specific properties and distinguishes it from other amino acids."
+                }
+            },
+            {
+                topic: "Ernährung",
+                subtopic: "Aufbau der Grundbausteine",
+                type: "multiple-choice",
+                questionText: "Was ist ein Beispiel für ein Polysaccharid?",
+                options: ["Lactose", "Glucose", "Stärke", "Maltose"],
+                correctAnswer: "Stärke",
+                explanation: {
+                    de: "Stärke ist ein Polysaccharid (Vielfachzucker), das aus vielen Glucoseeinheiten besteht. Lactose und Maltose sind Disaccharide, Glucose ist ein Monosaccharid.",
+                    en: "Starch is a polysaccharide (complex carbohydrate) composed of many glucose units. Lactose and maltose are disaccharides, glucose is a monosaccharide."
+                }
+            },
+            {
+                topic: "Ernährung",
+                subtopic: "Aufbau der Grundbausteine",
+                type: "true-false",
+                questionText: "Die Reihenfolge der Aminosäuren in einem Protein ist für seine Funktion unwichtig.",
+                correctAnswer: "false",
+                explanation: {
+                    de: "Falsch. Die spezifische Reihenfolge der Aminosäuren (Primärstruktur) bestimmt, wie sich das Protein faltet und welche dreidimensionale Struktur und damit Funktion es annimmt.",
+                    en: "False. The specific sequence of amino acids (primary structure) determines how the protein folds and what three-dimensional structure and thus function it assumes."
+                }
+            },
+            {
+                topic: "Ernährung",
+                subtopic: "Aufbau der Grundbausteine",
+                type: "fill-in-the-blank",
+                questionText: "Zweifachzucker, wie Saccharose oder Lactose, werden auch ______ genannt.",
+                correctAnswer: "disaccharide",
+                explanation: {
+                    de: "Disaccharide sind Kohlenhydrate, die aus zwei miteinander verbundenen Monosaccharid-Einheiten bestehen.",
+                    en: "Disaccharides are carbohydrates composed of two linked monosaccharide units."
+                }
+            },
+            // Subtopic 3: Energiebedarf aus Grund- und Leistungsumsatz erläutern
+            {
+                topic: "Ernährung",
+                subtopic: "Energiebedarf",
+                type: "multiple-choice",
+                questionText: "Was versteht man unter dem Grundumsatz (GU)?",
+                options: ["Die Energie, die bei maximaler körperlicher Anstrengung verbraucht wird.", "Die Energie, die der Körper in völliger Ruhe zur Aufrechterhaltung der Lebensfunktionen benötigt.", "Die Energie, die für die Verdauung der Nahrung benötigt wird.", "Die Energie, die zusätzlich bei körperlicher Aktivität verbraucht wird."],
+                correctAnswer: "Die Energie, die der Körper in völliger Ruhe zur Aufrechterhaltung der Lebensfunktionen benötigt.",
+                explanation: {
+                    de: "Der Grundumsatz ist die Energiemenge, die der Körper pro Tag bei völliger Ruhe, nüchtern und bei einer Umgebungstemperatur von 20°C zur Aufrechterhaltung seiner lebenswichtigen Funktionen (Atmung, Herzschlag, Stoffwechsel) benötigt.",
+                    en: "The basal metabolic rate (BMR) is the amount of energy the body needs per day at complete rest, fasting, and at an ambient temperature of 20°C to maintain its vital functions (breathing, heartbeat, metabolism)."
+                }
+            },
+            {
+                topic: "Ernährung",
+                subtopic: "Energiebedarf",
+                type: "fill-in-the-blank",
+                questionText: "Der Energiebedarf, der zusätzlich zum Grundumsatz durch körperliche Aktivität entsteht, heißt ______.",
+                correctAnswer: "leistungsumsatz",
+                explanation: {
+                    de: "Der Leistungsumsatz (Arbeitsumsatz) ist die Energiemenge, die über den Grundumsatz hinaus für körperliche Aktivitäten wie Arbeit, Sport oder Freizeitaktivitäten benötigt wird.",
+                    en: "The performance metabolic rate (or activity thermogenesis) is the amount of energy required beyond the basal metabolic rate for physical activities such as work, sports, or leisure activities."
+                }
+            },
+            {
+                topic: "Ernährung",
+                subtopic: "Energiebedarf",
+                type: "true-false",
+                questionText: "Der Grundumsatz ist bei allen Menschen gleich.",
+                correctAnswer: "false",
+                explanation: {
+                    de: "Falsch. Der Grundumsatz ist individuell verschieden und hängt von Faktoren wie Alter, Geschlecht, Körpergewicht, Körpergröße und Muskelmasse ab.",
+                    en: "False. The basal metabolic rate varies individually and depends on factors such as age, gender, body weight, height, and muscle mass."
+                }
+            },
+            {
+                topic: "Ernährung",
+                subtopic: "Energiebedarf",
+                type: "multiple-choice",
+                questionText: "Welcher Faktor erhöht den Grundumsatz am stärksten?",
+                options: ["Hohes Alter", "Weibliches Geschlecht", "Hoher Fettanteil", "Hohe Muskelmasse"],
+                correctAnswer: "Hohe Muskelmasse",
+                explanation: {
+                    de: "Muskelgewebe ist stoffwechselaktiver als Fettgewebe und verbraucht daher auch in Ruhe mehr Energie. Eine höhere Muskelmasse führt zu einem höheren Grundumsatz.",
+                    en: "Muscle tissue is more metabolically active than fat tissue and therefore consumes more energy even at rest. Higher muscle mass leads to a higher basal metabolic rate."
+                }
+            },
+            {
+                topic: "Ernährung",
+                subtopic: "Energiebedarf",
+                type: "fill-in-the-blank",
+                questionText: "Der Gesamtenergiebedarf eines Tages setzt sich aus dem Grundumsatz und dem ______ zusammen.",
+                correctAnswer: "leistungsumsatz",
+                explanation: {
+                    de: "Der tägliche Gesamtenergiebedarf ist die Summe aus dem Grundumsatz (Energie für Lebensfunktionen in Ruhe) und dem Leistungsumsatz (Energie für alle Aktivitäten).",
+                    en: "The total daily energy requirement is the sum of the basal metabolic rate (energy for vital functions at rest) and the performance metabolic rate (energy for all activities)."
+                }
+            },
+            {
+                topic: "Ernährung",
+                subtopic: "Energiebedarf",
+                type: "multiple-choice",
+                questionText: "In welcher Einheit wird der Energiebedarf üblicherweise angegeben?",
+                options: ["Watt (W)", "Kilokalorien (kcal) oder Kilojoule (kJ)", "Newton (N)", "Grad Celsius (°C)"],
+                correctAnswer: "Kilokalorien (kcal) oder Kilojoule (kJ)",
+                explanation: {
+                    de: "Der Energiegehalt von Nahrungsmitteln und der Energiebedarf des Körpers werden meist in Kilokalorien (kcal) oder Kilojoule (kJ) gemessen. 1 kcal ≈ 4,184 kJ.",
+                    en: "The energy content of food and the body's energy requirements are usually measured in kilocalories (kcal) or kilojoules (kJ). 1 kcal ≈ 4.184 kJ."
+                }
+            },
+            {
+                topic: "Ernährung",
+                subtopic: "Energiebedarf",
+                type: "true-false",
+                questionText: "Bei Fieber sinkt der Grundumsatz.",
+                correctAnswer: "false",
+                explanation: {
+                    de: "Falsch. Bei Fieber ist der Stoffwechsel des Körpers erhöht, um die höhere Temperatur aufrechtzuerhalten und Infektionen zu bekämpfen. Dadurch steigt der Grundumsatz.",
+                    en: "False. During a fever, the body's metabolism is increased to maintain the higher temperature and fight infection. This increases the basal metabolic rate."
+                }
+            },
+            {
+                topic: "Ernährung",
+                subtopic: "Energiebedarf",
+                type: "multiple-choice",
+                questionText: "Was beschreibt den Leistungsumsatz?",
+                options: ["Energieverbrauch beim Schlafen", "Energieverbrauch für Atmung und Herzschlag", "Energieverbrauch durch körperliche und geistige Aktivität", "Energieverbrauch bei Raumtemperatur"],
+                correctAnswer: "Energieverbrauch durch körperliche und geistige Aktivität",
+                explanation: {
+                    de: "Der Leistungsumsatz umfasst jeglichen Energieverbrauch, der über den Grundumsatz hinausgeht und durch Aktivitäten wie Bewegung, Arbeit, Sport, aber auch Denken verursacht wird.",
+                    en: "The performance metabolic rate includes all energy expenditure that goes beyond the basal metabolic rate and is caused by activities such as movement, work, sports, but also thinking."
+                }
+            },
+            {
+                topic: "Ernährung",
+                subtopic: "Energiebedarf",
+                type: "fill-in-the-blank",
+                questionText: "Der Faktor, mit dem der Grundumsatz multipliziert wird, um den Leistungsumsatz für bestimmte Aktivitäten zu schätzen, heißt _____-Wert (Physical Activity Level).",
+                correctAnswer: "pal",
+                explanation: {
+                    de: "Der PAL-Wert (Physical Activity Level) ist ein Maß für die körperliche Aktivität. Der Gesamtenergiebedarf kann grob als Grundumsatz × PAL-Wert geschätzt werden.",
+                    en: "The PAL value (Physical Activity Level) is a measure of physical activity. The total energy requirement can be roughly estimated as Basal Metabolic Rate × PAL value."
+                }
+            },
+            {
+                topic: "Ernährung",
+                subtopic: "Energiebedarf",
+                type: "multiple-choice",
+                questionText: "Welche Tätigkeit hat typischerweise den höchsten Leistungsumsatz?",
+                options: ["Schlafen", "Sitzen am Schreibtisch", "Intensives körperliches Training", "Fernsehen"],
+                correctAnswer: "Intensives körperliches Training",
+                explanation: {
+                    de: "Je intensiver die körperliche Aktivität, desto höher der Leistungsumsatz. Intensives Training erfordert deutlich mehr Energie als sitzende Tätigkeiten oder Ruhephasen.",
+                    en: "The more intense the physical activity, the higher the performance metabolic rate. Intense training requires significantly more energy than sedentary activities or rest periods."
+                }
+            },
+             {
+                topic: "Ernährung",
+                subtopic: "Energiebedarf",
+                type: "true-false",
+                questionText: "Der Energiebedarf bleibt das ganze Leben über konstant.",
+                correctAnswer: "false",
+                explanation: {
+                    de: "Falsch. Der Energiebedarf ändert sich im Laufe des Lebens. Kinder und Jugendliche im Wachstum haben einen relativ hohen Bedarf. Im Alter sinkt der Grundumsatz oft.",
+                    en: "False. Energy requirements change throughout life. Children and adolescents during growth have relatively high needs. Basal metabolic rate often decreases with age."
+                }
+            },
+            {
+                topic: "Ernährung",
+                subtopic: "Energiebedarf",
+                type: "multiple-choice",
+                questionText: "Was passiert, wenn die Energiezufuhr dauerhaft höher ist als der Gesamtenergiebedarf?",
+                options: ["Gewichtsabnahme", "Muskelaufbau", "Gewichtszunahme (meist als Fett)", "Erhöhung des Grundumsatzes"],
+                correctAnswer: "Gewichtszunahme (meist als Fett)",
+                explanation: {
+                    de: "Eine positive Energiebilanz (mehr Zufuhr als Verbrauch) führt dazu, dass der Körper die überschüssige Energie speichert, hauptsächlich in Form von Fett, was zu Gewichtszunahme führt.",
+                    en: "A positive energy balance (more intake than expenditure) leads the body to store the excess energy, primarily as fat, resulting in weight gain."
+                }
+            },
+            {
+                topic: "Ernährung",
+                subtopic: "Energiebedarf",
+                type: "fill-in-the-blank",
+                questionText: "Die Energie, die zur Verdauung, Resorption und Speicherung der aufgenommenen Nahrung benötigt wird, nennt man nahrungsinduzierte ______.",
+                correctAnswer: "thermogenese",
+                explanation: {
+                    de: "Die nahrungsinduzierte Thermogenese (auch spezifisch-dynamische Wirkung) ist der Energieverbrauch, der nach der Nahrungsaufnahme für die Verarbeitung der Nährstoffe anfällt. Sie macht etwa 10% des Gesamtenergieumsatzes aus.",
+                    en: "Diet-induced thermogenesis (also known as the specific dynamic action) is the energy expenditure that occurs after food intake for the processing of nutrients. It accounts for about 10% of total energy expenditure."
+                }
+            },
+            {
+                topic: "Ernährung",
+                subtopic: "Energiebedarf",
+                type: "multiple-choice",
+                questionText: "Welche Aussage zum Grundumsatz ist korrekt?",
+                options: ["Er ist bei Männern tendenziell niedriger als bei Frauen.", "Er sinkt bei Kälte.", "Er ist der Energieverbrauch während leichter Aktivität.", "Er macht den größten Teil des täglichen Energieverbrauchs aus."],
+                correctAnswer: "Er macht den größten Teil des täglichen Energieverbrauchs aus.",
+                explanation: {
+                    de: "Bei den meisten Menschen macht der Grundumsatz den größten Anteil (ca. 60-75%) des gesamten täglichen Energieverbrauchs aus. Männer haben tendenziell einen höheren GU als Frauen, bei Kälte steigt der GU.",
+                    en: "For most people, the basal metabolic rate accounts for the largest portion (approx. 60-75%) of the total daily energy expenditure. Men tend to have a higher BMR than women, and BMR increases in the cold."
+                }
+            },
+            {
+                topic: "Ernährung",
+                subtopic: "Energiebedarf",
+                type: "true-false",
+                questionText: "Der Leistungsumsatz hängt nur von der Dauer der Aktivität ab, nicht von der Intensität.",
+                correctAnswer: "false",
+                explanation: {
+                    de: "Falsch. Der Leistungsumsatz hängt sowohl von der Dauer als auch von der Intensität der körperlichen Aktivität ab. Eine intensive Aktivität verbraucht pro Zeiteinheit mehr Energie.",
+                    en: "False. The performance metabolic rate depends on both the duration and the intensity of the physical activity. Intense activity consumes more energy per unit of time."
+                }
+            },
+            {
+                topic: "Ernährung",
+                subtopic: "Energiebedarf",
+                type: "multiple-choice",
+                questionText: "Ein PAL-Wert von 1.2 - 1.4 entspricht typischerweise welcher Aktivität?",
+                options: ["Schwerer körperlicher Arbeit", "Ausschließlich liegender oder sitzender Lebensweise", "Leistungssport", "Leichter Büroarbeit mit gelegentlichem Gehen"],
+                correctAnswer: "Ausschließlich liegender oder sitzender Lebensweise",
+                explanation: {
+                    de: "Ein PAL-Wert von 1.2-1.4 beschreibt eine sehr geringe körperliche Aktivität, wie sie bei bettlägerigen oder dauerhaft sitzenden Personen vorkommt. Büroarbeit liegt eher bei 1.4-1.6.",
+                    en: "A PAL value of 1.2-1.4 describes very low physical activity, such as that found in bedridden or permanently sedentary individuals. Office work is more likely around 1.4-1.6."
+                }
+            },
+            {
+                topic: "Ernährung",
+                subtopic: "Energiebedarf",
+                type: "fill-in-the-blank",
+                questionText: "Wenn die Energiezufuhr geringer ist als der Gesamtenergiebedarf, spricht man von einer ______ Energiebilanz.",
+                correctAnswer: "negativen",
+                explanation: {
+                    de: "Eine negative Energiebilanz bedeutet, dass der Körper mehr Energie verbraucht, als er durch Nahrung aufnimmt. Dies führt zum Abbau von Körpersubstanz (Fett, Muskeln) und zur Gewichtsabnahme.",
+                    en: "A negative energy balance means that the body consumes more energy than it takes in through food. This leads to the breakdown of body substance (fat, muscle) and weight loss."
+                }
+            },
+            {
+                topic: "Ernährung",
+                subtopic: "Energiebedarf",
+                type: "multiple-choice",
+                questionText: "Welche Hormone können den Grundumsatz beeinflussen?",
+                options: ["Insulin", "Schilddrüsenhormone", "Adrenalin", "Alle genannten"],
+                correctAnswer: "Alle genannten",
+                explanation: {
+                    de: "Schilddrüsenhormone (wie Thyroxin) steigern den Grundumsatz maßgeblich. Adrenalin kann ihn kurzfristig erhöhen. Insulin beeinflusst den Stoffwechsel indirekt.",
+                    en: "Thyroid hormones (like thyroxine) significantly increase basal metabolic rate. Adrenaline can increase it short-term. Insulin influences metabolism indirectly."
+                }
+            },
+            {
+                topic: "Ernährung",
+                subtopic: "Energiebedarf",
+                type: "true-false",
+                questionText: "Geistige Arbeit erhöht den Leistungsumsatz nicht.",
+                correctAnswer: "false",
+                explanation: {
+                    de: "Falsch. Auch intensive geistige Arbeit erfordert zusätzliche Energie für das Gehirn und kann den Leistungsumsatz leicht erhöhen, wenn auch nicht so stark wie körperliche Arbeit.",
+                    en: "False. Intense mental work also requires additional energy for the brain and can slightly increase the performance metabolic rate, although not as much as physical work."
+                }
+            },
+            {
+                topic: "Ernährung",
+                subtopic: "Energiebedarf",
+                type: "fill-in-the-blank",
+                questionText: "Der Grundumsatz wird typischerweise in ______ pro Tag gemessen.",
+                correctAnswer: ["kcal", "kilokalorien", "kj", "kilojoule"], // Accept units
+                explanation: {
+                    de: "Der Grundumsatz gibt den Energieverbrauch über 24 Stunden an und wird meist in Kilokalorien (kcal) oder Kilojoule (kJ) pro Tag angegeben.",
+                    en: "The basal metabolic rate indicates the energy consumption over 24 hours and is usually stated in kilocalories (kcal) or kilojoules (kJ) per day."
+                }
+            },
+            // Subtopic 4: Aufbau des Verdauungssystems benennen und erklären
+            {
+                topic: "Verdauung",
+                subtopic: "Aufbau des Verdauungssystems",
+                type: "multiple-choice",
+                questionText: "Wo beginnt die Verdauung von Kohlenhydraten?",
+                options: ["Magen", "Dünndarm", "Mundhöhle", "Dickdarm"],
+                correctAnswer: "Mundhöhle",
+                explanation: {
+                    de: "Die Verdauung von Kohlenhydraten beginnt bereits in der Mundhöhle durch das Enzym Amylase im Speichel, das Stärke spaltet.",
+                    en: "The digestion of carbohydrates begins in the oral cavity through the enzyme amylase in saliva, which breaks down starch."
+                }
+            },
+            {
+                topic: "Verdauung",
+                subtopic: "Aufbau des Verdauungssystems",
+                type: "fill-in-the-blank",
+                questionText: "Die muskulöse Röhre, die die Nahrung vom Rachen zum Magen transportiert, heißt ______.",
+                correctAnswer: "speiseröhre",
+                explanation: {
+                    de: "Die Speiseröhre (Ösophagus) ist ein Muskelschlauch, der durch peristaltische Wellen die Nahrung aktiv vom Rachen in den Magen befördert.",
+                    en: "The esophagus is a muscular tube that actively transports food from the pharynx to the stomach through peristaltic waves."
+                }
+            },
+            {
+                topic: "Verdauung",
+                subtopic: "Aufbau des Verdauungssystems",
+                type: "true-false",
+                questionText: "Im Magen findet hauptsächlich die Fettverdauung statt.",
+                correctAnswer: "false",
+                explanation: {
+                    de: "Falsch. Im Magen beginnt hauptsächlich die Proteinverdauung durch das Enzym Pepsin und die Salzsäure. Die Fettverdauung findet primär im Dünndarm statt.",
+                    en: "False. Protein digestion primarily begins in the stomach through the enzyme pepsin and hydrochloric acid. Fat digestion mainly occurs in the small intestine."
+                }
+            },
+            {
+                topic: "Verdauung",
+                subtopic: "Aufbau des Verdauungssystems",
+                type: "multiple-choice",
+                questionText: "Welches Organ produziert Galle, die bei der Fettverdauung hilft?",
+                options: ["Bauchspeicheldrüse", "Magen", "Leber", "Dünndarm"],
+                correctAnswer: "Leber",
+                explanation: {
+                    de: "Die Leber produziert Gallensaft, der in der Gallenblase gespeichert und bei Bedarf in den Dünndarm abgegeben wird, um Fette zu emulgieren (in kleine Tröpfchen zu zerlegen).",
+                    en: "The liver produces bile, which is stored in the gallbladder and released into the small intestine as needed to emulsify fats (break them down into small droplets)."
+                }
+            },
+            {
+                topic: "Verdauung",
+                subtopic: "Aufbau des Verdauungssystems",
+                type: "fill-in-the-blank",
+                questionText: "Der größte Teil der Nährstoffaufnahme (Resorption) findet im ______ statt.",
+                correctAnswer: "dünndarm",
+                explanation: {
+                    de: "Der Dünndarm ist der Hauptort der chemischen Verdauung und der Resorption der Nährstoffe (Zucker, Aminosäuren, Fettsäuren, Vitamine, Mineralstoffe) ins Blut.",
+                    en: "The small intestine is the main site of chemical digestion and absorption of nutrients (sugars, amino acids, fatty acids, vitamins, minerals) into the blood."
+                }
+            },
+            {
+                topic: "Verdauung",
+                subtopic: "Aufbau des Verdauungssystems",
+                type: "multiple-choice",
+                questionText: "Welche Funktion hat der Dickdarm hauptsächlich?",
+                options: ["Verdauung von Proteinen", "Produktion von Verdauungsenzymen", "Resorption von Wasser und Elektrolyten", "Aufnahme von Fetten"],
+                correctAnswer: "Resorption von Wasser und Elektrolyten",
+                explanation: {
+                    de: "Im Dickdarm wird dem unverdaulichen Nahrungsbrei hauptsächlich Wasser und Salze (Elektrolyte) entzogen, wodurch der Stuhl eingedickt wird. Hier leben auch viele Bakterien.",
+                    en: "In the large intestine, mainly water and salts (electrolytes) are absorbed from the indigestible food pulp, which thickens the stool. Many bacteria also live here."
+                }
+            },
+            {
+                topic: "Verdauung",
+                subtopic: "Aufbau des Verdauungssystems",
+                type: "true-false",
+                questionText: "Die Bauchspeicheldrüse gibt ihre Verdauungsenzyme direkt in den Magen ab.",
+                correctAnswer: "false",
+                explanation: {
+                    de: "Falsch. Die Bauchspeicheldrüse (Pankreas) gibt ihre Verdauungsenzyme (z.B. Amylase, Lipase, Trypsin) sowie Bicarbonat in den Zwölffingerdarm (den ersten Abschnitt des Dünndarms) ab.",
+                    en: "False. The pancreas releases its digestive enzymes (e.g., amylase, lipase, trypsin) and bicarbonate into the duodenum (the first part of the small intestine)."
+                }
+            },
+            {
+                topic: "Verdauung",
+                subtopic: "Aufbau des Verdauungssystems",
+                type: "multiple-choice",
+                questionText: "Ordne die Abschnitte des Verdauungstraktes in der richtigen Reihenfolge an: 1. Magen, 2. Mundhöhle, 3. Dünndarm, 4. Speiseröhre, 5. Dickdarm",
+                options: ["2, 4, 1, 3, 5", "2, 1, 4, 3, 5", "1, 2, 4, 3, 5", "2, 4, 3, 1, 5"],
+                correctAnswer: "2, 4, 1, 3, 5",
+                explanation: {
+                    de: "Die Nahrung gelangt von der Mundhöhle (2) über die Speiseröhre (4) in den Magen (1), dann in den Dünndarm (3) und schließlich in den Dickdarm (5).",
+                    en: "Food passes from the oral cavity (2) through the esophagus (4) to the stomach (1), then to the small intestine (3), and finally to the large intestine (5)."
+                }
+            },
+            {
+                topic: "Verdauung",
+                subtopic: "Aufbau des Verdauungssystems",
+                type: "fill-in-the-blank",
+                questionText: "Die innere Oberfläche des Dünndarms ist durch Falten, Zotten und Mikrovilli stark vergrößert, um die ______ zu maximieren.",
+                correctAnswer: ["resorption", "nährstoffaufnahme", "oberfläche"], // Accept variations
+                explanation: {
+                    de: "Die enorme Oberflächenvergrößerung durch Falten, Zotten und Mikrovilli im Dünndarm ist entscheidend für eine effiziente Aufnahme (Resorption) der verdauten Nährstoffe.",
+                    en: "The enormous surface area increase due to folds, villi, and microvilli in the small intestine is crucial for efficient absorption of digested nutrients."
+                }
+            },
+            {
+                topic: "Verdauung",
+                subtopic: "Aufbau des Verdauungssystems",
+                type: "multiple-choice",
+                questionText: "Welche Aufgabe hat die Salzsäure im Magen?",
+                options: ["Fette emulgieren", "Kohlenhydrate spalten", "Bakterien abtöten und Pepsin aktivieren", "Vitamine produzieren"],
+                correctAnswer: "Bakterien abtöten und Pepsin aktivieren",
+                explanation: {
+                    de: "Die Salzsäure im Magensaft schafft ein sehr saures Milieu (pH 1-2), das mit der Nahrung aufgenommene Bakterien abtötet und das Verdauungsenzym Pepsinogen in seine aktive Form Pepsin umwandelt.",
+                    en: "The hydrochloric acid in gastric juice creates a very acidic environment (pH 1-2) that kills bacteria ingested with food and converts the digestive enzyme pepsinogen into its active form, pepsin."
+                }
+            },
+             {
+                topic: "Verdauung",
+                subtopic: "Aufbau des Verdauungssystems",
+                type: "true-false",
+                questionText: "Die Leber ist nur für die Produktion von Galle zuständig.",
+                correctAnswer: "false",
+                explanation: {
+                    de: "Falsch. Die Leber hat sehr viele lebenswichtige Funktionen, darunter die Entgiftung des Blutes, die Speicherung von Nährstoffen (z.B. Glykogen), die Produktion von Proteinen und die Regulation des Stoffwechsels, zusätzlich zur Gallenproduktion.",
+                    en: "False. The liver has many vital functions, including detoxifying the blood, storing nutrients (e.g., glycogen), producing proteins, and regulating metabolism, in addition to producing bile."
+                }
+            },
+            {
+                topic: "Verdauung",
+                subtopic: "Aufbau des Verdauungssystems",
+                type: "multiple-choice",
+                questionText: "Wie heißt der erste Abschnitt des Dünndarms, in den die Gänge von Bauchspeicheldrüse und Gallenblase münden?",
+                options: ["Jejunum (Leerdarm)", "Ileum (Krummdarm)", "Colon (Grimmdarm)", "Duodenum (Zwölffingerdarm)"],
+                correctAnswer: "Duodenum (Zwölffingerdarm)",
+                explanation: {
+                    de: "Der Zwölffingerdarm (Duodenum) ist der erste, ca. 25-30 cm lange Abschnitt des Dünndarms, direkt nach dem Magen. Hier münden die Ausführungsgänge der Bauchspeicheldrüse und der Gallenblase.",
+                    en: "The duodenum is the first, approx. 25-30 cm long section of the small intestine, directly after the stomach. The ducts from the pancreas and gallbladder open into it here."
+                }
+            },
+            {
+                topic: "Verdauung",
+                subtopic: "Aufbau des Verdauungssystems",
+                type: "fill-in-the-blank",
+                questionText: "Der Blinddarm mit seinem Anhängsel, dem Wurmfortsatz (Appendix), ist Teil des ______.",
+                correctAnswer: "dickdarms",
+                explanation: {
+                    de: "Der Blinddarm (Caecum) ist der erste, sackartige Abschnitt des Dickdarms, an dem der Dünndarm einmündet. Der Wurmfortsatz (Appendix vermiformis) ist ein kleines Anhängsel des Blinddarms.",
+                    en: "The cecum is the first, pouch-like section of the large intestine where the small intestine joins. The appendix (vermiform appendix) is a small appendage of the cecum."
+                }
+            },
+            {
+                topic: "Verdauung",
+                subtopic: "Aufbau des Verdauungssystems",
+                type: "multiple-choice",
+                questionText: "Was ist Peristaltik im Zusammenhang mit der Verdauung?",
+                options: ["Die chemische Spaltung von Nährstoffen", "Die Aufnahme von Nährstoffen ins Blut", "Wellenartige Muskelkontraktionen zum Transport des Nahrungsbreis", "Die Produktion von Magensäure"],
+                correctAnswer: "Wellenartige Muskelkontraktionen zum Transport des Nahrungsbreis",
+                explanation: {
+                    de: "Peristaltik bezeichnet die wellenförmigen Kontraktionen der Längs- und Ringmuskulatur in der Wand von Hohlorganen wie Speiseröhre, Magen und Darm, die den Inhalt vorwärts bewegen.",
+                    en: "Peristalsis refers to the wave-like contractions of the longitudinal and circular muscles in the walls of hollow organs such as the esophagus, stomach, and intestines, which move the contents forward."
+                }
+            },
+            {
+                topic: "Verdauung",
+                subtopic: "Aufbau des Verdauungssystems",
+                type: "true-false",
+                questionText: "Der Magenpförtner (Pylorus) kontrolliert den Übergang vom Dünndarm in den Dickdarm.",
+                correctAnswer: "false",
+                explanation: {
+                    de: "Falsch. Der Magenpförtner (Pylorus) ist ein Schließmuskel, der den Übergang vom Magen in den Zwölffingerdarm (erster Teil des Dünndarms) reguliert.",
+                    en: "False. The pyloric sphincter (pylorus) is a sphincter muscle that regulates the passage from the stomach into the duodenum (first part of the small intestine)."
+                }
+            },
+            {
+                topic: "Verdauung",
+                subtopic: "Aufbau des Verdauungssystems",
+                type: "multiple-choice",
+                questionText: "Welches Organ gehört NICHT direkt zum Verdauungstrakt, unterstützt aber die Verdauung maßgeblich?",
+                options: ["Magen", "Dünndarm", "Bauchspeicheldrüse", "Speiseröhre"],
+                correctAnswer: "Bauchspeicheldrüse",
+                explanation: {
+                    de: "Die Bauchspeicheldrüse (Pankreas) gehört wie Leber und Gallenblase zu den Verdauungsdrüsen. Sie liegt außerhalb des eigentlichen Verdauungstraktes, gibt aber wichtige Enzyme und Bicarbonat in den Dünndarm ab.",
+                    en: "The pancreas, like the liver and gallbladder, is one of the digestive glands. It lies outside the actual digestive tract but releases important enzymes and bicarbonate into the small intestine."
+                }
+            },
+            {
+                topic: "Verdauung",
+                subtopic: "Aufbau des Verdauungssystems",
+                type: "fill-in-the-blank",
+                questionText: "Die Aufnahme der Nährstoffe aus dem Dünndarm ins Blut und in die Lymphe nennt man ______.",
+                correctAnswer: "resorption",
+                explanation: {
+                    de: "Resorption ist der Prozess, bei dem die Endprodukte der Verdauung (z.B. Glucose, Aminosäuren, Fettsäuren) durch die Darmwand in die Blut- und Lymphgefäße aufgenommen werden.",
+                    en: "Absorption is the process by which the end products of digestion (e.g., glucose, amino acids, fatty acids) are taken up through the intestinal wall into the blood and lymph vessels."
+                }
+            },
+            {
+                topic: "Verdauung",
+                subtopic: "Aufbau des Verdauungssystems",
+                type: "multiple-choice",
+                questionText: "Welche Struktur verschließt beim Schlucken den Eingang zur Luftröhre?",
+                options: ["Gaumensegel", "Zunge", "Kehldeckel", "Magenpförtner"],
+                correctAnswer: "Kehldeckel",
+                explanation: {
+                    de: "Der Kehldeckel (Epiglottis) ist ein Knorpel im Rachenraum, der sich beim Schlucken über den Eingang der Luftröhre legt und verhindert, dass Nahrung oder Flüssigkeit hineingelangt.",
+                    en: "The epiglottis is a cartilage in the pharynx that covers the entrance to the trachea (windpipe) during swallowing, preventing food or liquid from entering it."
+                }
+            },
+            {
+                topic: "Verdauung",
+                subtopic: "Aufbau des Verdauungssystems",
+                type: "true-false",
+                questionText: "Der gesamte Dünndarm ist nur etwa 1 Meter lang.",
+                correctAnswer: "false",
+                explanation: {
+                    de: "Falsch. Der Dünndarm ist beim erwachsenen Menschen etwa 5-7 Meter lang und damit der längste Abschnitt des Verdauungstraktes.",
+                    en: "False. The small intestine in adult humans is about 5-7 meters long, making it the longest section of the digestive tract."
+                }
+            },
+            {
+                topic: "Verdauung",
+                subtopic: "Aufbau des Verdauungssystems",
+                type: "fill-in-the-blank",
+                questionText: "Der letzte Abschnitt des Dickdarms, der zur Ausscheidung des Stuhls führt, heißt ______.",
+                correctAnswer: ["mastdarm", "rektum"],
+                explanation: {
+                    de: "Der Mastdarm (Rektum) ist der letzte Teil des Dickdarms. Er dient der Zwischenspeicherung des Stuhls vor der Entleerung (Defäkation) über den Anus.",
+                    en: "The rectum is the final section of the large intestine. It serves for the temporary storage of feces before elimination (defecation) through the anus."
+                }
+            },
+            // Subtopic 5: den Bau des Dünndarms erläutern
+            {
+                topic: "Verdauung",
+                subtopic: "Bau des Dünndarms",
+                type: "multiple-choice",
+                questionText: "Welche drei Abschnitte bilden den Dünndarm?",
+                options: ["Magen, Leerdarm, Krummdarm", "Zwölffingerdarm, Leerdarm, Krummdarm", "Blinddarm, Grimmdarm, Mastdarm", "Speiseröhre, Magen, Zwölffingerdarm"],
+                correctAnswer: "Zwölffingerdarm, Leerdarm, Krummdarm",
+                explanation: {
+                    de: "Der Dünndarm gliedert sich in drei Abschnitte: den Zwölffingerdarm (Duodenum), den Leerdarm (Jejunum) und den Krummdarm (Ileum).",
+                    en: "The small intestine is divided into three sections: the duodenum, the jejunum, and the ileum."
+                }
+            },
+            {
+                topic: "Verdauung",
+                subtopic: "Bau des Dünndarms",
+                type: "fill-in-the-blank",
+                questionText: "Die fingerförmigen Ausstülpungen der Dünndarmschleimhaut, die die Oberfläche vergrößern, heißen ______.",
+                correctAnswer: ["zotten", "darmzotten"],
+                explanation: {
+                    de: "Darmzotten (Villi intestinales) sind fingerförmige Erhebungen der Schleimhaut im Dünndarm, die der Oberflächenvergrößerung und damit der verbesserten Nährstoffresorption dienen.",
+                    en: "Intestinal villi are finger-like projections of the mucous membrane in the small intestine that serve to increase the surface area and thus improve nutrient absorption."
+                }
+            },
+            {
+                topic: "Verdauung",
+                subtopic: "Bau des Dünndarms",
+                type: "true-false",
+                questionText: "Die Wand des Dünndarms besteht nur aus einer einzigen Zellschicht.",
+                correctAnswer: "false",
+                explanation: {
+                    de: "Falsch. Die Dünndarmwand ist mehrschichtig aufgebaut und besteht u.a. aus Schleimhaut (Mukosa mit Epithel), Bindegewebe (Submukosa), Muskelschichten (Ring- und Längsmuskulatur) und einer äußeren Schicht (Serosa).",
+                    en: "False. The small intestinal wall is multi-layered and consists of, among others, the mucosa (with epithelium), submucosa (connective tissue), muscle layers (circular and longitudinal), and an outer layer (serosa)."
+                }
+            },
+            {
+                topic: "Verdauung",
+                subtopic: "Bau des Dünndarms",
+                type: "multiple-choice",
+                questionText: "Was sind Mikrovilli?",
+                options: ["Große Falten der Darmwand", "Kleine Blutgefäße in den Zotten", "Winzige, bürstenartige Fortsätze auf den Darmepithelzellen", "Drüsen, die Enzyme produzieren"],
+                correctAnswer: "Winzige, bürstenartige Fortsätze auf den Darmepithelzellen",
+                explanation: {
+                    de: "Mikrovilli sind mikroskopisch kleine, fingerförmige Ausstülpungen der Zellmembran der Epithelzellen (Enterozyten) im Dünndarm. Sie bilden den sogenannten Bürstensaum und vergrößern die Resorptionsfläche nochmals erheblich.",
+                    en: "Microvilli are microscopic, finger-like projections of the cell membrane of the epithelial cells (enterocytes) in the small intestine. They form the so-called brush border and further significantly increase the absorption surface area."
+                }
+            },
+            {
+                topic: "Verdauung",
+                subtopic: "Bau des Dünndarms",
+                type: "fill-in-the-blank",
+                questionText: "Die großen, ringförmigen Falten der Dünndarmwand, die mit bloßem Auge sichtbar sind, heißen ______-Falten oder Plicae circulares.",
+                correctAnswer: "kerckring",
+                explanation: {
+                    de: "Die Kerckring-Falten (Plicae circulares) sind hohe, quer verlaufende Falten der gesamten Dünndarmwand (Mukosa und Submukosa), die die Oberfläche um etwa das Dreifache vergrößern.",
+                    en: "The Kerckring folds (plicae circulares) are tall, transverse folds of the entire small intestinal wall (mucosa and submucosa) that increase the surface area by about threefold."
+                }
+            },
+            {
+                topic: "Verdauung",
+                subtopic: "Bau des Dünndarms",
+                type: "multiple-choice",
+                questionText: "Welche Strukturen befinden sich im Inneren einer Darmzotte?",
+                options: ["Nur Nervenzellen", "Ein zentrales Lymphgefäß (Chylusgefäß) und Blutkapillaren", "Nur Muskelzellen", "Nur Drüsenzellen"],
+                correctAnswer: "Ein zentrales Lymphgefäß (Chylusgefäß) und Blutkapillaren",
+                explanation: {
+                    de: "Jede Darmzotte enthält ein Netzwerk aus Blutkapillaren (zur Aufnahme von Zuckern, Aminosäuren, etc.) und ein zentrales Lymphgefäß (Chylusgefäß, zur Aufnahme von Fetten).",
+                    en: "Each intestinal villus contains a network of blood capillaries (for the absorption of sugars, amino acids, etc.) and a central lymphatic vessel (lacteal, for the absorption of fats)."
+                }
+            },
+            {
+                topic: "Verdauung",
+                subtopic: "Bau des Dünndarms",
+                type: "true-false",
+                questionText: "Die Hauptaufgabe des Krummdarms (Ileum) ist die Neutralisierung der Magensäure.",
+                correctAnswer: "false",
+                explanation: {
+                    de: "Falsch. Die Neutralisierung der Magensäure geschieht hauptsächlich im Zwölffingerdarm durch Bicarbonat aus der Bauchspeicheldrüse. Im Ileum findet vor allem die Resorption von Vitamin B12 und Gallensäuren statt.",
+                    en: "False. Neutralization of stomach acid occurs mainly in the duodenum via bicarbonate from the pancreas. The ileum is primarily responsible for the absorption of vitamin B12 and bile acids."
+                }
+            },
+            {
+                topic: "Verdauung",
+                subtopic: "Bau des Dünndarms",
+                type: "multiple-choice",
+                questionText: "Welche Zellart ist für die Resorption der Nährstoffe im Dünndarm hauptsächlich verantwortlich?",
+                options: ["Becherzellen", "Muskelzellen", "Enterozyten (Saumzellen)", "Nervenzellen"],
+                correctAnswer: "Enterozyten (Saumzellen)",
+                explanation: {
+                    de: "Enterozyten sind die spezialisierten Epithelzellen, die die Oberfläche der Zotten und Krypten im Dünndarm auskleiden. Sie besitzen Mikrovilli und sind für die Aufnahme der Nährstoffe zuständig.",
+                    en: "Enterocytes are the specialized epithelial cells lining the surface of the villi and crypts in the small intestine. They possess microvilli and are responsible for nutrient absorption."
+                }
+            },
+            {
+                topic: "Verdauung",
+                subtopic: "Bau des Dünndarms",
+                type: "fill-in-the-blank",
+                questionText: "Zwischen den Zotten liegen kleine Vertiefungen, die Lieberkühn-______ genannt werden und u.a. Darmsaft produzieren.",
+                correctAnswer: "krypten",
+                explanation: {
+                    de: "Die Lieberkühn-Krypten sind schlauchförmige Drüsen, die sich zwischen den Darmzotten in die Tiefe der Schleimhaut einstülpen. Sie produzieren Darmsaft und enthalten Stammzellen für die Erneuerung des Epithels.",
+                    en: "The crypts of Lieberkühn are tubular glands that invaginate into the depth of the mucosa between the intestinal villi. They produce intestinal juice and contain stem cells for epithelial renewal."
+                }
+            },
+            {
+                topic: "Verdauung",
+                subtopic: "Bau des Dünndarms",
+                type: "multiple-choice",
+                questionText: "Die Gesamtoberfläche des Dünndarms wird durch Falten, Zotten und Mikrovilli auf etwa welche Größe vergrößert?",
+                options: ["1 Quadratmeter", "10 Quadratmeter", "50 Quadratmeter", "200-250 Quadratmeter"],
+                correctAnswer: "200-250 Quadratmeter",
+                explanation: {
+                    de: "Durch die Kombination von Kerckring-Falten, Zotten und Mikrovilli erreicht die innere Oberfläche des Dünndarms eine enorme Größe von etwa 200-250 Quadratmetern, was ungefähr der Fläche eines Tennisplatzes entspricht.",
+                    en: "Through the combination of Kerckring folds, villi, and microvilli, the inner surface area of the small intestine reaches an enormous size of about 200-250 square meters, roughly equivalent to the area of a tennis court."
+                }
+            },
+             {
+                topic: "Verdauung",
+                subtopic: "Bau des Dünndarms",
+                type: "true-false",
+                questionText: "Im Dünndarm gibt es keine Muskelschichten, der Transport erfolgt passiv.",
+                correctAnswer: "false",
+                explanation: {
+                    de: "Falsch. Die Dünndarmwand enthält eine Ring- und eine Längsmuskelschicht, die für die Peristaltik (Transport) und Segmentationsbewegungen (Durchmischung) verantwortlich sind.",
+                    en: "False. The small intestinal wall contains a circular and a longitudinal muscle layer responsible for peristalsis (transport) and segmentation movements (mixing)."
+                }
+            },
+            {
+                topic: "Verdauung",
+                subtopic: "Bau des Dünndarms",
+                type: "multiple-choice",
+                questionText: "Welcher Abschnitt des Dünndarms ist der längste?",
+                options: ["Zwölffingerdarm (Duodenum)", "Leerdarm (Jejunum)", "Krummdarm (Ileum)", "Alle sind etwa gleich lang"],
+                correctAnswer: "Krummdarm (Ileum)",
+                explanation: {
+                    de: "Der Krummdarm (Ileum) ist mit etwa 3-4 Metern der längste Abschnitt des Dünndarms, gefolgt vom Leerdarm (Jejunum) mit ca. 2-3 Metern. Der Zwölffingerdarm ist der kürzeste Abschnitt.",
+                    en: "The ileum, at about 3-4 meters, is the longest section of the small intestine, followed by the jejunum at approx. 2-3 meters. The duodenum is the shortest section."
+                }
+            },
+            {
+                topic: "Verdauung",
+                subtopic: "Bau des Dünndarms",
+                type: "fill-in-the-blank",
+                questionText: "Die Zellen, die Schleim produzieren, um die Darmwand zu schützen, heißen ______.",
+                correctAnswer: "becherzellen",
+                explanation: {
+                    de: "Becherzellen sind spezialisierte Epithelzellen im Dünn- und Dickdarm, die Muzine (Schleimstoffe) produzieren und absondern. Der Schleim schützt die Darmoberfläche.",
+                    en: "Goblet cells are specialized epithelial cells in the small and large intestines that produce and secrete mucins (mucus substances). The mucus protects the intestinal surface."
+                }
+            },
+            {
+                topic: "Verdauung",
+                subtopic: "Bau des Dünndarms",
+                type: "multiple-choice",
+                questionText: "Was ist der 'Bürstensaum'?",
+                options: ["Die Gesamtheit der Darmzotten", "Die Muskelschicht des Darms", "Die Gesamtheit der Mikrovilli auf den Enterozyten", "Die Schleimschicht auf der Darmwand"],
+                correctAnswer: "Die Gesamtheit der Mikrovilli auf den Enterozyten",
+                explanation: {
+                    de: "Der Bürstensaum ist die Bezeichnung für die dicht gepackte Anordnung der Mikrovilli auf der Oberfläche der resorbierenden Epithelzellen (Enterozyten) des Dünndarms.",
+                    en: "The brush border is the term for the densely packed arrangement of microvilli on the surface of the absorptive epithelial cells (enterocytes) of the small intestine."
+                }
+            },
+            {
+                topic: "Verdauung",
+                subtopic: "Bau des Dünndarms",
+                type: "true-false",
+                questionText: "Die Blutgefäße aus dem Dünndarm führen das nährstoffreiche Blut direkt zum Herzen.",
+                correctAnswer: "false",
+                explanation: {
+                    de: "Falsch. Das venöse Blut aus dem Dünndarm (und Magen, Milz, Pankreas) wird zunächst über die Pfortader (Vena portae) zur Leber geleitet. Dort werden Nährstoffe verarbeitet und gespeichert, bevor das Blut zum Herzen gelangt.",
+                    en: "False. The venous blood from the small intestine (and stomach, spleen, pancreas) is first directed to the liver via the portal vein (vena portae). There, nutrients are processed and stored before the blood reaches the heart."
+                }
+            },
+            {
+                topic: "Verdauung",
+                subtopic: "Bau des Dünndarms",
+                type: "multiple-choice",
+                questionText: "Welche Struktur markiert den Übergang vom Dünndarm zum Dickdarm?",
+                options: ["Magenpförtner (Pylorus)", "Speiseröhrenschließmuskel", "Ileozäkalklappe (Bauhin-Klappe)", "Analsphinkter"],
+                correctAnswer: "Ileozäkalklappe (Bauhin-Klappe)",
+                explanation: {
+                    de: "Die Ileozäkalklappe (Bauhin-Klappe) ist eine Klappe am Übergang vom Krummdarm (Ileum), dem letzten Abschnitt des Dünndarms, in den Blinddarm (erster Abschnitt des Dickdarms). Sie verhindert den Rückfluss von Darminhalt.",
+                    en: "The ileocecal valve (Bauhin's valve) is a valve at the junction of the ileum, the last section of the small intestine, and the cecum (first section of the large intestine). It prevents the backflow of intestinal contents."
+                }
+            },
+            {
+                topic: "Verdauung",
+                subtopic: "Bau des Dünndarms",
+                type: "fill-in-the-blank",
+                questionText: "Die Schicht unterhalb der Schleimhaut (Mukosa), die Blutgefäße, Lymphgefäße und Nerven enthält, heißt ______.",
+                correctAnswer: "submukosa",
+                explanation: {
+                    de: "Die Submukosa ist eine Bindegewebsschicht unter der Mukosa (Schleimhaut) der Darmwand. Sie enthält größere Blut- und Lymphgefäße sowie ein Nervengeflecht (Plexus submucosus).",
+                    en: "The submucosa is a layer of connective tissue beneath the mucosa (mucous membrane) of the intestinal wall. It contains larger blood and lymphatic vessels as well as a nerve plexus (submucosal plexus)."
+                }
+            },
+            {
+                topic: "Verdauung",
+                subtopic: "Bau des Dünndarms",
+                type: "multiple-choice",
+                questionText: "Die wellenartigen Kontraktionen, die den Darminhalt durchmischen, aber nicht unbedingt vorwärts transportieren, nennt man...",
+                options: ["Peristaltik", "Segmentationsbewegungen", "Resorption", "Sekretion"],
+                correctAnswer: "Segmentationsbewegungen",
+                explanation: {
+                    de: "Segmentationsbewegungen sind lokale Kontraktionen der Ringmuskulatur im Dünndarm, die den Nahrungsbrei hin und her bewegen und intensiv mit den Verdauungssäften durchmischen.",
+                    en: "Segmentation movements are local contractions of the circular muscles in the small intestine that move the chyme back and forth, mixing it thoroughly with digestive juices."
+                }
+            },
+            {
+                topic: "Verdauung",
+                subtopic: "Bau des Dünndarms",
+                type: "true-false",
+                questionText: "Die Dünndarmzotten sind nur im Zwölffingerdarm vorhanden.",
+                correctAnswer: "false",
+                explanation: {
+                    de: "Falsch. Darmzotten sind charakteristisch für den gesamten Dünndarm (Duodenum, Jejunum, Ileum), obwohl ihre Form und Höhe entlang des Dünndarms variieren kann.",
+                    en: "False. Intestinal villi are characteristic of the entire small intestine (duodenum, jejunum, ileum), although their shape and height may vary along its length."
+                }
+            },
+            {
+                topic: "Verdauung",
+                subtopic: "Bau des Dünndarms",
+                type: "fill-in-the-blank",
+                questionText: "Das zentrale Lymphgefäß in einer Darmzotte, das für die Aufnahme von Fetten zuständig ist, heißt ______.",
+                correctAnswer: ["chylusgefäß", "lacteal"],
+                explanation: {
+                    de: "Das Chylusgefäß (oder Lacteal) ist ein blind endendes Lymphkapillargefäß im Zentrum jeder Dünndarmzotte. Es nimmt die meisten verdauten Fette auf, die dann als Chylus über das Lymphsystem abtransportiert werden.",
+                    en: "The lacteal is a blind-ended lymphatic capillary vessel in the center of each small intestinal villus. It absorbs most digested fats, which are then transported away as chyle via the lymphatic system."
+                }
+            },
+            // Subtopic 6: Wirkungsweise von Verdauungsenzymen beschreiben
+            {
+                topic: "Verdauung",
+                subtopic: "Wirkungsweise von Verdauungsenzymen",
+                type: "multiple-choice",
+                questionText: "Welches Enzym im Speichel beginnt die Verdauung von Stärke?",
+                options: ["Pepsin", "Lipase", "Amylase", "Trypsin"],
+                correctAnswer: "Amylase",
+                explanation: {
+                    de: "Die Speichel-Amylase (auch Ptyalin genannt) beginnt bereits im Mund mit der Spaltung von Stärke (einem Polysaccharid) in kleinere Zucker (Oligosaccharide).",
+                    en: "Salivary amylase (also called ptyalin) begins the breakdown of starch (a polysaccharide) into smaller sugars (oligosaccharides) in the mouth."
+                }
+            },
+            {
+                topic: "Verdauung",
+                subtopic: "Wirkungsweise von Verdauungsenzymen",
+                type: "fill-in-the-blank",
+                questionText: "Das Enzym Pepsin im Magen spaltet hauptsächlich ______.",
+                correctAnswer: ["proteine", "eiweiße"],
+                explanation: {
+                    de: "Pepsin ist das Hauptenzym im Magensaft. Es wird durch Salzsäure aktiviert und beginnt die Verdauung von Proteinen (Eiweißen), indem es sie in kleinere Polypeptide zerlegt.",
+                    en: "Pepsin is the main enzyme in gastric juice. It is activated by hydrochloric acid and begins the digestion of proteins by breaking them down into smaller polypeptides."
+                }
+            },
+            {
+                topic: "Verdauung",
+                subtopic: "Wirkungsweise von Verdauungsenzymen",
+                type: "true-false",
+                questionText: "Lipasen sind Enzyme, die Kohlenhydrate spalten.",
+                correctAnswer: "false",
+                explanation: {
+                    de: "Falsch. Lipasen sind Enzyme, die Fette (Lipide) spalten. Sie zerlegen Triglyceride in Glycerin und Fettsäuren. Die wichtigste Lipase kommt aus der Bauchspeicheldrüse.",
+                    en: "False. Lipases are enzymes that break down fats (lipids). They break down triglycerides into glycerol and fatty acids. The most important lipase comes from the pancreas."
+                }
+            },
+            {
+                topic: "Verdauung",
+                subtopic: "Wirkungsweise von Verdauungsenzymen",
+                type: "multiple-choice",
+                questionText: "Welches Enzym aus der Bauchspeicheldrüse setzt die Stärkeverdauung im Dünndarm fort?",
+                options: ["Pepsin", "Pankreas-Amylase", "Lactase", "Trypsin"],
+                correctAnswer: "Pankreas-Amylase",
+                explanation: {
+                    de: "Die Pankreas-Amylase wird von der Bauchspeicheldrüse in den Dünndarm abgegeben und setzt dort die Spaltung von Stärke und anderen Kohlenhydraten fort.",
+                    en: "Pancreatic amylase is released from the pancreas into the small intestine and continues the breakdown of starch and other carbohydrates there."
+                }
+            },
+            {
+                topic: "Verdauung",
+                subtopic: "Wirkungsweise von Verdauungsenzymen",
+                type: "fill-in-the-blank",
+                questionText: "Trypsin und Chymotrypsin sind Enzyme aus der Bauchspeicheldrüse, die ______ spalten.",
+                correctAnswer: ["proteine", "eiweiße", "polypeptide"],
+                explanation: {
+                    de: "Trypsin und Chymotrypsin sind wichtige Proteasen (protein-spaltende Enzyme) aus dem Pankreas. Sie zerlegen Polypeptide im Dünndarm weiter in kleinere Peptide.",
+                    en: "Trypsin and chymotrypsin are important proteases (protein-splitting enzymes) from the pancreas. They further break down polypeptides into smaller peptides in the small intestine."
+                }
+            },
+            {
+                topic: "Verdauung",
+                subtopic: "Wirkungsweise von Verdauungsenzymen",
+                type: "multiple-choice",
+                questionText: "Welche Funktion hat die Galle bei der Fettverdauung?",
+                options: ["Sie spaltet Fette chemisch.", "Sie neutralisiert Magensäure.", "Sie emulgiert Fette (zerteilt sie in kleine Tröpfchen).", "Sie transportiert Fette ins Blut."],
+                correctAnswer: "Sie emulgiert Fette (zerteilt sie in kleine Tröpfchen).",
+                explanation: {
+                    de: "Gallensäuren emulgieren große Fettropfen im Dünndarm zu kleineren Tröpfchen. Dadurch wird die Angriffsfläche für die fettspaltenden Enzyme (Lipasen) stark vergrößert.",
+                    en: "Bile acids emulsify large fat globules in the small intestine into smaller droplets. This greatly increases the surface area for fat-splitting enzymes (lipases) to act upon."
+                }
+            },
+            {
+                topic: "Verdauung",
+                subtopic: "Wirkungsweise von Verdauungsenzymen",
+                type: "true-false",
+                questionText: "Enzyme sind sehr spezifisch, d.h. ein Enzym kann meist nur eine bestimmte Art von Molekül (Substrat) spalten.",
+                correctAnswer: "true",
+                explanation: {
+                    de: "Wahr. Enzyme besitzen ein aktives Zentrum, das räumlich genau zu ihrem spezifischen Substrat passt (Schlüssel-Schloss-Prinzip). Diese Substratspezifität ist ein wichtiges Merkmal von Enzymen.",
+                    en: "True. Enzymes have an active site that spatially fits their specific substrate precisely (lock-and-key principle). This substrate specificity is an important characteristic of enzymes."
+                }
+            },
+            {
+                topic: "Verdauung",
+                subtopic: "Wirkungsweise von Verdauungsenzymen",
+                type: "multiple-choice",
+                questionText: "Welches Enzym spaltet Saccharose (Haushaltszucker) in Glucose und Fructose?",
+                options: ["Amylase", "Lipase", "Saccharase", "Pepsin"],
+                correctAnswer: "Saccharase",
+                explanation: {
+                    de: "Saccharase ist ein Enzym im Bürstensaum des Dünndarms, das das Disaccharid Saccharose in seine Monosaccharid-Bausteine Glucose und Fructose spaltet.",
+                    en: "Sucrase is an enzyme in the brush border of the small intestine that splits the disaccharide sucrose into its monosaccharide components, glucose and fructose."
+                }
+            },
+            {
+                topic: "Verdauung",
+                subtopic: "Wirkungsweise von Verdauungsenzymen",
+                type: "fill-in-the-blank",
+                questionText: "Enzyme, die Peptide in einzelne Aminosäuren spalten, heißen ______.",
+                correctAnswer: "peptidasen",
+                explanation: {
+                    de: "Peptidasen sind Enzyme, die Peptidbindungen spalten. Sie vollenden die Proteinverdauung im Dünndarm, indem sie kleinere Peptide in einzelne Aminosäuren zerlegen, die dann resorbiert werden können.",
+                    en: "Peptidases are enzymes that break peptide bonds. They complete protein digestion in the small intestine by breaking down smaller peptides into individual amino acids, which can then be absorbed."
+                }
+            },
+            {
+                topic: "Verdauung",
+                subtopic: "Wirkungsweise von Verdauungsenzymen",
+                type: "multiple-choice",
+                questionText: "Wo wirkt das Enzym Lactase?",
+                options: ["Magen", "Mundhöhle", "Dickdarm", "Dünndarm (Bürstensaum)"],
+                correctAnswer: "Dünndarm (Bürstensaum)",
+                explanation: {
+                    de: "Lactase ist ein Enzym, das im Bürstensaum der Dünndarmepithelzellen sitzt und den Milchzucker (Lactose) in Glucose und Galactose spaltet.",
+                    en: "Lactase is an enzyme located in the brush border of the small intestinal epithelial cells that splits milk sugar (lactose) into glucose and galactose."
+                }
+            },
+             {
+                topic: "Verdauung",
+                subtopic: "Wirkungsweise von Verdauungsenzymen",
+                type: "true-false",
+                questionText: "Die Aktivität von Verdauungsenzymen ist unabhängig vom pH-Wert.",
+                correctAnswer: "false",
+                explanation: {
+                    de: "Falsch. Jedes Enzym hat ein spezifisches pH-Optimum, bei dem es am besten arbeitet. Pepsin im Magen benötigt z.B. einen sehr sauren pH-Wert, während Enzyme im Dünndarm einen neutralen bis leicht basischen pH-Wert bevorzugen.",
+                    en: "False. Each enzyme has a specific pH optimum at which it works best. For example, pepsin in the stomach requires a very acidic pH, while enzymes in the small intestine prefer a neutral to slightly alkaline pH."
+                }
+            },
+            {
+                topic: "Verdauung",
+                subtopic: "Wirkungsweise von Verdauungsenzymen",
+                type: "multiple-choice",
+                questionText: "Welches Nährstoff-Endprodukt wird hauptsächlich über die Lymphgefäße (Chylusgefäße) der Zotten aufgenommen?",
+                options: ["Glucose", "Aminosäuren", "Fettsäuren (langkettig) und Glycerin (als Triglyceride)", "Vitamine"],
+                correctAnswer: "Fettsäuren (langkettig) und Glycerin (als Triglyceride)",
+                explanation: {
+                    de: "Während Zucker und Aminosäuren direkt ins Blut gelangen, werden langkettige Fettsäuren und Glycerin in den Darmzellen wieder zu Triglyceriden zusammengebaut und gelangen dann, verpackt in Chylomikronen, in die Lymphgefäße (Chylusgefäße).",
+                    en: "While sugars and amino acids enter the blood directly, long-chain fatty acids and glycerol are reassembled into triglycerides within the intestinal cells and then, packaged into chylomicrons, enter the lymphatic vessels (lacteals)."
+                }
+            },
+            {
+                topic: "Verdauung",
+                subtopic: "Wirkungsweise von Verdauungsenzymen",
+                type: "fill-in-the-blank",
+                questionText: "Die Bauchspeicheldrüse produziert ______, um den sauren Speisebrei aus dem Magen im Dünndarm zu neutralisieren.",
+                correctAnswer: "bicarbonat",
+                explanation: {
+                    de: "Der Pankreassaft enthält neben Enzymen auch Bicarbonat (Hydrogencarbonat), das basisch ist und die Magensäure im Zwölffingerdarm neutralisiert. Dies schafft den optimalen pH-Wert für die Dünndarmenzyme.",
+                    en: "In addition to enzymes, pancreatic juice also contains bicarbonate, which is alkaline and neutralizes the acidic chyme from the stomach in the duodenum. This creates the optimal pH for the small intestinal enzymes."
+                }
+            },
+            {
+                topic: "Verdauung",
+                subtopic: "Wirkungsweise von Verdauungsenzymen",
+                type: "multiple-choice",
+                questionText: "Was passiert bei einer Lactoseintoleranz?",
+                options: ["Der Körper produziert zu viel Lactase.", "Lactose wird im Magen nicht verdaut.", "Das Enzym Lactase fehlt oder ist in zu geringer Menge vorhanden.", "Der Körper reagiert allergisch auf Milchprotein."],
+                correctAnswer: "Das Enzym Lactase fehlt oder ist in zu geringer Menge vorhanden.",
+                explanation: {
+                    de: "Bei Lactoseintoleranz fehlt das Enzym Lactase oder ist nur in geringer Menge vorhanden. Dadurch kann Milchzucker (Lactose) im Dünndarm nicht gespalten und resorbiert werden und gelangt in den Dickdarm, wo er von Bakterien vergoren wird, was zu Beschwerden führt.",
+                    en: "In lactose intolerance, the enzyme lactase is missing or present only in small amounts. As a result, milk sugar (lactose) cannot be broken down and absorbed in the small intestine and passes into the large intestine, where it is fermented by bacteria, causing symptoms."
+                }
+            },
+             {
+                topic: "Verdauung",
+                subtopic: "Wirkungsweise von Verdauungsenzymen",
+                type: "true-false",
+                questionText: "Verdauungsenzyme werden bei ihrer Arbeit verbraucht und müssen ständig neu gebildet werden.",
+                correctAnswer: "false",
+                explanation: {
+                    de: "Falsch. Enzyme wirken als Katalysatoren, d.h., sie beschleunigen chemische Reaktionen (hier die Spaltung von Nährstoffen), ohne dabei selbst verbraucht zu werden. Sie können immer wieder verwendet werden.",
+                    en: "False. Enzymes act as catalysts, meaning they speed up chemical reactions (here, the breakdown of nutrients) without being consumed in the process. They can be used over and over again."
+                }
+            },
+            {
+                topic: "Verdauung",
+                subtopic: "Wirkungsweise von Verdauungsenzymen",
+                type: "multiple-choice",
+                questionText: "Welches Enzym ist hauptsächlich für die Spaltung von Fetten zuständig?",
+                options: ["Amylase", "Pepsin", "Lipase", "Lactase"],
+                correctAnswer: "Lipase",
+                explanation: {
+                    de: "Lipasen sind die Enzyme, die Fette (Triglyceride) in Glycerin und Fettsäuren spalten. Die wichtigste ist die Pankreaslipase.",
+                    en: "Lipases are the enzymes that break down fats (triglycerides) into glycerol and fatty acids. The most important one is pancreatic lipase."
+                }
+            },
+            {
+                topic: "Verdauung",
+                subtopic: "Wirkungsweise von Verdauungsenzymen",
+                type: "fill-in-the-blank",
+                questionText: "Pepsinogen ist die inaktive Vorstufe von ______.",
+                correctAnswer: "pepsin",
+                explanation: {
+                    de: "Viele Verdauungsenzyme, besonders Proteasen, werden als inaktive Vorstufen (Zymogene) wie Pepsinogen oder Trypsinogen produziert, um eine Selbstverdauung der produzierenden Zellen zu verhindern. Sie werden erst am Wirkort aktiviert.",
+                    en: "Many digestive enzymes, especially proteases, are produced as inactive precursors (zymogens) like pepsinogen or trypsinogen to prevent self-digestion of the producing cells. They are only activated at the site of action."
+                }
+            },
+            {
+                topic: "Verdauung",
+                subtopic: "Wirkungsweise von Verdauungsenzymen",
+                type: "multiple-choice",
+                questionText: "Welche Nährstoffe werden durch Amylasen gespalten?",
+                options: ["Proteine", "Fette", "Kohlenhydrate (Stärke)", "Nukleinsäuren"],
+                correctAnswer: "Kohlenhydrate (Stärke)",
+                explanation: {
+                    de: "Amylasen (Speichel- und Pankreas-Amylase) sind Enzyme, die Polysaccharide wie Stärke in kleinere Kohlenhydrateinheiten zerlegen.",
+                    en: "Amylases (salivary and pancreatic amylase) are enzymes that break down polysaccharides like starch into smaller carbohydrate units."
+                }
+            },
+            {
+                topic: "Verdauung",
+                subtopic: "Wirkungsweise von Verdauungsenzymen",
+                type: "true-false",
+                questionText: "Die Endprodukte der Kohlenhydratverdauung sind Fettsäuren.",
+                correctAnswer: "false",
+                explanation: {
+                    de: "Falsch. Die Endprodukte der Kohlenhydratverdauung sind Einfachzucker (Monosaccharide) wie Glucose, Fructose und Galactose, die dann resorbiert werden können.",
+                    en: "False. The end products of carbohydrate digestion are simple sugars (monosaccharides) such as glucose, fructose, and galactose, which can then be absorbed."
+                }
+            },
+            {
+                topic: "Verdauung",
+                subtopic: "Wirkungsweise von Verdauungsenzymen",
+                type: "fill-in-the-blank",
+                questionText: "Die Endprodukte der Proteinverdauung, die resorbiert werden, sind einzelne ______.",
+                correctAnswer: "aminosäuren",
+                explanation: {
+                    de: "Proteine werden durch Proteasen und Peptidasen schrittweise in ihre Grundbausteine, die Aminosäuren, zerlegt. Nur einzelne Aminosäuren (und sehr kleine Peptide) können effektiv resorbiert werden.",
+                    en: "Proteins are broken down step-by-step into their basic building blocks, the amino acids, by proteases and peptidases. Only individual amino acids (and very small peptides) can be effectively absorbed."
+                }
+            },
+            // Subtopic 7: Funktion von Bakterien im Darm erklären
+            {
+                topic: "Verdauung",
+                subtopic: "Funktion von Bakterien im Darm",
+                type: "multiple-choice",
+                questionText: "Wie wird die Gesamtheit der Mikroorganismen, die im Darm leben, bezeichnet?",
+                options: ["Darmflora oder Mikrobiom", "Darmzotten", "Darmenzyme", "Darmhormone"],
+                correctAnswer: "Darmflora oder Mikrobiom",
+                explanation: {
+                    de: "Die Begriffe Darmflora oder intestinales Mikrobiom bezeichnen die riesige Gemeinschaft von Bakterien, Archaeen, Pilzen und Viren, die den menschlichen Darm, insbesondere den Dickdarm, besiedeln.",
+                    en: "The terms gut flora or intestinal microbiome refer to the vast community of bacteria, archaea, fungi, and viruses that inhabit the human intestine, especially the large intestine."
+                }
+            },
+            {
+                topic: "Verdauung",
+                subtopic: "Funktion von Bakterien im Darm",
+                type: "fill-in-the-blank",
+                questionText: "Darmbakterien helfen bei der Verdauung von für den Menschen unverdaulichen Nahrungsbestandteilen wie ______.",
+                correctAnswer: ["ballaststoffen", "cellulose"],
+                explanation: {
+                    de: "Menschen können viele Ballaststoffe (z.B. Cellulose) nicht selbst verdauen. Darmbakterien besitzen jedoch Enzyme, um diese zu fermentieren (vergären) und daraus kurzkettige Fettsäuren zu produzieren.",
+                    en: "Humans cannot digest many dietary fibers (e.g., cellulose) themselves. However, gut bacteria possess enzymes to ferment these fibers, producing short-chain fatty acids."
+                }
+            },
+            {
+                topic: "Verdauung",
+                subtopic: "Funktion von Bakterien im Darm",
+                type: "true-false",
+                questionText: "Alle Bakterien im Darm sind schädlich und verursachen Krankheiten.",
+                correctAnswer: "false",
+                explanation: {
+                    de: "Falsch. Die überwiegende Mehrheit der Darmbakterien ist harmlos oder sogar nützlich (symbiontisch). Sie erfüllen wichtige Funktionen für den Wirt. Nur wenige Arten können unter bestimmten Umständen pathogen (krankmachend) werden.",
+                    en: "False. The vast majority of gut bacteria are harmless or even beneficial (symbiotic). They perform important functions for the host. Only a few species can become pathogenic (disease-causing) under certain circumstances."
+                }
+            },
+            {
+                topic: "Verdauung",
+                subtopic: "Funktion von Bakterien im Darm",
+                type: "multiple-choice",
+                questionText: "Welches wichtige Vitamin können einige Darmbakterien produzieren?",
+                options: ["Vitamin C", "Vitamin A", "Vitamin K", "Vitamin D"],
+                correctAnswer: "Vitamin K",
+                explanation: {
+                    de: "Bestimmte Darmbakterien, wie z.B. Escherichia coli, können Vitamin K synthetisieren, das für die Blutgerinnung wichtig ist. Auch einige B-Vitamine können von Bakterien produziert werden.",
+                    en: "Certain gut bacteria, such as Escherichia coli, can synthesize Vitamin K, which is important for blood clotting. Some B vitamins can also be produced by bacteria."
+                }
+            },
+            {
+                topic: "Verdauung",
+                subtopic: "Funktion von Bakterien im Darm",
+                type: "fill-in-the-blank",
+                questionText: "Die von Darmbakterien produzierte kurzkettige Fettsäure ____ dient den Zellen der Dickdarmschleimhaut als wichtige Energiequelle.",
+                correctAnswer: "butyrat",
+                explanation: {
+                    de: "Butyrat (Buttersäure) ist eine kurzkettige Fettsäure, die beim bakteriellen Abbau von Ballaststoffen entsteht. Sie ist die Hauptenergiequelle für die Epithelzellen des Dickdarms und wirkt entzündungshemmend.",
+                    en: "Butyrate is a short-chain fatty acid produced during the bacterial breakdown of dietary fiber. It is the main energy source for the epithelial cells of the colon and has anti-inflammatory effects."
+                }
+            },
+            {
+                topic: "Verdauung",
+                subtopic: "Funktion von Bakterien im Darm",
+                type: "multiple-choice",
+                questionText: "Wie unterstützt die Darmflora das Immunsystem?",
+                options: ["Sie produziert Antikörper.", "Sie trainiert das darmassoziierte Immunsystem und verdrängt Krankheitserreger.", "Sie zerstört Immunzellen.", "Sie hat keinen Einfluss auf das Immunsystem."],
+                correctAnswer: "Sie trainiert das darmassoziierte Immunsystem und verdrängt Krankheitserreger.",
+                explanation: {
+                    de: "Die Darmflora interagiert ständig mit dem Immunsystem im Darm (GALT). Sie hilft bei dessen Entwicklung und Reifung und verhindert durch Konkurrenz und Produktion hemmender Stoffe die Ansiedlung von Krankheitserregern.",
+                    en: "The gut flora constantly interacts with the immune system in the gut (GALT). It aids in its development and maturation and prevents the colonization of pathogens through competition and the production of inhibitory substances."
+                }
+            },
+            {
+                topic: "Verdauung",
+                subtopic: "Funktion von Bakterien im Darm",
+                type: "true-false",
+                questionText: "Die Zusammensetzung der Darmflora ist bei allen Menschen identisch.",
+                correctAnswer: "false",
+                explanation: {
+                    de: "Falsch. Die Zusammensetzung des Mikrobioms ist hochindividuell und wird durch Faktoren wie Genetik, Ernährung, Alter, Medikamenteneinnahme und Lebensstil beeinflusst.",
+                    en: "False. The composition of the microbiome is highly individual and is influenced by factors such as genetics, diet, age, medication use, and lifestyle."
+                }
+            },
+            {
+                topic: "Verdauung",
+                subtopic: "Funktion von Bakterien im Darm",
+                type: "multiple-choice",
+                questionText: "Wo im Verdauungstrakt ist die Bakteriendichte am höchsten?",
+                options: ["Magen", "Speiseröhre", "Dünndarm", "Dickdarm"],
+                correctAnswer: "Dickdarm",
+                explanation: {
+                    de: "Die höchste Konzentration und Vielfalt an Bakterien findet sich im Dickdarm (Colon). Im Magen und oberen Dünndarm ist die Dichte aufgrund der Säure und schnellen Passage deutlich geringer.",
+                    en: "The highest concentration and diversity of bacteria are found in the large intestine (colon). The density is significantly lower in the stomach and upper small intestine due to acidity and rapid transit."
+                }
+            },
+            {
+                topic: "Verdauung",
+                subtopic: "Funktion von Bakterien im Darm",
+                type: "fill-in-the-blank",
+                questionText: "Lebensmittel oder Präparate, die lebende nützliche Mikroorganismen enthalten, nennt man ______.",
+                correctAnswer: "probiotika",
+                explanation: {
+                    de: "Probiotika sind lebende Mikroorganismen (z.B. Milchsäurebakterien, Bifidobakterien), die, wenn sie in ausreichender Menge verzehrt werden, einen gesundheitlichen Nutzen für den Wirt bringen können, z.B. durch Unterstützung der Darmflora.",
+                    en: "Probiotics are live microorganisms (e.g., lactic acid bacteria, bifidobacteria) that, when consumed in adequate amounts, can confer a health benefit on the host, for example, by supporting the gut flora."
+                }
+            },
+            {
+                topic: "Verdauung",
+                subtopic: "Funktion von Bakterien im Darm",
+                type: "multiple-choice",
+                questionText: "Was sind Präbiotika?",
+                options: ["Schädliche Bakterien", "Antibiotika", "Unverdauliche Nahrungsbestandteile, die das Wachstum nützlicher Darmbakterien fördern", "Vitamine, die von Bakterien produziert werden"],
+                correctAnswer: "Unverdauliche Nahrungsbestandteile, die das Wachstum nützlicher Darmbakterien fördern",
+                explanation: {
+                    de: "Präbiotika sind nicht verdaubare Lebensmittelbestandteile (meist Ballaststoffe wie Inulin oder Oligofructose), die das Wachstum und/oder die Aktivität von nützlichen Bakterien im Dickdarm gezielt fördern.",
+                    en: "Prebiotics are non-digestible food ingredients (mostly fibers like inulin or oligofructose) that selectively stimulate the growth and/or activity of beneficial bacteria in the colon."
+                }
+            },
+             {
+                topic: "Verdauung",
+                subtopic: "Funktion von Bakterien im Darm",
+                type: "true-false",
+                questionText: "Die Einnahme von Antibiotika hat keinen Einfluss auf die Darmflora.",
+                correctAnswer: "false",
+                explanation: {
+                    de: "Falsch. Antibiotika können nicht zwischen schädlichen und nützlichen Bakterien unterscheiden und schädigen daher oft auch die Darmflora erheblich, was zu Nebenwirkungen wie Durchfall führen kann.",
+                    en: "False. Antibiotics cannot distinguish between harmful and beneficial bacteria and therefore often significantly damage the gut flora, which can lead to side effects such as diarrhea."
+                }
+            },
+            {
+                topic: "Verdauung",
+                subtopic: "Funktion von Bakterien im Darm",
+                type: "multiple-choice",
+                questionText: "Welche Gase können bei der bakteriellen Fermentation im Dickdarm entstehen?",
+                options: ["Sauerstoff und Stickstoff", "Nur Kohlendioxid", "Wasserstoff, Methan und Kohlendioxid", "Nur Wasserdampf"],
+                correctAnswer: "Wasserstoff, Methan und Kohlendioxid",
+                explanation: {
+                    de: "Bei der anaeroben Fermentation von Nahrungsresten durch Darmbakterien entstehen verschiedene Gase, hauptsächlich Wasserstoff (H₂), Methan (CH₄) und Kohlendioxid (CO₂), die als Blähungen ausgeschieden werden können.",
+                    en: "During the anaerobic fermentation of food residues by gut bacteria, various gases are produced, mainly hydrogen (H₂), methane (CH₄), and carbon dioxide (CO₂), which can be expelled as flatulence."
+                }
+            },
+            {
+                topic: "Verdauung",
+                subtopic: "Funktion von Bakterien im Darm",
+                type: "fill-in-the-blank",
+                questionText: "Ein gestörtes Gleichgewicht der Darmflora nennt man ______.",
+                correctAnswer: "dysbiose",
+                explanation: {
+                    de: "Dysbiose bezeichnet ein Ungleichgewicht in der Zusammensetzung oder Funktion der Darmmikrobiota. Sie wird mit verschiedenen gesundheitlichen Problemen in Verbindung gebracht.",
+                    en: "Dysbiosis refers to an imbalance in the composition or function of the gut microbiota. It is associated with various health problems."
+                }
+            },
+            {
+                topic: "Verdauung",
+                subtopic: "Funktion von Bakterien im Darm",
+                type: "multiple-choice",
+                questionText: "Welche Rolle spielt die Darmflora bei der Barrierefunktion des Darms?",
+                options: ["Sie schwächt die Darmbarriere.", "Sie stärkt die Darmbarriere und schützt vor dem Eindringen von Schadstoffen.", "Sie produziert Löcher in der Darmwand.", "Sie hat keine Rolle bei der Barrierefunktion."],
+                correctAnswer: "Sie stärkt die Darmbarriere und schützt vor dem Eindringen von Schadstoffen.",
+                explanation: {
+                    de: "Eine gesunde Darmflora trägt zur Stabilität der Darmschleimhaut bei, fördert die Produktion von Schleim und antimikrobiellen Substanzen und stärkt die Verbindungen zwischen den Darmzellen (Tight Junctions), was die Barrierefunktion verbessert.",
+                    en: "A healthy gut flora contributes to the stability of the intestinal mucosa, promotes the production of mucus and antimicrobial substances, and strengthens the connections between intestinal cells (tight junctions), which improves the barrier function."
+                }
+            },
+             {
+                topic: "Verdauung",
+                subtopic: "Funktion von Bakterien im Darm",
+                type: "true-false",
+                questionText: "Die Darmflora eines Neugeborenen ist von Geburt an vollständig ausgereift.",
+                correctAnswer: "false",
+                explanation: {
+                    de: "Falsch. Das Mikrobiom eines Neugeborenen baut sich erst nach der Geburt schrittweise auf, beeinflusst durch die Art der Geburt, die Ernährung (Stillen) und Umwelteinflüsse. Es dauert Jahre, bis es dem eines Erwachsenen ähnelt.",
+                    en: "False. A newborn's microbiome develops gradually after birth, influenced by the mode of delivery, diet (breastfeeding), and environmental factors. It takes years to resemble that of an adult."
+                }
+            },
+            {
+                topic: "Verdauung",
+                subtopic: "Funktion von Bakterien im Darm",
+                type: "multiple-choice",
+                questionText: "Welche Bakteriengattungen gehören zu den häufigsten und oft als nützlich betrachteten Bewohnern des menschlichen Darms?",
+                options: ["Salmonellen und Staphylokokken", "Lactobacillus und Bifidobacterium", "Clostridium difficile und Helicobacter pylori", "Vibrionen und Pseudomonaden"],
+                correctAnswer: "Lactobacillus und Bifidobacterium",
+                explanation: {
+                    de: "Laktobazillen (Milchsäurebakterien) und Bifidobakterien sind typische Vertreter einer gesunden Darmflora und werden oft in Probiotika eingesetzt. Die anderen genannten sind eher als Krankheitserreger bekannt.",
+                    en: "Lactobacilli (lactic acid bacteria) and Bifidobacteria are typical representatives of a healthy gut flora and are often used in probiotics. The others mentioned are better known as pathogens."
+                }
+            },
+            {
+                topic: "Verdauung",
+                subtopic: "Funktion von Bakterien im Darm",
+                type: "fill-in-the-blank",
+                questionText: "Die kurzkettigen Fettsäuren, die von Darmbakterien produziert werden, können vom Körper ______ und als Energiequelle genutzt werden.",
+                correctAnswer: "resorbiert",
+                explanation: {
+                    de: "Die im Dickdarm durch bakterielle Fermentation entstehenden kurzkettigen Fettsäuren (Acetat, Propionat, Butyrat) werden von der Darmschleimhaut resorbiert und können vom Körper energetisch verwertet werden.",
+                    en: "The short-chain fatty acids (acetate, propionate, butyrate) produced by bacterial fermentation in the large intestine are absorbed by the intestinal mucosa and can be used by the body for energy."
+                }
+            },
+            {
+                topic: "Verdauung",
+                subtopic: "Funktion von Bakterien im Darm",
+                type: "multiple-choice",
+                questionText: "Was versteht man unter der 'Darm-Hirn-Achse'?",
+                options: ["Eine direkte Nervenverbindung vom Darm zum Gehirn.", "Die Kommunikation zwischen Darmmikrobiom, Darm und Gehirn über Nerven-, Hormon- und Immunsignale.", "Die Tatsache, dass das Gehirn den Darm steuert.", "Eine Krankheit, die Darm und Gehirn betrifft."],
+                correctAnswer: "Die Kommunikation zwischen Darmmikrobiom, Darm und Gehirn über Nerven-, Hormon- und Immunsignale.",
+                explanation: {
+                    de: "Die Darm-Hirn-Achse beschreibt die bidirektionale Kommunikation zwischen dem zentralen Nervensystem (Gehirn) und dem Magen-Darm-Trakt. Das Darmmikrobiom spielt dabei eine wichtige modulierende Rolle.",
+                    en: "The gut-brain axis describes the bidirectional communication between the central nervous system (brain) and the gastrointestinal tract. The gut microbiome plays an important modulatory role in this."
+                }
+            },
+            {
+                topic: "Verdauung",
+                subtopic: "Funktion von Bakterien im Darm",
+                type: "true-false",
+                questionText: "Eine ballaststoffarme Ernährung fördert eine vielfältige und gesunde Darmflora.",
+                correctAnswer: "false",
+                explanation: {
+                    de: "Falsch. Eine ballaststoffreiche Ernährung (viel Gemüse, Obst, Vollkorn) liefert 'Futter' für nützliche Darmbakterien und fördert deren Wachstum und Vielfalt, was als gesundheitsförderlich gilt.",
+                    en: "False. A diet rich in fiber (plenty of vegetables, fruits, whole grains) provides 'food' for beneficial gut bacteria, promoting their growth and diversity, which is considered beneficial for health."
+                }
+            },
+            {
+                topic: "Verdauung",
+                subtopic: "Funktion von Bakterien im Darm",
+                type: "fill-in-the-blank",
+                questionText: "Der Prozess, bei dem Bakterien unter Sauerstoffausschluss organische Substanzen abbauen, wird ______ genannt.",
+                correctAnswer: ["fermentation", "gärung"],
+                explanation: {
+                    de: "Fermentation oder Gärung ist der anaerobe (ohne Sauerstoff) Abbau von organischen Stoffen (z.B. Kohlenhydraten) durch Mikroorganismen zur Energiegewinnung. Im Darm findet dies hauptsächlich im Dickdarm statt.",
+                    en: "Fermentation or Gärung is the anaerobic (without oxygen) breakdown of organic substances (e.g., carbohydrates) by microorganisms for energy production. In the gut, this mainly occurs in the large intestine."
+                }
+            },
+            // Subtopic 8: die Zellatmung erklären
+            {
+                topic: "Atmung",
+                subtopic: "Zellatmung",
+                type: "multiple-choice",
+                questionText: "Was ist das Hauptziel der Zellatmung?",
+                options: ["Produktion von Sauerstoff", "Aufbau von Glucose", "Gewinnung von Energie (ATP) aus Nährstoffen", "Abbau von Wasser"],
+                correctAnswer: "Gewinnung von Energie (ATP) aus Nährstoffen",
+                explanation: {
+                    de: "Die Zellatmung ist der Prozess, bei dem Zellen organische Moleküle (hauptsächlich Glucose) unter Verbrauch von Sauerstoff abbauen, um chemische Energie in Form von ATP (Adenosintriphosphat) zu gewinnen.",
+                    en: "Cellular respiration is the process by which cells break down organic molecules (mainly glucose) using oxygen to generate chemical energy in the form of ATP (adenosine triphosphate)."
+                }
+            },
+            {
+                topic: "Atmung",
+                subtopic: "Zellatmung",
+                type: "fill-in-the-blank",
+                questionText: "Die Zellatmung findet hauptsächlich in den ______ statt, den 'Kraftwerken der Zelle'.",
+                correctAnswer: "mitochondrien",
+                explanation: {
+                    de: "Der größte Teil der Zellatmung (Citratzyklus und Endatmung/Atmungskette) läuft in den Mitochondrien ab, spezialisierten Organellen in eukaryotischen Zellen.",
+                    en: "Most of cellular respiration (citric acid cycle and oxidative phosphorylation/electron transport chain) takes place in the mitochondria, specialized organelles in eukaryotic cells."
+                }
+            },
+            {
+                topic: "Atmung",
+                subtopic: "Zellatmung",
+                type: "true-false",
+                questionText: "Für die Zellatmung wird kein Sauerstoff benötigt.",
+                correctAnswer: "false",
+                explanation: {
+                    de: "Falsch. Die aerobe Zellatmung, die die meiste Energie liefert, benötigt Sauerstoff als finalen Elektronenakzeptor in der Atmungskette. Anaerobe Prozesse (Gärung) liefern weniger ATP.",
+                    en: "False. Aerobic cellular respiration, which yields the most energy, requires oxygen as the final electron acceptor in the electron transport chain. Anaerobic processes (fermentation) yield less ATP."
+                }
+            },
+            {
+                topic: "Atmung",
+                subtopic: "Zellatmung",
+                type: "multiple-choice",
+                questionText: "Welche Moleküle entstehen als Hauptprodukte bei der vollständigen Zellatmung von Glucose?",
+                options: ["Sauerstoff und Wasser", "ATP, Kohlendioxid und Wasser", "Glucose und Sauerstoff", "Milchsäure und ATP"],
+                correctAnswer: "ATP, Kohlendioxid und Wasser",
+                explanation: {
+                    de: "Die Gesamtgleichung der aeroben Zellatmung lautet vereinfacht: C₆H₁₂O₆ + 6 O₂ → 6 CO₂ + 6 H₂O + Energie (ATP). Es entstehen also ATP, Kohlendioxid und Wasser.",
+                    en: "The overall simplified equation for aerobic cellular respiration is: C₆H₁₂O₆ + 6 O₂ → 6 CO₂ + 6 H₂O + Energy (ATP). Thus, ATP, carbon dioxide, and water are produced."
+                }
+            },
+            {
+                topic: "Atmung",
+                subtopic: "Zellatmung",
+                type: "fill-in-the-blank",
+                questionText: "Der erste Schritt der Zellatmung, der im Cytoplasma stattfindet und Glucose in Pyruvat spaltet, heißt ______.",
+                correctAnswer: "glykolyse",
+                explanation: {
+                    de: "Die Glykolyse ist der erste Hauptabschnitt der Zellatmung. Sie findet im Cytosol statt und spaltet ein Glucosemolekül in zwei Moleküle Pyruvat, wobei netto eine kleine Menge ATP und NADH gewonnen wird.",
+                    en: "Glycolysis is the first main stage of cellular respiration. It occurs in the cytosol and splits one glucose molecule into two molecules of pyruvate, yielding a small net amount of ATP and NADH."
+                }
+            },
+            {
+                topic: "Atmung",
+                subtopic: "Zellatmung",
+                type: "multiple-choice",
+                questionText: "Was ist ATP?",
+                options: ["Ein Baustein für Proteine", "Ein Speicher für genetische Information", "Der universelle Energieträger der Zelle", "Ein Hormon"],
+                correctAnswer: "Der universelle Energieträger der Zelle",
+                explanation: {
+                    de: "ATP (Adenosintriphosphat) ist ein Molekül, das chemische Energie speichert und bei Bedarf schnell freisetzen kann, um zelluläre Prozesse wie Muskelkontraktion oder Stofftransport anzutreiben.",
+                    en: "ATP (adenosine triphosphate) is a molecule that stores chemical energy and can quickly release it when needed to power cellular processes such as muscle contraction or substance transport."
+                }
+            },
+            {
+                topic: "Atmung",
+                subtopic: "Zellatmung",
+                type: "true-false",
+                questionText: "Der Citratzyklus (Krebszyklus) findet im Cytoplasma statt.",
+                correctAnswer: "false",
+                explanation: {
+                    de: "Falsch. Der Citratzyklus (auch Krebszyklus oder Zitronensäurezyklus) ist der zweite Hauptschritt der aeroben Zellatmung und findet in der Matrix der Mitochondrien statt.",
+                    en: "False. The citric acid cycle (also Krebs cycle) is the second main stage of aerobic cellular respiration and takes place in the mitochondrial matrix."
+                }
+            },
+            {
+                topic: "Atmung",
+                subtopic: "Zellatmung",
+                type: "multiple-choice",
+                questionText: "Welche Moleküle transportieren energiereiche Elektronen zur Atmungskette?",
+                options: ["ATP und ADP", "Glucose und Pyruvat", "NADH und FADH₂", "Sauerstoff und Wasser"],
+                correctAnswer: "NADH und FADH₂",
+                explanation: {
+                    de: "NADH und FADH₂ werden während der Glykolyse und des Citratzyklus gebildet. Sie transportieren energiereiche Elektronen zur Atmungskette (Endatmung), wo ihre Energie zur ATP-Synthese genutzt wird.",
+                    en: "NADH and FADH₂ are produced during glycolysis and the citric acid cycle. They transport high-energy electrons to the electron transport chain (oxidative phosphorylation), where their energy is used for ATP synthesis."
+                }
+            },
+            {
+                topic: "Atmung",
+                subtopic: "Zellatmung",
+                type: "fill-in-the-blank",
+                questionText: "Der letzte Schritt der Zellatmung, bei dem die meiste ATP-Menge produziert wird, heißt ______ oder Endatmung.",
+                correctAnswer: ["atmungskette", "oxidative phosphorylierung"],
+                explanation: {
+                    de: "Die Atmungskette (oxidative Phosphorylierung) findet an der inneren Mitochondrienmembran statt. Hier wird die Energie der Elektronen von NADH und FADH₂ genutzt, um einen Protonengradienten aufzubauen, der die ATP-Synthase antreibt und große Mengen ATP produziert.",
+                    en: "The electron transport chain (oxidative phosphorylation) occurs at the inner mitochondrial membrane. Here, the energy from the electrons of NADH and FADH₂ is used to build a proton gradient that drives ATP synthase, producing large amounts of ATP."
+                }
+            },
+            {
+                topic: "Atmung",
+                subtopic: "Zellatmung",
+                type: "multiple-choice",
+                questionText: "Welche Rolle spielt Sauerstoff in der Zellatmung?",
+                options: ["Er liefert die Ausgangsenergie.", "Er spaltet Glucose.", "Er ist der finale Elektronenakzeptor in der Atmungskette.", "Er wird in CO₂ umgewandelt."],
+                correctAnswer: "Er ist der finale Elektronenakzeptor in der Atmungskette.",
+                explanation: {
+                    de: "Sauerstoff ist essentiell für die aerobe Atmung, da er am Ende der Atmungskette die 'verbrauchten' Elektronen zusammen mit Protonen aufnimmt und zu Wasser (H₂O) reduziert wird.",
+                    en: "Oxygen is essential for aerobic respiration because, at the end of the electron transport chain, it accepts the 'spent' electrons along with protons and is reduced to water (H₂O)."
+                }
+            },
+             {
+                topic: "Atmung",
+                subtopic: "Zellatmung",
+                type: "true-false",
+                questionText: "Pflanzen betreiben nur Photosynthese, keine Zellatmung.",
+                correctAnswer: "false",
+                explanation: {
+                    de: "Falsch. Pflanzen betreiben sowohl Photosynthese (um Glucose zu produzieren) als auch Zellatmung (um Energie aus dieser Glucose zu gewinnen), genau wie Tiere. Die Zellatmung findet Tag und Nacht statt.",
+                    en: "False. Plants perform both photosynthesis (to produce glucose) and cellular respiration (to extract energy from that glucose), just like animals. Cellular respiration occurs day and night."
+                }
+            },
+            {
+                topic: "Atmung",
+                subtopic: "Zellatmung",
+                type: "multiple-choice",
+                questionText: "Was entsteht bei der anaeroben Gärung (z.B. Milchsäuregärung) in menschlichen Muskelzellen bei Sauerstoffmangel?",
+                options: ["Alkohol und CO₂", "Nur ATP", "Milchsäure (Lactat)", "Essigsäure"],
+                correctAnswer: "Milchsäure (Lactat)",
+                explanation: {
+                    de: "Bei intensivem Training und Sauerstoffmangel können Muskelzellen Pyruvat aus der Glykolyse anaerob zu Milchsäure (Lactat) vergären, um NADH zu regenerieren und die Glykolyse am Laufen zu halten. Dies liefert aber nur wenig ATP.",
+                    en: "During intense exercise and oxygen deficiency, muscle cells can anaerobically ferment pyruvate from glycolysis into lactic acid (lactate) to regenerate NADH and keep glycolysis running. However, this yields only a small amount of ATP."
+                }
+            },
+            {
+                topic: "Atmung",
+                subtopic: "Zellatmung",
+                type: "fill-in-the-blank",
+                questionText: "Die Energie aus ATP wird freigesetzt, indem eine ______ abgespalten wird, wodurch ADP entsteht.",
+                correctAnswer: "phosphatgruppe",
+                explanation: {
+                    de: "ATP (Adenosintriphosphat) speichert Energie in den Bindungen zwischen seinen drei Phosphatgruppen. Durch Abspaltung der äußeren Phosphatgruppe entsteht ADP (Adenosindiphosphat) und Energie wird freigesetzt.",
+                    en: "ATP (adenosine triphosphate) stores energy in the bonds between its three phosphate groups. By cleaving off the outer phosphate group, ADP (adenosine diphosphate) is formed, and energy is released."
+                }
+            },
+            {
+                topic: "Atmung",
+                subtopic: "Zellatmung",
+                type: "multiple-choice",
+                questionText: "Welcher Prozess liefert die größte Menge an ATP pro Molekül Glucose?",
+                options: ["Glykolyse", "Milchsäuregärung", "Alkoholische Gärung", "Aerobe Zellatmung (inkl. Citratzyklus und Atmungskette)"],
+                correctAnswer: "Aerobe Zellatmung (inkl. Citratzyklus und Atmungskette)",
+                explanation: {
+                    de: "Die vollständige aerobe Zellatmung liefert mit Abstand die meiste Energie (ca. 30-32 ATP pro Glucose), während Glykolyse allein und Gärungsprozesse nur sehr wenig ATP (netto 2 ATP) erzeugen.",
+                    en: "Complete aerobic cellular respiration yields by far the most energy (approx. 30-32 ATP per glucose), whereas glycolysis alone and fermentation processes produce very little ATP (net 2 ATP)."
+                }
+            },
+             {
+                topic: "Atmung",
+                subtopic: "Zellatmung",
+                type: "true-false",
+                questionText: "Fette und Proteine können nicht zur Energiegewinnung über die Zellatmung genutzt werden.",
+                correctAnswer: "false",
+                explanation: {
+                    de: "Falsch. Auch Fette (über Fettsäuren und Glycerin) und Proteine (über Aminosäuren) können abgebaut und an verschiedenen Stellen in die Zellatmung (Glykolyse, Citratzyklus) eingeschleust werden, um ATP zu erzeugen.",
+                    en: "False. Fats (via fatty acids and glycerol) and proteins (via amino acids) can also be broken down and fed into cellular respiration (glycolysis, citric acid cycle) at various points to generate ATP."
+                }
+            },
+            {
+                topic: "Atmung",
+                subtopic: "Zellatmung",
+                type: "multiple-choice",
+                questionText: "Wo genau in den Mitochondrien findet die Atmungskette (oxidative Phosphorylierung) statt?",
+                options: ["Äußere Membran", "Matrix", "Intermembranraum", "Innere Membran"],
+                correctAnswer: "Innere Membran",
+                explanation: {
+                    de: "Die Proteinkomplexe der Atmungskette und die ATP-Synthase sind in die innere Mitochondrienmembran eingebettet. Der Protonengradient wird über diese Membran aufgebaut.",
+                    en: "The protein complexes of the electron transport chain and ATP synthase are embedded in the inner mitochondrial membrane. The proton gradient is established across this membrane."
+                }
+            },
+            {
+                topic: "Atmung",
+                subtopic: "Zellatmung",
+                type: "fill-in-the-blank",
+                questionText: "Das Enzym, das die ATP-Synthese am Ende der Atmungskette katalysiert, heißt ______.",
+                correctAnswer: "atp-synthase",
+                explanation: {
+                    de: "Die ATP-Synthase ist ein großer Enzymkomplex in der inneren Mitochondrienmembran, der den Rückfluss von Protonen aus dem Intermembranraum in die Matrix nutzt, um die Synthese von ATP aus ADP und Phosphat anzutreiben.",
+                    en: "ATP synthase is a large enzyme complex in the inner mitochondrial membrane that uses the flow of protons back from the intermembrane space into the matrix to drive the synthesis of ATP from ADP and phosphate."
+                }
+            },
+            {
+                topic: "Atmung",
+                subtopic: "Zellatmung",
+                type: "multiple-choice",
+                questionText: "Welches Gas wird bei der Zellatmung verbraucht?",
+                options: ["Kohlendioxid (CO₂)", "Stickstoff (N₂)", "Sauerstoff (O₂)", "Wasserstoff (H₂)"],
+                correctAnswer: "Sauerstoff (O₂)",
+                explanation: {
+                    de: "Die aerobe Zellatmung benötigt Sauerstoff (O₂) als Oxidationsmittel, um die Nährstoffe vollständig abzubauen und maximale Energie zu gewinnen.",
+                    en: "Aerobic cellular respiration requires oxygen (O₂) as the oxidizing agent to completely break down nutrients and gain maximum energy."
+                }
+            },
+            {
+                topic: "Atmung",
+                subtopic: "Zellatmung",
+                type: "true-false",
+                questionText: "Die Glykolyse benötigt Sauerstoff.",
+                correctAnswer: "false",
+                explanation: {
+                    de: "Falsch. Die Glykolyse ist ein anaerober Prozess, das heißt, sie kann auch ohne Sauerstoff ablaufen. Sie ist der erste Schritt sowohl der aeroben Atmung als auch der Gärung.",
+                    en: "False. Glycolysis is an anaerobic process, meaning it can occur without oxygen. It is the first step of both aerobic respiration and fermentation."
+                }
+            },
+            {
+                topic: "Atmung",
+                subtopic: "Zellatmung",
+                type: "fill-in-the-blank",
+                questionText: "Das Kohlendioxid (CO₂), das wir ausatmen, entsteht hauptsächlich während des ______ in den Mitochondrien.",
+                correctAnswer: ["citratzyklus", "krebszyklus"],
+                explanation: {
+                    de: "Das meiste CO₂ der Zellatmung wird im Citratzyklus (Krebszyklus) in der Mitochondrienmatrix freigesetzt, wenn Acetyl-CoA schrittweise oxidiert wird.",
+                    en: "Most of the CO₂ from cellular respiration is released during the citric acid cycle (Krebs cycle) in the mitochondrial matrix as acetyl-CoA is progressively oxidized."
+                }
+            },
+            // Subtopic 9: den Aufbau des Atmungssystems benennen
+            {
+                topic: "Atmung",
+                subtopic: "Aufbau des Atmungssystems",
+                type: "multiple-choice",
+                questionText: "Welche Struktur gehört zu den oberen Atemwegen?",
+                options: ["Luftröhre", "Bronchien", "Nasenhöhle", "Lungenbläschen"],
+                correctAnswer: "Nasenhöhle",
+                explanation: {
+                    de: "Die oberen Atemwege umfassen die Nasenhöhle, die Nasennebenhöhlen und den Rachenraum. Ihre Aufgabe ist die Reinigung, Anfeuchtung und Erwärmung der Atemluft.",
+                    en: "The upper respiratory tract includes the nasal cavity, paranasal sinuses, and the pharynx. Their function is to clean, humidify, and warm the inhaled air."
+                }
+            },
+            {
+                topic: "Atmung",
+                subtopic: "Aufbau des Atmungssystems",
+                type: "fill-in-the-blank",
+                questionText: "Die ______ (Trachea) ist eine Röhre, die den Kehlkopf mit den Bronchien verbindet.",
+                correctAnswer: "luftröhre",
+                explanation: {
+                    de: "Die Luftröhre (Trachea) ist eine knorpelverstärkte Röhre, die die Atemluft vom Kehlkopf zu den Hauptbronchien leitet.",
+                    en: "The trachea (windpipe) is a cartilage-reinforced tube that conducts inhaled air from the larynx to the main bronchi."
+                }
+            },
+            {
+                topic: "Atmung",
+                subtopic: "Aufbau des Atmungssystems",
+                type: "true-false",
+                questionText: "Die Lungenbläschen (Alveolen) sind der Ort des Gasaustausches in der Lunge.",
+                correctAnswer: "true",
+                explanation: {
+                    de: "Wahr. In den Millionen von Lungenbläschen (Alveolen) findet der eigentliche Gasaustausch statt: Sauerstoff diffundiert aus der Atemluft ins Blut, Kohlendioxid diffundiert aus dem Blut in die Atemluft.",
+                    en: "True. The actual gas exchange takes place in the millions of alveoli: oxygen diffuses from the inhaled air into the blood, and carbon dioxide diffuses from the blood into the inhaled air."
+                }
+            },
+            {
+                topic: "Atmung",
+                subtopic: "Aufbau des Atmungssystems",
+                type: "multiple-choice",
+                questionText: "Wie heißen die beiden Hauptäste, in die sich die Luftröhre aufteilt?",
+                options: ["Bronchiolen", "Alveolargänge", "Hauptbronchien", "Kehlkopf"],
+                correctAnswer: "Hauptbronchien",
+                explanation: {
+                    de: "Die Luftröhre teilt sich auf Höhe des Brustbeins in die beiden Hauptbronchien (linken und rechten Stammbronchus), die jeweils zu einem Lungenflügel führen.",
+                    en: "The trachea divides at the level of the sternum into the two main bronchi (left and right primary bronchus), each leading to one lung."
+                }
+            },
+            {
+                topic: "Atmung",
+                subtopic: "Aufbau des Atmungssystems",
+                type: "fill-in-the-blank",
+                questionText: "Die feinsten Verzweigungen der Bronchien, die keine Knorpelspangen mehr besitzen, heißen ______.",
+                correctAnswer: "bronchiolen",
+                explanation: {
+                    de: "Die Bronchien verzweigen sich immer weiter zu kleineren Röhrchen, den Bronchiolen. Die kleinsten Bronchiolen (Bronchioli respiratorii) münden in die Alveolargänge.",
+                    en: "The bronchi branch further and further into smaller tubes, the bronchioles. The smallest bronchioles (respiratory bronchioles) lead into the alveolar ducts."
+                }
+            },
+            {
+                topic: "Atmung",
+                subtopic: "Aufbau des Atmungssystems",
+                type: "multiple-choice",
+                questionText: "Welcher Muskel ist der Hauptatemmuskel?",
+                options: ["Brustmuskel", "Bauchmuskeln", "Zwerchfell", "Rückenmuskeln"],
+                correctAnswer: "Zwerchfell",
+                explanation: {
+                    de: "Das Zwerchfell (Diaphragma) ist eine kuppelförmige Muskelplatte unterhalb der Lunge. Seine Kontraktion führt zur Einatmung (Inspiration), seine Entspannung zur Ausatmung (Exspiration).",
+                    en: "The diaphragm is a dome-shaped muscle plate below the lungs. Its contraction leads to inhalation (inspiration), and its relaxation leads to exhalation (expiration)."
+                }
+            },
+            {
+                topic: "Atmung",
+                subtopic: "Aufbau des Atmungssystems",
+                type: "true-false",
+                questionText: "Die Stimmbänder befinden sich in der Luftröhre.",
+                correctAnswer: "false",
+                explanation: {
+                    de: "Falsch. Die Stimmbänder sind Teil des Kehlkopfes (Larynx), der oberhalb der Luftröhre liegt. Sie erzeugen durch Schwingung die Stimme.",
+                    en: "False. The vocal cords are part of the larynx, which is located above the trachea. They produce the voice through vibration."
+                }
+            },
+            {
+                topic: "Atmung",
+                subtopic: "Aufbau des Atmungssystems",
+                type: "multiple-choice",
+                questionText: "Was ist die Funktion des Flimmerepithels in den Atemwegen?",
+                options: ["Gasaustausch", "Produktion von Sauerstoff", "Reinigung der Atemluft durch Abtransport von Schleim und Partikeln", "Erwärmung der Luft"],
+                correctAnswer: "Reinigung der Atemluft durch Abtransport von Schleim und Partikeln",
+                explanation: {
+                    de: "Das Flimmerepithel kleidet große Teile der Atemwege aus. Seine Flimmerhärchen (Zilien) bewegen den von Becherzellen produzierten Schleim mitsamt eingefangenen Staubpartikeln und Krankheitserregern rachenwärts (mukoziliäre Clearance).",
+                    en: "The ciliated epithelium lines large parts of the respiratory tract. Its cilia move the mucus produced by goblet cells, along with trapped dust particles and pathogens, towards the pharynx (mucociliary clearance)."
+                }
+            },
+            {
+                topic: "Atmung",
+                subtopic: "Aufbau des Atmungssystems",
+                type: "fill-in-the-blank",
+                questionText: "Die Lunge ist von einer dünnen Hülle umgeben, die ______ oder Pleura genannt wird.",
+                correctAnswer: "brustfell",
+                explanation: {
+                    de: "Das Brustfell (Pleura) besteht aus zwei Blättern: dem Lungenfell (Pleura visceralis), das direkt auf der Lunge liegt, und dem Rippenfell (Pleura parietalis), das die Brusthöhle auskleidet. Dazwischen liegt der Pleuraspalt.",
+                    en: "The pleura consists of two layers: the visceral pleura, which lies directly on the lung, and the parietal pleura, which lines the chest cavity. Between them is the pleural space."
+                }
+            },
+            {
+                topic: "Atmung",
+                subtopic: "Aufbau des Atmungssystems",
+                type: "multiple-choice",
+                questionText: "Welche Struktur verhindert, dass Nahrung in die Luftröhre gelangt?",
+                options: ["Zwerchfell", "Kehldeckel (Epiglottis)", "Stimmbänder", "Gaumenzäpfchen (Uvula)"],
+                correctAnswer: "Kehldeckel (Epiglottis)",
+                explanation: {
+                    de: "Beim Schluckakt legt sich der Kehldeckel (Epiglottis) über den Eingang des Kehlkopfes und verschließt so den Zugang zur Luftröhre.",
+                    en: "During swallowing, the epiglottis covers the entrance to the larynx, thus closing off access to the trachea."
+                }
+            },
+             {
+                topic: "Atmung",
+                subtopic: "Aufbau des Atmungssystems",
+                type: "true-false",
+                questionText: "Der Gasaustausch findet auch in den Bronchien statt.",
+                correctAnswer: "false",
+                explanation: {
+                    de: "Falsch. Die Bronchien und Bronchiolen dienen primär der Luftleitung. Der eigentliche Gasaustausch zwischen Luft und Blut findet nur in den Lungenbläschen (Alveolen) statt.",
+                    en: "False. The bronchi and bronchioles primarily serve for air conduction. The actual gas exchange between air and blood occurs only in the alveoli."
+                }
+            },
+            {
+                topic: "Atmung",
+                subtopic: "Aufbau des Atmungssystems",
+                type: "multiple-choice",
+                questionText: "Wie viele Lungenflügel hat der Mensch normalerweise?",
+                options: ["Einen", "Zwei (einen rechten und einen linken)", "Drei", "Vier"],
+                correctAnswer: "Zwei (einen rechten und einen linken)",
+                explanation: {
+                    de: "Der Mensch besitzt zwei Lungenflügel, einen rechten und einen linken. Der rechte Lungenflügel ist meist etwas größer und in drei Lappen unterteilt, der linke in zwei Lappen.",
+                    en: "Humans have two lungs, a right and a left one. The right lung is usually slightly larger and divided into three lobes, the left into two lobes."
+                }
+            },
+            {
+                topic: "Atmung",
+                subtopic: "Aufbau des Atmungssystems",
+                type: "fill-in-the-blank",
+                questionText: "Die Nasenhöhle dient neben der Luftleitung auch der ______ der eingeatmeten Luft.",
+                correctAnswer: ["reinigung", "anfeuchtung", "erwärmung"], // Accept any of these
+                explanation: {
+                    de: "In der Nasenhöhle wird die Atemluft durch Haare und Schleimhaut gereinigt, durch Schleim angefeuchtet und durch gut durchblutete Schleimhäute erwärmt.",
+                    en: "In the nasal cavity, the inhaled air is cleaned by hairs and mucous membrane, humidified by mucus, and warmed by well-vascularized mucous membranes."
+                }
+            },
+            {
+                topic: "Atmung",
+                subtopic: "Aufbau des Atmungssystems",
+                type: "multiple-choice",
+                questionText: "Was befindet sich im Pleuraspalt zwischen Lungen- und Rippenfell?",
+                options: ["Luft", "Blut", "Eine geringe Menge Flüssigkeit", "Nervenfasern"],
+                correctAnswer: "Eine geringe Menge Flüssigkeit",
+                explanation: {
+                    de: "Der Pleuraspalt enthält eine dünne Schicht Flüssigkeit (Pleuraflüssigkeit), die ein reibungsfreies Gleiten der beiden Pleurablätter bei der Atmung ermöglicht und die Lunge an der Brustwand 'haften' lässt.",
+                    en: "The pleural space contains a thin layer of fluid (pleural fluid), which allows frictionless gliding of the two pleural layers during breathing and makes the lung 'adhere' to the chest wall."
+                }
+            },
+             {
+                topic: "Atmung",
+                subtopic: "Aufbau des Atmungssystems",
+                type: "true-false",
+                questionText: "Die Ausatmung (Exspiration) ist normalerweise ein aktiver Prozess, der Muskelkraft erfordert.",
+                correctAnswer: "false",
+                explanation: {
+                    de: "Falsch. Die normale, ruhige Ausatmung ist ein passiver Prozess, der durch die elastischen Rückstellkräfte von Lunge und Brustkorb sowie die Entspannung des Zwerchfells erfolgt. Nur die forcierte Ausatmung (z.B. Husten) ist aktiv.",
+                    en: "False. Normal, quiet exhalation is a passive process resulting from the elastic recoil forces of the lungs and chest wall and the relaxation of the diaphragm. Only forced exhalation (e.g., coughing) is active."
+                }
+            },
+            {
+                topic: "Atmung",
+                subtopic: "Aufbau des Atmungssystems",
+                type: "multiple-choice",
+                questionText: "Welche Struktur verbindet den Rachenraum mit der Luftröhre und enthält die Stimmbänder?",
+                options: ["Speiseröhre", "Kehlkopf (Larynx)", "Hauptbronchus", "Nasenhöhle"],
+                correctAnswer: "Kehlkopf (Larynx)",
+                explanation: {
+                    de: "Der Kehlkopf (Larynx) liegt zwischen Rachen und Luftröhre. Er enthält die Stimmbänder zur Stimmbildung und schützt die unteren Atemwege.",
+                    en: "The larynx is located between the pharynx and the trachea. It contains the vocal cords for voice production and protects the lower airways."
+                }
+            },
+            {
+                topic: "Atmung",
+                subtopic: "Aufbau des Atmungssystems",
+                type: "fill-in-the-blank",
+                questionText: "Die Wände der Lungenbläschen (Alveolen) sind extrem dünn, um den ______ zu erleichtern.",
+                correctAnswer: "gasaustausch",
+                explanation: {
+                    de: "Die sehr dünne Wand der Alveolen und der sie umgebenden Blutkapillaren (Blut-Luft-Schranke) ermöglicht eine schnelle und effiziente Diffusion von Sauerstoff und Kohlendioxid.",
+                    en: "The very thin wall of the alveoli and the surrounding blood capillaries (blood-air barrier) allows for rapid and efficient diffusion of oxygen and carbon dioxide."
+                }
+            },
+            {
+                topic: "Atmung",
+                subtopic: "Aufbau des Atmungssystems",
+                type: "multiple-choice",
+                questionText: "Welcher Teil des Nervensystems steuert die grundlegende Atemtätigkeit unbewusst?",
+                options: ["Großhirn", "Kleinhirn", "Atemzentrum im Hirnstamm", "Rückenmark"],
+                correctAnswer: "Atemzentrum im Hirnstamm",
+                explanation: {
+                    de: "Das Atemzentrum, hauptsächlich in der Medulla oblongata und der Pons im Hirnstamm gelegen, steuert den rhythmischen Wechsel von Ein- und Ausatmung weitgehend unbewusst.",
+                    en: "The respiratory center, located mainly in the medulla oblongata and pons in the brainstem, controls the rhythmic alternation of inhalation and exhalation largely unconsciously."
+                }
+            },
+            {
+                topic: "Atmung",
+                subtopic: "Aufbau des Atmungssystems",
+                type: "true-false",
+                questionText: "Die Luftröhre liegt hinter der Speiseröhre.",
+                correctAnswer: "false",
+                explanation: {
+                    de: "Falsch. Die Luftröhre (Trachea) liegt vor (ventral) der Speiseröhre (Ösophagus).",
+                    en: "False. The trachea lies in front of (ventral to) the esophagus."
+                }
+            },
+            {
+                topic: "Atmung",
+                subtopic: "Aufbau des Atmungssystems",
+                type: "fill-in-the-blank",
+                questionText: "Die Muskeln zwischen den Rippen, die bei der Atmung helfen, heißen ______.",
+                correctAnswer: ["zwischenrippenmuskeln", "interkostalmuskeln"],
+                explanation: {
+                    de: "Die Zwischenrippenmuskeln (Interkostalmuskeln) unterstützen die Atmung, indem sie den Brustkorb heben (äußere Muskeln, Einatmung) oder senken (innere Muskeln, forcierte Ausatmung).",
+                    en: "The intercostal muscles assist breathing by elevating (external muscles, inhalation) or depressing (internal muscles, forced exhalation) the rib cage."
+                }
+            }
+        ];
+
+        // --- Global Variables ---
+        let currentQuestionIndex = 0; // Index within the currently selected questions
+        let score = 0;
+        let selectedQuestions = []; // Holds the questions for the selected topic/subtopic
+        let currentTopicName = ""; // Name of the selected topic/subtopic
+
+        // --- DOM Elements ---
+        const topicSelectionArea = document.getElementById('topic-selection-area');
+        const topicSelectEl = document.getElementById('topic-select');
+        const startTestBtn = document.getElementById('start-test-btn');
+        const testAreaEl = document.getElementById('test-area');
+        const topicTitleEl = document.getElementById('topic-title');
+        const questionAreaEl = document.getElementById('question-area');
+        const questionTextEl = document.getElementById('question-text');
+        const answerOptionsEl = document.getElementById('answer-options');
+        const textAnswerEl = document.getElementById('text-answer');
+        const checkBtn = document.getElementById('check-btn');
+        const nextBtn = document.getElementById('next-btn');
+        const feedbackAreaEl = document.getElementById('feedback-area');
+        const progressBarFillEl = document.getElementById('progress-bar-fill');
+        const currentTopicEl = document.getElementById('current-topic'); // In navigation info
+        const currentQNumEl = document.getElementById('current-question-number');
+        const totalQTopicEl = document.getElementById('total-questions-in-topic');
+        // const overallProgressEl = document.getElementById('overall-progress'); // Removed overall progress display for now
+
+
+        // --- Initialization ---
+        function populateTopicSelection() {
+            const topics = {}; // Group questions by main topic and subtopic
+            questions.forEach(q => {
+                if (!topics[q.topic]) {
+                    topics[q.topic] = new Set();
+                }
+                topics[q.topic].add(q.subtopic);
+            });
+
+            // Add main topics
+            for (const topic in topics) {
+                const optGroup = document.createElement('optgroup');
+                optGroup.label = topic;
+                // Option to select the whole main topic
+                const mainTopicOption = document.createElement('option');
+                mainTopicOption.value = `topic_${topic}`;
+                mainTopicOption.textContent = `${topic} (Alle Unterthemen)`;
+                optGroup.appendChild(mainTopicOption);
+                // Add subtopics
+                topics[topic].forEach(subtopic => {
+                    const option = document.createElement('option');
+                    option.value = `subtopic_${subtopic}`; // Use a prefix to distinguish
+                    option.textContent = `- ${subtopic}`;
+                    optGroup.appendChild(option);
+                });
+                topicSelectEl.appendChild(optGroup);
+            }
+        }
+
+        function startTest() {
+            const selectedValue = topicSelectEl.value;
+            score = 0;
+            currentQuestionIndex = 0;
+
+            if (selectedValue === "all") {
+                selectedQuestions = [...questions]; // Copy all questions
+                currentTopicName = "Alle Themen";
+            } else if (selectedValue.startsWith("topic_")) {
+                const topic = selectedValue.replace("topic_", "");
+                selectedQuestions = questions.filter(q => q.topic === topic);
+                currentTopicName = `${topic} (Alle Unterthemen)`;
+            } else if (selectedValue.startsWith("subtopic_")) {
+                const subtopic = selectedValue.replace("subtopic_", "");
+                selectedQuestions = questions.filter(q => q.subtopic === subtopic);
+                // Find the main topic for display
+                 const mainTopic = questions.find(q => q.subtopic === subtopic)?.topic || "";
+                 currentTopicName = `${mainTopic}: ${subtopic}`;
+            } else {
+                return; // No valid selection
+            }
+
+            if (selectedQuestions.length === 0) {
+                 alert("Keine Fragen für dieses Thema gefunden.");
+                 return;
+            }
+
+            // Shuffle selected questions for variety
+            selectedQuestions.sort(() => Math.random() - 0.5);
+
+            topicSelectionArea.style.display = 'none'; // Hide selection
+            testAreaEl.style.display = 'block'; // Show test area
+
+            topicTitleEl.textContent = currentTopicName;
+            currentTopicEl.textContent = currentTopicName; // Update nav info
+            totalQTopicEl.textContent = selectedQuestions.length;
+
+            loadQuestion(currentQuestionIndex);
+        }
+
+
+        function loadQuestion(index) {
+            feedbackAreaEl.style.display = 'none';
+            feedbackAreaEl.textContent = '';
+            feedbackAreaEl.className = 'feedback-area'; // Reset class
+            checkBtn.disabled = false;
+            checkBtn.style.display = 'inline-block';
+            nextBtn.style.display = 'none';
+            answerOptionsEl.innerHTML = ''; // Clear previous options
+            textAnswerEl.style.display = 'none'; // Hide text input by default
+            textAnswerEl.value = '';
+
+            if (index >= selectedQuestions.length) {
+                console.error("Error: Index out of bounds for selected questions.");
+                return;
+            }
+
+            const question = selectedQuestions[index];
+            questionTextEl.textContent = question.questionText;
+            currentQNumEl.textContent = index + 1; // Question number within the selected set
+
+            // Update progress bar based on progress within the selected set
+            const progressPercent = Math.round(((index) / selectedQuestions.length) * 100);
+            progressBarFillEl.style.width = `${progressPercent}%`;
+            progressBarFillEl.textContent = `${progressPercent}%`;
+            // overallProgressEl.textContent = overallProgress; // Removed
+
+
+            if (question.type === "multiple-choice" || question.type === "true-false") {
+                const options = question.type === "true-false" ? ["Wahr", "Falsch"] : question.options;
+                // Shuffle options for multiple choice (optional but good practice)
+                if (question.type === "multiple-choice") {
+                     options.sort(() => Math.random() - 0.5);
+                }
+                options.forEach(option => {
+                    const label = document.createElement('label');
+                    const input = document.createElement('input');
+                    input.type = 'radio';
+                    input.name = 'answer';
+                    input.value = option === "Wahr" ? "true" : (option === "Falsch" ? "false" : option); // Store original value for checking
+                    label.appendChild(input);
+                    label.appendChild(document.createTextNode(option)); // Display text
+                    answerOptionsEl.appendChild(label);
+                });
+            } else if (question.type === "fill-in-the-blank") {
+                textAnswerEl.style.display = 'block';
+                // Adjust placeholder based on expected answer format
+                 if (Array.isArray(question.correctAnswer)) {
+                     textAnswerEl.placeholder = "Antworten mit Komma trennen, z.B. a, b, c";
+                 } else {
+                     textAnswerEl.placeholder = "Deine Antwort hier...";
+                 }
+            }
+            // Add other types like checkbox if needed
+        }
+
+        function checkAnswer() {
+            const currentQuestion = selectedQuestions[currentQuestionIndex];
+            if (!currentQuestion) return; // Should not happen
+
+            let userAnswer;
+            let isCorrect = false;
+
+            if (currentQuestion.type === "multiple-choice" || currentQuestion.type === "true-false") {
+                const selectedOption = answerOptionsEl.querySelector('input[name="answer"]:checked');
+                if (!selectedOption) {
+                    feedbackAreaEl.textContent = "Bitte wähle eine Antwort aus.";
+                    feedbackAreaEl.className = 'feedback-area incorrect';
+                    feedbackAreaEl.style.display = 'block';
+                    return; // Don't proceed if nothing selected
+                }
+                userAnswer = selectedOption.value;
+                 // Handle true/false string comparison
+                 if (currentQuestion.type === "true-false") {
+                     isCorrect = userAnswer === String(currentQuestion.correctAnswer);
+                 } else {
+                    isCorrect = userAnswer === currentQuestion.correctAnswer;
+                 }
+
+            } else if (currentQuestion.type === "fill-in-the-blank") {
+                userAnswer = textAnswerEl.value.trim().toLowerCase();
+                if (!userAnswer) {
+                     feedbackAreaEl.textContent = "Bitte gib eine Antwort ein.";
+                     feedbackAreaEl.className = 'feedback-area incorrect';
+                     feedbackAreaEl.style.display = 'block';
+                    return;
+                }
+                // Handle multiple blanks potentially
+                if (Array.isArray(currentQuestion.correctAnswer)) {
+                    const userAnswers = userAnswer.split(',').map(s => s.trim());
+                    // Simple check: same number of answers and all are present (order doesn't matter for multiple blanks)
+                    // Convert correct answers to lowercase for comparison
+                    const correctAnswersLower = currentQuestion.correctAnswer.map(ans => ans.toLowerCase());
+                    isCorrect = userAnswers.length === correctAnswersLower.length &&
+                                correctAnswersLower.every(ans => userAnswers.includes(ans));
+                } else {
+                    // Single blank: direct comparison (case-insensitive)
+                    isCorrect = userAnswer === currentQuestion.correctAnswer.toLowerCase();
+                }
+            }
+            // Add checks for other question types if implemented
+
+            feedbackAreaEl.style.display = 'block';
+            checkBtn.disabled = true; // Disable check button after checking
+            checkBtn.style.display = 'none'; // Hide check button
+            nextBtn.style.display = 'inline-block'; // Show next button
+
+            if (isCorrect) {
+                feedbackAreaEl.textContent = "Richtig!";
+                feedbackAreaEl.className = 'feedback-area correct';
+                score++; // Increment score if needed
+            } else {
+                feedbackAreaEl.textContent = "Leider Falsch.";
+                feedbackAreaEl.className = 'feedback-area incorrect';
+                // Show the correct answer for incorrect ones
+                let correctAnswerText = '';
+                if (currentQuestion.type === "fill-in-the-blank") {
+                    correctAnswerText = Array.isArray(currentQuestion.correctAnswer)
+                                        ? currentQuestion.correctAnswer.join(', ')
+                                        : currentQuestion.correctAnswer;
+                } else if (currentQuestion.type === "true-false") {
+                    correctAnswerText = currentQuestion.correctAnswer === 'true' ? 'Wahr' : 'Falsch';
+                } else { // Multiple Choice
+                    correctAnswerText = currentQuestion.correctAnswer;
+                }
+                 feedbackAreaEl.textContent += ` Die richtige Antwort ist: ${correctAnswerText}`;
+            }
+
+            // Display explanation
+            const explanationDiv = document.createElement('div');
+            explanationDiv.className = 'explanation';
+            explanationDiv.innerHTML = `
+                <h4>Erklärung (DE):</h4>
+                <p>${currentQuestion.explanation.de}</p>
+                <h4>Explanation (EN):</h4>
+                <p>${currentQuestion.explanation.en}</p>
+            `;
+            feedbackAreaEl.appendChild(explanationDiv);
+        }
+
+        function nextQuestion() {
+            currentQuestionIndex++;
+
+            if (currentQuestionIndex < selectedQuestions.length) {
+                // Load next question within the selected set
+                loadQuestion(currentQuestionIndex);
+            } else {
+                // End of the selected test section
+                questionTextEl.textContent = `Thema "${currentTopicName}" abgeschlossen!`;
+                answerOptionsEl.innerHTML = `Dein Ergebnis: ${score} von ${selectedQuestions.length} Fragen richtig.`;
+                checkBtn.style.display = 'none';
+                nextBtn.style.display = 'none';
+                feedbackAreaEl.style.display = 'none';
+                // Update progress to 100% for this section
+                progressBarFillEl.style.width = `100%`;
+                progressBarFillEl.textContent = `100%`;
+                // Show topic selection again
+                topicSelectionArea.style.display = 'block';
+                testAreaEl.style.display = 'none'; // Hide test area
+            }
+        }
+
+        // --- Event Listeners ---
+        checkBtn.addEventListener('click', checkAnswer);
+        nextBtn.addEventListener('click', nextQuestion);
+        startTestBtn.addEventListener('click', startTest);
+
+        // --- Initial Load ---
+        populateTopicSelection(); // Populate the dropdown on page load
+
+    </script>
+</body>
+</html>
