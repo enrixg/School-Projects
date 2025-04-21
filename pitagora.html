@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pythagorean Theorem Study Guide</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        header {
+            background-color: #005a9c; /* A blue shade */
+            color: #fff;
+            padding: 10px 0;
+            text-align: center;
+            border-radius: 8px 8px 0 0;
+        }
+        header h1 {
+            margin: 0;
+        }
+        nav {
+            background: #eee;
+            padding: 10px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        nav a {
+            margin: 0 15px;
+            text-decoration: none;
+            color: #005a9c;
+            font-weight: bold;
+        }
+        nav a:hover {
+            text-decoration: underline;
+        }
+        section {
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        h2 {
+            color: #005a9c;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 5px;
+        }
+        h3 {
+            color: #333;
+        }
+        code {
+            background-color: #eee;
+            padding: 2px 5px;
+            border-radius: 3px;
+            font-family: monospace;
+        }
+        .example {
+            margin-top: 15px;
+            padding: 15px;
+            border-left: 4px solid #005a9c;
+            background-color: #eef;
+        }
+        .formula {
+            font-weight: bold;
+            text-align: center;
+            font-size: 1.2em;
+            margin: 15px 0;
+        }
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 15px;
+            border-top: 1px solid #ccc;
+            color: #777;
+        }
+        /* Basic form styling */
+        form label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        form input[type="number"],
+        form input[type="text"],
+        form select {
+            width: calc(100% - 22px); /* Adjust for padding/border */
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        form button {
+            background-color: #005a9c;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1em;
+        }
+        form button:hover {
+            background-color: #004170;
+        }
+        .result {
+            margin-top: 15px;
+            font-weight: bold;
+            color: green;
+        }
+        .error {
+            color: red;
+            font-size: 0.9em;
+        }
+        .quiz-question {
+            margin-bottom: 20px;
+        }
+        .quiz-options label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: normal;
+        }
+        .quiz-options input[type="radio"] {
+            margin-right: 8px;
+        }
+        #quiz-feedback {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 5px;
+        }
+        #quiz-feedback.correct {
+            background-color: #d4edda;
+            border-color: #c3e6cb;
+            color: #155724;
+        }
+        #quiz-feedback.incorrect {
+            background-color: #f8d7da;
+            border-color: #f5c6cb;
+            color: #721c24;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Pythagorean Theorem Study Guide</h1>
+        </header>
+
+        <nav>
+            <a href="#theory">Theory</a>
+            <a href="#examples">Examples</a>
+            <a href="#calculator">Calculator</a>
+            <a href="#quiz">Quiz</a>
+        </nav>
+
+        <main>
+            <section id="theory">
+                <h2>Introduction & Theory</h2>
+                <p>
+                    The Pythagorean Theorem (or Pythagoras' Theorem) is a fundamental principle in geometry relating the three sides of a <strong>right-angled triangle</strong>.
+                </p>
+                <p>
+                    A right-angled triangle is any triangle that has one angle equal to exactly 90 degrees. The side opposite the right angle is called the <strong>hypotenuse</strong>, and it's always the longest side. The other two sides are called the <strong>legs</strong> (or sometimes 'cathetus').
+                </p>
+                <p>
+                    The theorem states that the square of the length of the hypotenuse (<code>c</code>) is equal to the sum of the squares of the lengths of the two legs (<code>a</code> and <code>b</code>).
+                </p>
+                <div class="formula">
+                    a² + b² = c²
+                </div>
+                <p>
+                    Where:
+                    <ul>
+                        <li><code>a</code> and <code>b</code> are the lengths of the legs of the right-angled triangle.</li>
+                        <li><code>c</code> is the length of the hypotenuse.</li>
+                    </ul>
+                </p>
+                <p>
+                    <strong>Important:</strong> This theorem *only* works for right-angled triangles!
+                </p>
+                 <!-- Simple diagram placeholder -->
+                 <pre style="text-align: center; font-size: 0.9em; line-height: 1.2;">
+        /|
+       / |
+      /  |
+   c /   | b
+    /    |
+   /_____|
+      a
+      (Right angle at the corner between a and b)
+                 </pre>
+            </section>
+
+            <section id="examples">
+                <h2>Examples</h2>
+
+                <div class="example">
+                    <h3>Example 1: Finding the Hypotenuse</h3>
+                    <p>
+                        Imagine a right-angled triangle where leg <code>a = 3</code> units and leg <code>b = 4</code> units. We want to find the length of the hypotenuse <code>c</code>.
+                    </p>
+                    <p>Using the formula: <code>a² + b² = c²</code></p>
+                    <p>Substitute the known values:</p>
+                    <p><code>3² + 4² = c²</code></p>
+                    <p><code>9 + 16 = c²</code></p>
+                    <p><code>25 = c²</code></p>
+                    <p>To find <code>c</code>, we take the square root of both sides:</p>
+                    <p><code>c = √25</code></p>
+                    <p><code>c = 5</code></p>
+                    <p>So, the hypotenuse is <strong>5 units</strong> long.</p>
+                </div>
+
+                <div class="example">
+                    <h3>Example 2: Finding a Leg</h3>
+                    <p>
+                        Suppose we have a right-angled triangle with a hypotenuse <code>c = 10</code> units and one leg <code>a = 6</code> units. We need to find the length of the other leg <code>b</code>.
+                    </p>
+                    <p>Start with the formula: <code>a² + b² = c²</code></p>
+                    <p>Substitute the known values:</p>
+                    <p><code>6² + b² = 10²</code></p>
+                    <p><code>36 + b² = 100</code></p>
+                    <p>To find <code>b²</code>, subtract 36 from both sides:</p>
+                    <p><code>b² = 100 - 36</code></p>
+                    <p><code>b² = 64</code></p>
+                    <p>Now, take the square root of both sides:</p>
+                    <p><code>b = √64</code></p>
+                    <p><code>b = 8</code></p>
+                    <p>So, the missing leg is <strong>8 units</strong> long.</p>
+                </div>
+            </section>
+
+            <section id="calculator">
+                <h2>Interactive Calculator</h2>
+                <p>Use this calculator to find the missing side of a right-angled triangle. Enter the two sides you know.</p>
+                <form id="calculator-form">
+                    <div>
+                        <label for="sideA">Side a:</label>
+                        <input type="number" id="sideA" name="sideA" placeholder="Length of leg a" min="0" step="any">
+                    </div>
+                    <div>
+                        <label for="sideB">Side b:</label>
+                        <input type="number" id="sideB" name="sideB" placeholder="Length of leg b" min="0" step="any">
+                    </div>
+                    <div>
+                        <label for="sideC">Side c (Hypotenuse):</label>
+                        <input type="number" id="sideC" name="sideC" placeholder="Length of hypotenuse c" min="0" step="any">
+                    </div>
+                    <p><em>Leave the side you want to calculate blank.</em></p>
+                    <button type="submit">Calculate</button>
+                    <div id="calculator-result" class="result" style="margin-top: 15px;"></div>
+                    <div id="calculator-error" class="error" style="margin-top: 10px;"></div>
+                </form>
+            </section>
+
+            <section id="quiz">
+                <h2>Test Your Knowledge</h2>
+                <p>See how well you understand the Pythagorean Theorem!</p>
+                <form id="quiz-form">
+                    <div class="quiz-question">
+                        <p><strong>1. The Pythagorean Theorem applies to which type of triangle?</strong></p>
+                        <div class="quiz-options">
+                            <label><input type="radio" name="q1" value="a"> Equilateral</label>
+                            <label><input type="radio" name="q1" value="b"> Isosceles</label>
+                            <label><input type="radio" name="q1" value="c"> Right-angled</label>
+                            <label><input type="radio" name="q1" value="d"> Scalene</label>
+                        </div>
+                    </div>
+
+                    <div class="quiz-question">
+                        <p><strong>2. In a right-angled triangle, what is the side opposite the right angle called?</strong></p>
+                        <div class="quiz-options">
+                            <label><input type="radio" name="q2" value="a"> Leg</label>
+                            <label><input type="radio" name="q2" value="b"> Hypotenuse</label>
+                            <label><input type="radio" name="q2" value="c"> Base</label>
+                            <label><input type="radio" name="q2" value="d"> Altitude</label>
+                        </div>
+                    </div>
+
+                    <div class="quiz-question">
+                        <p><strong>3. If the legs of a right-angled triangle are 5 units and 12 units, what is the length of the hypotenuse?</strong></p>
+                        <div class="quiz-options">
+                            <label><input type="radio" name="q3" value="a"> 13 units</label>
+                            <label><input type="radio" name="q3" value="b"> 17 units</label>
+                            <label><input type="radio" name="q3" value="c"> 7 units</label>
+                            <label><input type="radio" name="q3" value="d"> 169 units</label>
+                        </div>
+                    </div>
+
+                     <div class="quiz-question">
+                        <p><strong>4. If the hypotenuse is 15 units and one leg is 9 units, what is the length of the other leg?</strong></p>
+                        <div class="quiz-options">
+                            <label><input type="radio" name="q4" value="a"> 6 units</label>
+                            <label><input type="radio" name="q4" value="b"> 24 units</label>
+                            <label><input type="radio" name="q4" value="c"> 12 units</label>
+                            <label><input type="radio" name="q4" value="d"> 144 units</label>
+                        </div>
+                    </div>
+
+                    <button type="submit">Check Answers</button>
+                    <div id="quiz-feedback" style="margin-top: 15px;"></div>
+                </form>
+            </section>
+        </main>
+
+        <footer>
+            <p>Pythagorean Theorem Study Guide</p>
+        </footer>
+    </div>
+
+    <script>
+        // --- Calculator Logic ---
+        const calculatorForm = document.getElementById('calculator-form');
+        const sideAInput = document.getElementById('sideA');
+        const sideBInput = document.getElementById('sideB');
+        const sideCInput = document.getElementById('sideC');
+        const calculatorResultDiv = document.getElementById('calculator-result');
+        const calculatorErrorDiv = document.getElementById('calculator-error');
+
+        calculatorForm.addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent page reload
+            calculatorResultDiv.textContent = ''; // Clear previous results
+            calculatorErrorDiv.textContent = '';   // Clear previous errors
+
+            const a = parseFloat(sideAInput.value);
+            const b = parseFloat(sideBInput.value);
+            const c = parseFloat(sideCInput.value);
+
+            let knownSides = 0;
+            if (!isNaN(a) && a > 0) knownSides++;
+            if (!isNaN(b) && b > 0) knownSides++;
+            if (!isNaN(c) && c > 0) knownSides++;
+
+            if (knownSides !== 2) {
+                calculatorErrorDiv.textContent = 'Please enter exactly two positive side lengths.';
+                return;
+            }
+
+            try {
+                let resultSide = '';
+                let resultValue = 0;
+
+                if (isNaN(c)) { // Calculate hypotenuse c
+                    if (isNaN(a) || isNaN(b) || a <= 0 || b <= 0) {
+                         throw new Error("Need positive values for side 'a' and 'b' to calculate 'c'.");
+                    }
+                    resultValue = Math.sqrt(a*a + b*b);
+                    resultSide = 'Hypotenuse (c)';
+                    sideCInput.value = resultValue.toFixed(3); // Display result in the input too
+                } else if (isNaN(b)) { // Calculate leg b
+                     if (isNaN(a) || isNaN(c) || a <= 0 || c <= 0) {
+                         throw new Error("Need positive values for side 'a' and 'c' to calculate 'b'.");
+                    }
+                    if (c <= a) {
+                        throw new Error("Hypotenuse 'c' must be longer than leg 'a'.");
+                    }
+                    resultValue = Math.sqrt(c*c - a*a);
+                    resultSide = 'Leg (b)';
+                    sideBInput.value = resultValue.toFixed(3);
+                } else if (isNaN(a)) { // Calculate leg a
+                     if (isNaN(b) || isNaN(c) || b <= 0 || c <= 0) {
+                         throw new Error("Need positive values for side 'b' and 'c' to calculate 'a'.");
+                    }
+                     if (c <= b) {
+                        throw new Error("Hypotenuse 'c' must be longer than leg 'b'.");
+                    }
+                    resultValue = Math.sqrt(c*c - b*b);
+                    resultSide = 'Leg (a)';
+                    sideAInput.value = resultValue.toFixed(3);
+                } else {
+                     throw new Error("Please leave one field blank to calculate.");
+                }
+
+                calculatorResultDiv.textContent = `Calculated ${resultSide}: ${resultValue.toFixed(3)} units`;
+
+            } catch (error) {
+                calculatorErrorDiv.textContent = `Error: ${error.message}`;
+            }
+        });
+
+        // --- Quiz Logic ---
+        const quizForm = document.getElementById('quiz-form');
+        const quizFeedbackDiv = document.getElementById('quiz-feedback');
+        const correctAnswers = {
+            q1: 'c', // Right-angled
+            q2: 'b', // Hypotenuse
+            q3: 'a', // 13 units (5^2 + 12^2 = 25 + 144 = 169, sqrt(169) = 13)
+            q4: 'c'  // 12 units (15^2 - 9^2 = 225 - 81 = 144, sqrt(144) = 12)
+        };
+        const totalQuestions = Object.keys(correctAnswers).length;
+
+        quizForm.addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent page reload
+            quizFeedbackDiv.textContent = ''; // Clear previous feedback
+            quizFeedbackDiv.className = ''; // Clear previous styling
+
+            let score = 0;
+            let allAnswered = true;
+            const formData = new FormData(quizForm);
+            const userAnswers = {};
+
+            // Check if all questions are answered and count score
+            for (const question in correctAnswers) {
+                const userAnswer = formData.get(question);
+                if (!userAnswer) {
+                    allAnswered = false;
+                    break; // Stop checking if one is missing
+                }
+                userAnswers[question] = userAnswer;
+                if (userAnswer === correctAnswers[question]) {
+                    score++;
+                }
+            }
+
+            if (!allAnswered) {
+                quizFeedbackDiv.textContent = 'Please answer all questions before checking.';
+                quizFeedbackDiv.className = 'incorrect'; // Use error styling
+                return;
+            }
+
+            // Provide feedback
+            let feedbackText = `You scored ${score} out of ${totalQuestions}. `;
+            if (score === totalQuestions) {
+                feedbackText += "Excellent work!";
+                quizFeedbackDiv.className = 'correct';
+            } else if (score >= totalQuestions / 2) {
+                feedbackText += "Good job, review the examples for any mistakes.";
+                quizFeedbackDiv.className = 'correct'; // Still positive feedback
+            } else {
+                feedbackText += "Keep practicing! Review the theory and examples carefully.";
+                quizFeedbackDiv.className = 'incorrect';
+            }
+
+            // Optionally show which answers were wrong (more advanced)
+            // You could iterate through userAnswers and compare to correctAnswers
+            // and append details to feedbackText.
+
+            quizFeedbackDiv.textContent = feedbackText;
+        });
+
+        console.log("Study guide loaded. Calculator and Quiz ready.");
+
+    </script>
+</body>
+</html>
