@@ -211,6 +211,12 @@
             <a href="#examples">Examples</a>
             <a href="#calculator">Calculator</a>
             <a href="#quiz">Quiz</a>
+            <a href="#history">History</a>
+            <a href="#proof">Proof</a>
+            <a href="#converse">Converse</a>
+            <a href="#triples">Triples</a>
+            <a href="#applications">Applications</a>
+            <a href="#tips">Tips & Mistakes</a>
         </nav>
 
         <main>
@@ -371,6 +377,124 @@
                     <div id="quiz-feedback" style="margin-top: 15px;"></div>
                 </form>
             </section>
+
+            <section id="history">
+                <h2>A Brief History</h2>
+                <p>
+                    While named after the ancient Greek mathematician Pythagoras (around 570 – 495 BC), the relationship between the sides of a right-angled triangle was known long before him.
+                </p>
+                <ul>
+                    <li><strong>Babylonians:</strong> Clay tablets, like Plimpton 322 (dating back to around 1800 BC), show lists of Pythagorean triples, indicating they understood the concept.</li>
+                    <li><strong>Egyptians:</strong> Evidence suggests they used ropes with knots (e.g., 3, 4, and 5 units apart) to create accurate right angles for construction, implying practical knowledge of the 3-4-5 triangle.</li>
+                    <li><strong>Pythagoras:</strong> Pythagoras or his school are often credited with the first formal proof of the theorem, establishing it as a fundamental principle of mathematics.</li>
+                </ul>
+            </section>
+
+            <section id="proof">
+                <h2>Proof of the Theorem (Proof by Rearrangement)</h2>
+                <p>
+                    There are many ways to prove the Pythagorean theorem. One common visual proof involves rearranging four identical right-angled triangles.
+                </p>
+                <p>
+                    Imagine a large square with side length <code>(a + b)</code>. Inside this square, arrange four copies of a right-angled triangle with legs <code>a</code> and <code>b</code> and hypotenuse <code>c</code> such that their corners touch the corners of the large square. This leaves a smaller, tilted square in the center with side length <code>c</code>.
+                </p>
+                <p>
+                    The area of the large square is <code>(a + b)² = a² + 2ab + b²</code>.
+                </p>
+                <p>
+                    The area of the large square can also be calculated as the sum of the areas of the four triangles and the central square:
+                    Area = 4 * (½ * a * b) + c² = 2ab + c²
+                </p>
+                <p>
+                    Since both expressions represent the area of the same large square, we can set them equal:
+                    <code>a² + 2ab + b² = 2ab + c²</code>
+                </p>
+                <p>
+                    Subtracting <code>2ab</code> from both sides leaves us with the theorem:
+                </p>
+                <div class="formula">
+                    a² + b² = c²
+                </div>
+                <p><em>(Visual diagrams often help understand this proof - consider searching for "Pythagorean theorem proof rearrangement" online.)</em></p>
+            </section>
+
+            <section id="converse">
+                <h2>The Converse of the Theorem</h2>
+                <p>
+                    The converse of the Pythagorean theorem is also true and very useful. It states:
+                </p>
+                <p>
+                    <strong>If the square of the length of the longest side of a triangle is equal to the sum of the squares of the lengths of the other two sides, then the triangle is a right-angled triangle.</strong>
+                </p>
+                <p>
+                    In other words, if you have a triangle with sides <code>a</code>, <code>b</code>, and <code>c</code> (where <code>c</code> is the longest side) and you find that <code>a² + b² = c²</code>, then you know for sure that the angle opposite side <code>c</code> is a right angle (90°).
+                </p>
+                <div class="example">
+                    <h3>Example: Checking for a Right Triangle</h3>
+                    <p>Is a triangle with sides 8, 15, and 17 a right-angled triangle?</p>
+                    <p>The longest side is 17, so let <code>c = 17</code>. Let <code>a = 8</code> and <code>b = 15</code>.</p>
+                    <p>Check if <code>a² + b² = c²</code>:</p>
+                    <p><code>8² + 15² = 64 + 225 = 289</code></p>
+                    <p><code>17² = 289</code></p>
+                    <p>Since <code>289 = 289</code>, the condition is met. Therefore, the triangle <strong>is</strong> a right-angled triangle.</p>
+                </div>
+            </section>
+
+            <section id="triples">
+                <h2>Pythagorean Triples</h2>
+                <p>
+                    A Pythagorean triple is a set of three positive integers <code>a</code>, <code>b</code>, and <code>c</code>, such that <code>a² + b² = c²</code>. These represent the side lengths of a right-angled triangle where all sides are whole numbers.
+                </p>
+                <p>Common examples include:</p>
+                <ul>
+                    <li>(3, 4, 5) &rarr; 3² + 4² = 9 + 16 = 25 = 5²</li>
+                    <li>(5, 12, 13) &rarr; 5² + 12² = 25 + 144 = 169 = 13²</li>
+                    <li>(8, 15, 17) &rarr; 8² + 15² = 64 + 225 = 289 = 17²</li>
+                    <li>(7, 24, 25) &rarr; 7² + 24² = 49 + 576 = 625 = 25²</li>
+                </ul>
+                <p>
+                    Any multiple of a Pythagorean triple is also a Pythagorean triple. For example, since (3, 4, 5) is a triple, so are (6, 8, 10), (9, 12, 15), etc.
+                </p>
+                <p>
+                    Triples where <code>a</code>, <code>b</code>, and <code>c</code> have no common factors other than 1 (like the examples above) are called <strong>primitive</strong> Pythagorean triples.
+                </p>
+            </section>
+
+            <section id="applications">
+                <h2>Real-World Applications</h2>
+                <p>The Pythagorean theorem isn't just for geometry class! It has many practical uses:</p>
+                <ul>
+                    <li><strong>Construction & Architecture:</strong> Ensuring walls meet at a perfect 90° angle (squaring corners). Calculating roof slopes, diagonal supports, or the length of staircases.</li>
+                    <li><strong>Navigation & Surveying:</strong> Calculating the shortest distance between two points (as the crow flies). Used in GPS systems and mapping.</li>
+                    <li><strong>Design:</strong> Calculating dimensions in graphic design, engineering drawings, or even video game level design.</li>
+                    <li><strong>Physics & Engineering:</strong> Calculating resultant vectors (e.g., forces acting at right angles), analyzing trajectories, or determining distances in spatial problems.</li>
+                    <li><strong>Everyday Life:</strong> Determining if a piece of furniture will fit through a doorway diagonally, calculating the length of a ladder needed to reach a certain height, or even in sports for field dimensions.</li>
+                </ul>
+            </section>
+
+            <section id="tips">
+                <h2>Common Mistakes & Study Tips</h2>
+                <h3>Common Mistakes:</h3>
+                <ul>
+                    <li><strong>Applying to Non-Right Triangles:</strong> Remember, the theorem ONLY works for triangles with a 90° angle.</li>
+                    <li><strong>Mixing Up Sides:</strong> Always identify the hypotenuse (<code>c</code>) correctly – it's the side opposite the right angle and the longest side. <code>a</code> and <code>b</code> are the legs.</li>
+                    <li><strong>Forgetting to Square Root:</strong> After finding <code>c²</code> (or <code>a²</code> or <code>b²</code>), you need to take the square root to find the actual length of the side <code>c</code> (or <code>a</code> or <code>b</code>).</li>
+                    <li><strong>Calculation Errors:</strong> Double-check your squaring and addition/subtraction.</li>
+                    <li><strong>Confusing Area with Side Length:</strong> <code>a²</code> is the area of a square with side <code>a</code>, not the length of side <code>a</code> itself.</li>
+                </ul>
+                <h3>Study Tips:</h3>
+                <ul>
+                    <li><strong>Draw Diagrams:</strong> Always sketch the triangle and label the sides you know and the side you need to find.</li>
+                    <li><strong>Identify the Hypotenuse First:</strong> This is the most critical step.</li>
+                    <li><strong>Write Down the Formula:</strong> Start each problem by writing <code>a² + b² = c²</code>.</li>
+                    <li><strong>Rearrange Before Substituting (Optional but helpful):</strong> If finding a leg, rearrange the formula first (e.g., <code>a² = c² - b²</code>) before plugging in numbers.</li>
+                    <li><strong>Practice with Pythagorean Triples:</strong> Recognizing common triples can save time.</li>
+                    <li><strong>Use the Calculator Here:</strong> Check your manual calculations with the interactive calculator on this page.</li>
+                    <li><strong>Test Yourself:</strong> Use the quiz section regularly to reinforce your understanding.</li>
+                    <li><strong>Understand the Converse:</strong> Know how to use the theorem to check if a triangle is right-angled.</li>
+                </ul>
+            </section>
+
         </main>
 
         <footer>
