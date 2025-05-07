@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Andrea Doria: A Study Dashboard</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+            border-radius: 8px;
+        }
+        header {
+            background-color: #004080; /* Deep blue */
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+            border-radius: 8px 8px 0 0;
+        }
+        header h1 {
+            margin: 0;
+            font-size: 2.5em;
+        }
+        nav {
+            background-color: #0059b3; /* Slightly lighter blue */
+            padding: 10px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        nav a {
+            color: #fff;
+            margin: 0 15px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        nav a:hover {
+            text-decoration: underline;
+        }
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        .dashboard-card {
+            background-color: #e9ecef; /* Light grey */
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.05);
+        }
+        .dashboard-card h2 {
+            color: #004080;
+            margin-top: 0;
+            border-bottom: 2px solid #0059b3;
+            padding-bottom: 10px;
+        }
+        .timeline {
+            list-style-type: none;
+            padding-left: 0;
+        }
+        .timeline li {
+            padding: 8px 0;
+            border-bottom: 1px solid #ddd;
+        }
+        .timeline li:last-child {
+            border-bottom: none;
+        }
+        .timeline .date {
+            font-weight: bold;
+            color: #0059b3;
+        }
+        img.map, img.portrait {
+            max-width: 100%;
+            height: auto;
+            border-radius: 4px;
+            margin-top: 10px;
+        }
+        footer {
+            text-align: center;
+            padding: 20px;
+            margin-top: 30px;
+            background-color: #333;
+            color: #fff;
+            border-radius: 0 0 8px 8px;
+        }
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2em;
+            }
+            nav a {
+                display: block;
+                margin: 5px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Andrea Doria: A Study Dashboard</h1>
+        </header>
+
+        <nav>
+            <a href="#bio">Biography</a>
+            <a href="#timeline">Timeline</a>
+            <a href="#maps">Maps & Context</a>
+            <a href="#naval">Naval Career</a>
+            <a href="#funfacts">Fun Facts</a>
+            <a href="#collaterals">Collaterals</a>
+            <a href="#legacy">Legacy</a>
+        </nav>
+
+        <main class="dashboard-grid">
+            <section id="bio" class="dashboard-card">
+                <h2>Biographical Overview</h2>
+                <p>Andrea Doria (1466–1560) was a Genoese condottiero, admiral, and statesman, who played a crucial role in the Italian Wars and the politics of the Republic of Genoa. Born in Oneglia, he belonged to an ancient aristocratic family. Orphaned at a young age, Doria initially served as a mercenary for various Italian powers, including Pope Innocent VIII, King Ferdinand I of Naples, and the Sforza family of Milan.</p>
+                <p>His naval career began in earnest in the early 16th century, fighting against the Ottoman Turks and Barbary pirates in the Mediterranean. Doria's skill as a naval commander quickly became renowned. He served King Francis I of France for several years, commanding the French Mediterranean fleet. However, in 1528, feeling that Francis I was not sufficiently supporting Genoese interests and his own authority, Doria switched his allegiance to Emperor Charles V (Holy Roman Emperor and King of Spain).</p>
+                <p>This alliance was pivotal. With Imperial backing, Doria liberated Genoa from French domination and re-established its republic under a new constitution that favored the old aristocracy, effectively making him the de facto ruler of Genoa until his death. He continued to serve Charles V as an imperial admiral, leading fleets in numerous campaigns against the Ottomans, including the relief of Corfu and the capture of Tunis (though the latter was later lost). Despite his advanced age, he remained active in naval and political affairs, a dominant figure in the Mediterranean for decades.</p>
+            </section>
+
+            <section id="timeline" class="dashboard-card">
+                <h2>Detailed Timeline</h2>
+                <ul class="timeline">
+                    <li><span class="date">1466:</span> Born in Oneglia, part of the Republic of Genoa.</li>
+                    <li><span class="date">c. 1484:</span> Begins his military career, serving Pope Innocent VIII.</li>
+                    <li><span class="date">Early 1500s:</span> Engages in campaigns against the French in Naples.</li>
+                    <li><span class="date">1503-1506:</span> Fights for Genoa in Corsica against the French.</li>
+                    <li><span class="date">1512:</span> Appointed Captain General of the Genoese fleet.</li>
+                    <li><span class="date">1513-1519:</span> Commands Genoese galleys, primarily fighting Barbary pirates. Defeats the pirate Gatellu near Pianosa.</li>
+                    <li><span class="date">1522:</span> Enters the service of King Francis I of France after Genoa falls to Imperial forces.</li>
+                    <li><span class="date">1524:</span> Defeats a Spanish fleet off Marseille.</li>
+                    <li><span class="date">1525:</span> After the French defeat at Pavia, Doria continues to serve Francis I.</li>
+                    <li><span class="date">1528:</span> Dissatisfied with French treatment, Doria switches allegiance to Emperor Charles V. Liberates Genoa from French control and establishes a new oligarchic republic. He is granted the title "Liberator and Father of His Country" (Liberator et Pater Patriae).</li>
+                    <li><span class="date">1529:</span> As Imperial Admiral, Doria's fleet is instrumental in Charles V's operations in Italy.</li>
+                    <li><span class="date">1532:</span> Leads a large expedition against the Ottoman Empire, capturing Coron and Patras in Greece.</li>
+                    <li><span class="date">1535:</span> Plays a key role in Charles V's successful expedition to capture Tunis from the Ottoman admiral Hayreddin Barbarossa.</li>
+                    <li><span class="date">1538:</span> Commands the Christian fleet at the Battle of Preveza against Barbarossa. The battle is a significant Ottoman victory.</li>
+                    <li><span class="date">1541:</span> Participates in Charles V's disastrous Algiers expedition.</li>
+                    <li><span class="date">1547:</span> Suppresses the Fieschi conspiracy in Genoa, a plot to overthrow his family's dominance. His nephew, Giannettino Doria, is killed.</li>
+                    <li><span class="date">1550-1555:</span> Continues naval operations against pirates and the Ottomans, despite his advanced age. Engages in campaigns around Corsica.</li>
+                    <li><span class="date">1552:</span> Defeated by the Ottoman fleet at the Battle of Ponza.</li>
+                    <li><span class="date">1560:</span> Dies in Genoa at the age of 94.</li>
+                </ul>
+            </section>
+
+            <section id="maps" class="dashboard-card">
+                <h2>Historical Context & Maps</h2>
+                <p>Andrea Doria's life and career unfolded during a period of intense geopolitical turmoil and transformation in Europe and the Mediterranean, primarily shaped by two major forces: the Italian Wars and the expansion of the Ottoman Empire.</p>
+                
+                <h3>The Italian Wars (1494–1559)</h3>
+                <p>These were a series of conflicts involving most of the Italian states, the Papacy, and major European powers like France, Spain (and the Holy Roman Empire under Charles V), and England. The wars were fought for control over the Italian peninsula, which was wealthy but politically fragmented. Doria, as a condottiero and admiral, navigated these complex alliances, serving French and later Imperial interests, always with an eye towards securing Genoa's autonomy and prosperity.</p>
+                
+                <h3>Ottoman Expansion & Mediterranean Rivalry</h3>
+                <p>The 16th century saw the Ottoman Empire at its zenith, expanding its influence across North Africa and challenging Christian European powers for control of the Mediterranean Sea. This rivalry was characterized by large-scale naval battles, coastal raids, and the activities of Barbary corsairs (often allied with or sponsored by the Ottomans). Andrea Doria was a central figure in the Christian efforts to counter Ottoman naval power and protect Mediterranean trade routes and coastlines. His duels with figures like Hayreddin Barbarossa were legendary.</p>
+
+                <h3>Map 1: 16th Century Italy</h3>
+                <p>This map would illustrate the fragmented political landscape of Italy during Doria's time, showing key states like the Republic of Genoa, Duchy of Milan, Republic of Venice, Papal States, Kingdom of Naples, and the spheres of influence of France and the Holy Roman Empire.</p>
+                <img src="https://via.placeholder.com/400x300.png?text=Map+of+16th+Century+Italy" alt="Map of 16th Century Italy" class="map">
+                
+                <h3>Map 2: Mediterranean Operations</h3>
+                <p>This map would depict the broader Mediterranean basin, highlighting key naval battle locations (e.g., Preveza, Tunis, Algiers), major ports, and the general areas of operation for both Christian and Ottoman fleets, including Doria's campaigns.</p>
+                <img src="https://via.placeholder.com/400x300.png?text=Map+of+Mediterranean+Operations" alt="Map of Mediterranean Operations" class="map">
+            </section>
+
+            <section id="naval" class="dashboard-card">
+                <h2>Naval Career & Achievements</h2>
+                <p>Andrea Doria was one of the most formidable naval commanders of the 16th century. His career spanned decades and saw him command fleets for Genoa, France, and the Holy Roman Empire, primarily against Ottoman forces and Barbary corsairs.</p>
+                <ul>
+                    <li><strong>Master of Galley Warfare:</strong> Doria was an expert in galley warfare, the dominant form of naval combat in the Mediterranean during his time. He understood the tactical use of these oar-powered vessels, their strengths, and limitations.</li>
+                    <li><strong>Early Successes:</strong> Even before his more famous exploits, Doria gained a reputation fighting pirates and protecting Genoese interests. His victory over the pirate Gatellu near Pianosa (1519) was an early testament to his capabilities.</li>
+                    <li><strong>Service to France:</strong> As admiral for Francis I, he achieved notable successes, such as the defeat of the Imperial-Spanish fleet off Marseille in 1524, which helped relieve the French-held city.</li>
+                    <li><strong>Imperial Admiral:</strong> His most significant period was as Charles V's admiral-in-chief. Key achievements include:
+                        <ul>
+                            <li><strong>Liberation of Genoa (1528):</strong> A strategic masterstroke, combining naval power with political acumen to free his home city.</li>
+                            <li><strong>Capture of Coron and Patras (1532):</strong> Successful campaigns against Ottoman strongholds in Greece.</li>
+                            <li><strong>Conquest of Tunis (1535):</strong> A major victory against Hayreddin Barbarossa, temporarily securing a key North African port for Charles V. Doria's fleet was crucial for transporting and supporting the Imperial army.</li>
+                        </ul>
+                    </li>
+                    <li><strong>Battle of Preveza (1538):</strong> While a strategic defeat for the Holy League against Barbarossa's Ottoman fleet, Doria's role remains debated. Some accuse him of excessive caution or even a lack of commitment, while others argue he preserved the Christian fleet from a worse fate against a superior enemy in a disadvantageous position.</li>
+                    <li><strong>Resilience and Longevity:</strong> Doria continued to lead expeditions and command fleets well into his 80s, a remarkable feat. He participated in the failed Algiers expedition (1541) and later campaigns against Dragut Reis, another famed Ottoman admiral.</li>
+                    <li><strong>Reorganization of the Genoese Fleet:</strong> After restoring the Republic, Doria played a key role in reorganizing and strengthening Genoa's naval power, ensuring its ability to protect its trade and project influence.</li>
+                </ul>
+                <p>Despite some setbacks, Doria's overall record, his ability to adapt to changing political landscapes, and his long-term dominance in Mediterranean naval affairs solidify his reputation as a preeminent admiral of his era.</p>
+            </section>
+
+            <section id="funfacts" class="dashboard-card">
+                <h2>"Fun Facts" & Lesser-Known Details</h2>
+                <ul>
+                    <li><strong>Never Actually Doge of Genoa:</strong> Despite his immense power and influence over Genoa, Andrea Doria never held the title of Doge (the head of state). He preferred to rule from behind the scenes, influencing the republic through his authority and the constitution he helped establish. The official position of Doge had a two-year term, which Doria likely saw as too restrictive for his long-term vision.</li>
+                    <li><strong>The "Neptune" Portrait:</strong> One of the most famous depictions of Doria is by Agnolo Bronzino, portraying him nude as Neptune, the Roman god of the sea. This was a bold and symbolic statement of his maritime dominance, commissioned when Doria was already in his 60s or 70s.</li>
+                    <li><strong>Survived Numerous Plots:</strong> His long career and powerful position naturally attracted enemies. He survived several assassination attempts and conspiracies, most notably the Fieschi conspiracy in 1547, which aimed to overthrow his family's rule in Genoa.</li>
+                    <li><strong>A Strict Disciplinarian:</strong> Doria was known for his stern demeanor and strict discipline within his fleets. This was likely necessary to maintain order and efficiency among the often-rough crews of 16th-century galleys.</li>
+                    <li><strong>Immense Wealth:</strong> Through his service as a condottiero, admiral, and his astute political maneuvering, Doria amassed considerable personal wealth, including palaces and estates. His palace in Fassolo, Genoa, was renowned for its splendor.</li>
+                    <li><strong>Adopted Heir:</strong> Having no legitimate children of his own, he adopted his grandnephew, Giovanni Andrea Doria, who also became a notable admiral and continued the family's naval tradition.</li>
+                    <li><strong>The Cats of his Palace:</strong> Legend has it that Doria was fond of cats and his palace was home to many. While perhaps a minor detail, it adds a touch of personality to the stern admiral.</li>
+                    <li><strong>Refused Royal Titles (Initially):</strong> While he accepted titles like Prince of Melfi from Charles V later in life, he was initially focused on the independence and republican status of Genoa rather than personal monarchical ambitions.</li>
+                </ul>
+            </section>
+
+            <section id="collaterals" class="dashboard-card">
+                <h2>Collaterals</h2>
+                <h3>Images</h3>
+                <p>Visual representations of Andrea Doria, his era, and naval engagements.</p>
+                <img src="https://via.placeholder.com/300x400.png?text=Portrait+of+Andrea+Doria+(e.g.,+by+Bronzino+or+Sebastiano+del+Piombo)" alt="Portrait of Andrea Doria" class="portrait" style="margin-bottom:10px;">
+                <img src="https://via.placeholder.com/400x250.png?text=16th+Century+Galley+Warfare" alt="16th Century Galley Warfare" class="map" style="margin-bottom:10px;">
+                <img src="https://via.placeholder.com/400x280.png?text=Palazzo+del+Principe+(Doria's+Palace+in+Genoa)" alt="Palazzo del Principe" class="map">
+                
+                <h3>Links to External Resources</h3>
+                <ul>
+                    <li><a href="https://www.britannica.com/biography/Andrea-Doria-Genoese-statesman" target="_blank" rel="noopener noreferrer">Encyclopedia Britannica: Andrea Doria</a></li>
+                    <li><a href="https://www.metmuseum.org/art/collection/search/435767" target="_blank" rel="noopener noreferrer">Metropolitan Museum of Art: Portrait of Andrea Doria by Sebastiano del Piombo</a></li>
+                    <li><a href="https://en.wikipedia.org/wiki/Italian_Wars" target="_blank" rel="noopener noreferrer">Wikipedia: Italian Wars</a></li>
+                    <li><a href="https://en.wikipedia.org/wiki/Ottoman%E2%80%93Habsburg_wars" target="_blank" rel="noopener noreferrer">Wikipedia: Ottoman–Habsburg wars</a></li>
+                </ul>
+
+                <h3>Quotes</h3>
+                <blockquote>
+                    <p>"My conscience is my own."</p>
+                    <footer>- Attributed to Andrea Doria (often cited, though primary source verification can be elusive for such historical quotes).</footer>
+                </blockquote>
+                <blockquote>
+                    <p>"He was more a king in Genoa than the actual king in many realms."</p>
+                    <footer>- Contemporary observation on Doria's power in Genoa. (Paraphrased common sentiment).</footer>
+                </blockquote>
+                <blockquote>
+                    <p>"The sea is a harsh mistress, but she is fair to those who respect her."</p>
+                    <footer>- A sentiment often associated with experienced mariners of his era, fitting for Doria. (General attribution).</footer>
+                </blockquote>
+            </section>
+
+            <section id="legacy" class="dashboard-card">
+                <h2>Legacy</h2>
+                <p>Andrea Doria's impact on Genoa, Mediterranean naval warfare, and 16th-century European politics was profound and lasting.</p>
+                <ul>
+                    <li><strong>Father of the Genoese Republic:</strong> His most enduring legacy is the restoration of Genoese independence in 1528 and the establishment of a new constitution. This constitution, though oligarchic, provided stability and allowed Genoa to flourish as a key financial and naval power allied with the Spanish Empire for nearly two centuries. He is still revered in Genoa as "Pater Patriae" (Father of the Fatherland).</li>
+                    <li><strong>Naval Tradition:</strong> Doria cemented Genoa's reputation as a formidable naval power. His leadership and the fleet he built and maintained were crucial for protecting Genoese trade and projecting its influence. The Doria family continued to produce notable naval commanders for generations.</li>
+                    <li><strong>Symbol of Longevity and Power:</strong> Living and remaining active in command until the age of 94, Doria became a symbol of enduring strength and political acumen in an era of constant warfare and shifting alliances.</li>
+                    <li><strong>Influence on Mediterranean Strategy:</strong> His campaigns and strategies, particularly in countering Ottoman expansion and Barbary piracy, influenced naval tactics and the geopolitical balance in the Mediterranean for decades.</li>
+                    <li><strong>Patron of the Arts:</strong> Like many Renaissance figures, Doria was a patron of the arts. His Palazzo del Principe in Genoa was lavishly decorated by artists like Perino del Vaga, showcasing his wealth and status.</li>
+                    <li><strong>Ships Named in His Honor:</strong> Numerous warships have been named "Andrea Doria" by the Italian Navy over the centuries, a testament to his enduring status as a national naval hero. Most famously, the 20th-century ocean liner SS Andrea Doria also bore his name, though its tragic sinking in 1956 is a more recent association for many.</li>
+                    <li><strong>Historical Figure of Study:</strong> Andrea Doria remains a significant figure for historians studying the Italian Wars, the Ottoman-Habsburg rivalry, naval history, and the politics of the Italian Renaissance. His complex career, shifting allegiances, and immense influence continue to be subjects of analysis and debate.</li>
+                </ul>
+            </section>
+        </main>
+
+        <footer>
+            <p>Andrea Doria Study Dashboard - Created <span id="year"></span></p>
+        </footer>
+    </div>
+    <script>
+        document.getElementById('year').textContent = new Date().getFullYear();
+    </script>
+</body>
+</html>
